@@ -2,13 +2,14 @@
 
 // export const domainUriPrefix = 'https://lybertinapp.page.link';
 
-export const BASEURL = 'https://api.ebhuktan.com';
+import axios from "axios";
+
+export const BASEURL = 'http://16.171.43.151:3000';
 const apiBaseUrl = `${BASEURL}/api/`;
 export const SaveBillOption = ['Home', 'Mom', 'Office', 'Other']
 
 
 const APIUser = `${apiBaseUrl}user/`
-const APICluster = `${apiBaseUrl}cluster/`
 const APISuperadmin = `${apiBaseUrl}superAdmin/`
 
 export const ApiUrl = {
@@ -21,8 +22,9 @@ export const ApiUrl = {
   resetPassword: `${APISuperadmin}resetPassword`,
   changePassword: `${APIUser}changePassword`,
   getById: `${APIUser}getById`,
-  superadminGetUsers: `${APISuperadmin}/getUsers`,
-  superadminGetAllUsers: `${APISuperadmin}/getAll`,
+  superadminGetUsers: `${APISuperadmin}getUsers`,
+  superadminGetAllUsers: `${APISuperadmin}getAll`,
+  superadminGetCount: `${APISuperadmin}getCount`,
 
   // transaction api
   transactionAll: `${apiBaseUrl}transaction/getAll`,
@@ -69,4 +71,51 @@ export const ApiUrl = {
   broadbandGetOperatorList: `${apiBaseUrl}broadband/bill-payment/getOperaterList`,
   broadbandFetchBill: `${apiBaseUrl}broadband/bill-payment/fetchBill`,
 
+};
+
+
+
+
+export const APIRequest = async (config = {}, onSuccess, onError, noAuth = null) => {
+
+  const token = localStorage.getItem("token");
+
+  try {
+    let data = {};
+    if (token && noAuth == null) {
+      data = {
+        method: config.method,
+        url: config.url,
+        data: config.body,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          token: token,
+        },
+      };
+    } else {
+      data = {
+        method: config.method,
+        url: config.url,
+        data: config.body,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      };
+    }
+    console.log(data);
+    axios(data)
+      .then(res => {
+        if (res.status == 200 || res.status == 201) {
+          onSuccess(res.data);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        onError(err?.response.data);
+      });
+  } catch (error) {
+    console.log("error", error);
+  }
 };

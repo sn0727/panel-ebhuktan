@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from "moment"
 import { useEffect, useState } from "react"
-import { ApiUrl } from '../../utils/commanApiUrl';
+import { ApiUrl, APIRequest } from '../../utils/commanApiUrl';
 import TitleCard from "../../components/Cards/TitleCard"
 import axios from "axios"
 import { Link } from 'react-router-dom';
@@ -9,7 +9,8 @@ import { Link } from 'react-router-dom';
 const MobileRecharge = () => {
     const [users, setUsers] = useState([]);
     const [totalUser, setTotalUser] = useState("");
-    const [currentPage, setCurrentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setisLoading] = useState(true);
     const records = 10;
     const nPage = Math.ceil(totalUser / records);
 
@@ -17,43 +18,67 @@ const MobileRecharge = () => {
 
     // how to covert string to array
     let pageNumber = [];
-    for(let i = 1; i <= nPage; i++){
+    for (let i = 1; i <= nPage; i++) {
         pageNumber.push(i)
     }
 
     // get data from the api
-    const fetchUserData = async () => {
-        try {
-            let response = await axios.get(`${ApiUrl.transaction_getRecharge}/${currentPage}`)
-            let result = await response.data;
-            const { data, count } = result;
-            setUsers(data)
-            setTotalUser(count)
-        } catch ({ message }) {
-            alert(message)
-        }
+    // const fetchUserData = async () => {
+    //     try {
+    //         let response = await axios.get(`${ApiUrl.transaction_getRecharge}/${currentPage}`)
+    //         let result = await response.data;
+    //         const { data, count } = result;
+    //         setUsers(data)
+    //         setTotalUser(count)
+    //     } catch ({ message }) {
+    //         alert(message)
+    //     }
+    // }
+    const SendRequest = async () => {
+        setisLoading(true)
+        let config = {
+            url: `${ApiUrl.transaction_getRecharge}/${currentPage}`,
+            method: 'get',
+        };
+        APIRequest(
+            config,
+            res => {
+                console.log(res);
+                setUsers(res?.data)
+                setTotalUser(res?.count)
+                setisLoading(false)
+            },
+            err => {
+                console.log(err);
+                setisLoading(false)
+            }
+        );
     }
 
-    const prePage = ()=> {
-        if(currentPage <= nPage) {
+
+
+
+
+    const prePage = () => {
+        if (currentPage <= nPage) {
             alert("Record not found !")
-        }else {
+        } else {
             setCurrentPage(currentPage - 1)
         }
     }
-    const nextPage = ()=> {
-        if(currentPage >= nPage) {
+    const nextPage = () => {
+        if (currentPage >= nPage) {
             alert("Record not found !")
-        }else {
+        } else {
             setCurrentPage(currentPage + 1)
         }
     }
-    const changePage = (id)=> {
+    const changePage = (id) => {
         setCurrentPage(id)
     }
 
     useEffect(() => {
-        fetchUserData()
+        SendRequest()
     }, [currentPage])
 
     return (
@@ -111,7 +136,7 @@ const MobileRecharge = () => {
                         </li>
                         {
                             pageNumber.map((n, i) => (
-                                <li key={i} className={currentPage === n ? "active": ""}>
+                                <li key={i} className={currentPage === n ? "active" : ""}>
                                     <Link to="#" onClick={() => changePage(n)} class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{n}</Link>
                                 </li>
                             ))

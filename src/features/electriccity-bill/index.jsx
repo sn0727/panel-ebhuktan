@@ -13,7 +13,7 @@ function ElectricityContent() {
     const [currentPage, setCurrentPage] = useState(1);
 
     const fetchTransaction = async () => {
-        
+
         try {
             const response = await axios.get(`${ApiUrl.transaction_getElectricity}/${currentPage}`);
             const result = await response.data;
@@ -25,9 +25,29 @@ function ElectricityContent() {
         }
     }
 
-    useEffect(() => {
-        fetchTransaction()
-    }, [currentPage])
+    // const SendRequest = async () => {
+    //     setisLoading(true)
+    //     let config = {
+    //         url: `${ApiUrl.transaction_getLPGGas}/${currentPage}`,
+    //         method: 'get',
+    //     };
+    //     APIRequest(
+    //         config,
+    //         res => {
+    //             console.log(res);
+    //             setTotalUser(res?.count)
+    //             setTransaction(res.data)
+    //             setisLoading(false)
+    //         },
+    //         err => {
+    //             console.log(err);
+    //             setisLoading(false)
+    //         }
+    //     );
+    // }
+    // useEffect(() => {
+    //     SendRequest()
+    // }, [currentPage])
 
     return (
         <>
@@ -75,7 +95,7 @@ function ElectricityContent() {
                     </table>
                 </div>
 
-                <Pagination apiRoute={ApiUrl.transaction_getElectricity} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+                <Pagination apiRoute={ApiUrl.transaction_getElectricity} currentPage={currentPage} setCurrentPage={setCurrentPage} />
             </TitleCard>
         </>
     )

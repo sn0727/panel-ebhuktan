@@ -62,10 +62,10 @@ const routes = [
     name: 'Transactions', // name that appear in Sidebar
   },
   {
-    path : "",
-    icon : <BiUserCircle className={`${iconClasses} inline`} />,
-    name : "UserRoll",
-    submenu : [
+    path: "",
+    icon: <BiUserCircle className={`${iconClasses} inline`} />,
+    name: "UserRoll",
+    submenu: [
       {
         path: '/app/cluster',
         icon: <BiUserCheck className={submenuIconClasses} />,
@@ -95,6 +95,11 @@ const routes = [
     name: 'Recharge & Bill Payment', // name that appear in Sidebar
     submenu: [
       {
+        path: '/app/transactions',
+        icon: <CurrencyDollarIcon className={iconClasses} />,
+        name: 'All Transactions',
+      },
+      {
         path: '/app/send-via-upi',
         icon: <MdPayment className={submenuIconClasses} />,
         name: 'Send Via UPI',
@@ -121,22 +126,22 @@ const routes = [
       },
       {
         path: '/app/wallet',
-        icon: <BsWater  className={submenuIconClasses} />,
+        icon: <BsWater className={submenuIconClasses} />,
         name: 'Wallet',
       },
       {
         path: '/app/watter-bill',
-        icon: <TbRecharging   className={submenuIconClasses} />,
+        icon: <TbRecharging className={submenuIconClasses} />,
         name: 'Water Bill',
       },
       {
         path: '/app/dth-recharge',
-        icon: <BsClipboardData  className={submenuIconClasses} />,
+        icon: <BsClipboardData className={submenuIconClasses} />,
         name: 'DTH Recharge',
       },
       {
         path: '/app/boardband-service',
-        icon: <RiCommunityLine  className={submenuIconClasses} />,
+        icon: <RiCommunityLine className={submenuIconClasses} />,
         name: 'Broadband Services',
       },
       {
@@ -146,20 +151,20 @@ const routes = [
       },
       {
         path: '/app/credit-card',
-        icon: <AiFillCreditCard  className={submenuIconClasses} />,
+        icon: <AiFillCreditCard className={submenuIconClasses} />,
         name: 'Credit Card',
       },
       {
         path: '/app/insurance',
-        icon: <RiHealthBookLine  className={submenuIconClasses} />,
+        icon: <RiHealthBookLine className={submenuIconClasses} />,
         name: 'Insurance',
       },
       {
         path: '/app/fastag',
-        icon: <SiFastapi  className={submenuIconClasses} />,
+        icon: <SiFastapi className={submenuIconClasses} />,
         name: 'FASTag',
       }
-      
+
     ]
   },
   {
@@ -194,22 +199,22 @@ const routes = [
       },
       {
         path: '/',
-        icon: <BsWater  className={submenuIconClasses} />,
+        icon: <BsWater className={submenuIconClasses} />,
         name: 'Personal Loan',
       },
       {
         path: '/',
-        icon: <TbRecharging   className={submenuIconClasses} />,
+        icon: <TbRecharging className={submenuIconClasses} />,
         name: 'Insurance',
       },
       {
         path: '/',
-        icon: <BsClipboardData  className={submenuIconClasses} />,
+        icon: <BsClipboardData className={submenuIconClasses} />,
         name: 'Group Team Insurance',
       },
       {
         path: '/',
-        icon: <RiCommunityLine  className={submenuIconClasses} />,
+        icon: <RiCommunityLine className={submenuIconClasses} />,
         name: 'Life Insurance',
       },
       {
@@ -219,20 +224,20 @@ const routes = [
       },
       {
         path: '/',
-        icon: <AiFillCreditCard  className={submenuIconClasses} />,
+        icon: <AiFillCreditCard className={submenuIconClasses} />,
         name: 'Commercial Insurance',
       },
       {
         path: '/',
-        icon: <RiHealthBookLine  className={submenuIconClasses} />,
+        icon: <RiHealthBookLine className={submenuIconClasses} />,
         name: 'Bike Insurance',
       },
       {
         path: '/',
-        icon: <SiFastapi  className={submenuIconClasses} />,
+        icon: <SiFastapi className={submenuIconClasses} />,
         name: 'FASTag',
       }
-      
+
     ]
   },
   {
@@ -267,7 +272,7 @@ const routes = [
       },
       {
         path: '/',
-        icon: <BsWater  className={submenuIconClasses} />,
+        icon: <BsWater className={submenuIconClasses} />,
         name: 'Offers & Package',
       }
     ]
@@ -304,22 +309,22 @@ const routes = [
       },
       {
         path: '/',
-        icon: <BsWater  className={submenuIconClasses} />,
+        icon: <BsWater className={submenuIconClasses} />,
         name: 'Accounting Services',
       },
       {
         path: '/',
-        icon: <TbRecharging   className={submenuIconClasses} />,
+        icon: <TbRecharging className={submenuIconClasses} />,
         name: 'Gold Investment',
       },
       {
         path: '/',
-        icon: <BsClipboardData  className={submenuIconClasses} />,
+        icon: <BsClipboardData className={submenuIconClasses} />,
         name: 'Digital Marketing',
       },
       {
         path: '/',
-        icon: <RiCommunityLine  className={submenuIconClasses} />,
+        icon: <RiCommunityLine className={submenuIconClasses} />,
         name: 'Mutual Fund',
       },
       {
@@ -329,12 +334,12 @@ const routes = [
       },
       {
         path: '/',
-        icon: <AiFillCreditCard  className={submenuIconClasses} />,
+        icon: <AiFillCreditCard className={submenuIconClasses} />,
         name: 'Education Fee',
       },
       {
         path: '/',
-        icon: <RiHealthBookLine  className={submenuIconClasses} />,
+        icon: <RiHealthBookLine className={submenuIconClasses} />,
         name: 'Digital Signature',
       }
     ]
