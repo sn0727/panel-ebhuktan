@@ -1,8 +1,7 @@
 import moment from "moment"
 import { useEffect, useState } from "react"
-import { ApiUrl } from '../../utils/commanApiUrl';
+import { APIRequest, ApiUrl } from '../../utils/commanApiUrl';
 import TitleCard from "../../components/Cards/TitleCard";
-import axios from "axios";
 import Pagination from "../../components/pagination/Pagination";
 import DynamicTitle from "../../components/dynamic_title";
 import SelectBox from "../../components/Input/SelectBox";
@@ -14,9 +13,9 @@ import Select from '@mui/material/Select';
 import ReactPaginate from 'react-paginate';
 
 function Transactions() {
-
     const [users, setUsers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
+    const [isLoading, setisLoading] = useState(true);
     const [pageCount, setPageCount] = useState(1)
 
 
@@ -29,23 +28,29 @@ function Transactions() {
     };
 
     // get data from the api
-    const fetchUserData = async () => {
-
-        try {
-            const response = await axios.get(`${ApiUrl.transactionAllUserList}/${currentPage}`)
-            const result = await response.data;
-            const { data, count } = result;
-            setPageCount(Math.ceil(count / 10))
-            console.log(typeof(count))
-            setUsers(data)
-        } catch ({ message }) {
-            alert(message)
-        }
+    const SendRequest = async () => {
+        setisLoading(true)
+        let config = {
+            url: `${ApiUrl.transactionAll}/${currentPage}`,
+            method: 'get',
+        };
+        APIRequest(
+            config,
+            res => {
+                console.log(res);
+                setUsers(res.data)
+                setisLoading(false)
+            },
+            err => {
+                console.log(err);
+                setisLoading(false)
+            }
+        );
     }
 
 
     useEffect(() => {
-        fetchUserData()
+        SendRequest()
     }, [currentPage])
 
 
