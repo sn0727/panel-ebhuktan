@@ -1,5 +1,5 @@
 import moment from "moment"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import TitleCard from "../../components/Cards/TitleCard"
 import { openModal } from "../common/modalSlice"
@@ -7,6 +7,8 @@ import { deleteLead, getLeadsContent } from "./leadSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import { showNotification } from '../common/headerSlice'
+import { ApiUrl } from "../../utils/commanApiUrl"
+import axios from "axios"
 
 const TopSideButtons = () => {
 
@@ -26,12 +28,32 @@ const TopSideButtons = () => {
 function Cluster(){
 
     const {leads } = useSelector(state => state.lead)
-
-    console.log(leads)
     const dispatch = useDispatch()
+    const [clusterData, setClusterData] = useState([]);
+
+
+    const getCusterData = async()=> {
+        let token = localStorage.getItem("token")
+        try {
+            const resutl = await axios.get(`${ApiUrl.getClusterAll}/ ${6}`,
+                {
+                    headers : {
+                        token : token
+                    }
+                }
+            )
+            const { user, message, error} = resutl.data
+            console.log(user)
+        } catch (error) {
+            console.log(error.response.data)
+        }
+    }
+
+    
 
     useEffect(() => {
         dispatch(getLeadsContent())
+        getCusterData()
     }, [])
 
     

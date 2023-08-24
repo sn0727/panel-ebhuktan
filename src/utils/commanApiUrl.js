@@ -2,13 +2,14 @@
 
 // export const domainUriPrefix = 'https://lybertinapp.page.link';
 
-export const BASEURL = 'http://16.171.43.151:3000';
+export const BASEURL = 'https://api.ebhuktan.com';
 const apiBaseUrl = `${BASEURL}/api/`;
 export const SaveBillOption = ['Home', 'Mom', 'Office', 'Other']
 
 
 const APIUser = `${apiBaseUrl}user/`
-const APISuperadmin = `${apiBaseUrl}superadmin/`
+const APICluster = `${apiBaseUrl}cluster/`
+const APISuperadmin = `${apiBaseUrl}superAdmin/`
 
 export const ApiUrl = {
   signup: `${APIUser}signup`,
@@ -24,7 +25,7 @@ export const ApiUrl = {
   superadminGetAllUsers: `${APISuperadmin}/getAll`,
 
   // transaction api
-  transactionAllUserList: `${apiBaseUrl}transaction/getAll`,
+  transactionAll: `${apiBaseUrl}transaction/getAll`,
   transaction_getElectricity: `${apiBaseUrl}transaction/getElectricity`,
   transaction_getRecharge: `${apiBaseUrl}transaction/getRecharge`,
   transaction_getWaterBill: `${apiBaseUrl}transaction/getWaterBill`,
@@ -37,6 +38,9 @@ export const ApiUrl = {
 
   // user forder api 
   user_getById: `${APIUser}getById`,
+
+  // this is cluster api
+  getClusterAll: `${APISuperadmin}getCluster`,
 
 
   rechargeGetOperatorList: `${apiBaseUrl}recharge/getOperatorList`,

@@ -4,7 +4,7 @@ import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
 import { ApiUrl } from '../../utils/commanApiUrl'
-import  Axios  from 'axios'
+import axios from 'axios'
 
 function Register() {
 
@@ -26,41 +26,57 @@ function Register() {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [registerObj, setRegisterObj] = useState(INITIAL_REGISTER_OBJ);
+    const [role, setRole] = useState('');
     const Authuser = async () => {
-        var formData = new FormData();
-        formData.append('name', registerObj.name)
-        formData.append('password', registerObj.password)
-        formData.append('email', registerObj.email)
-        formData.append('contact', registerObj.contact)
-        formData.append('state', registerObj.state)
-        formData.append('aadharNo', registerObj.aadharNo)
-        formData.append('panNo', registerObj.panNo)
-        formData.append('role', registerObj.role)
-        formData.append('adminId', registerObj.adminId)
-        formData.append('district', registerObj.district)
-        formData.append('postalCode', registerObj.postalCode)
+        // var formData = new FormData();
+        // formData.append('name', registerObj.name)
+        // formData.append('password', registerObj.password)
+        // formData.append('email', registerObj.email)
+        // formData.append('contact', registerObj.contact)
+        // formData.append('state', registerObj.state)
+        // formData.append('aadharNo', registerObj.aadharNo)
+        // formData.append('panNo', registerObj.panNo)
+        // formData.append('role', role)
+        // formData.append('adminId', registerObj.adminId)
+        // formData.append('district', registerObj.district)
+        // formData.append('postalCode', registerObj.postalCode)
 
-        console.log(formData);
-        Axios({
-            method: "post",
-            url: ApiUrl.createUser,
-            data: formData,
-            headers: {
-                'Content-Type': `multipart/form-data`,
+
+        try {
+            const result = await axios.post(ApiUrl.createUser,
+                {
+                    name: registerObj.name,
+                    password: registerObj.password,
+                    email: registerObj.email,
+                    contact: registerObj.contact,
+                    state: registerObj.state,
+                    aadharNo: registerObj.aadharNo,
+                    panNo: registerObj.panNo,
+                    role: role,
+                    adminId: registerObj.adminId,
+                    district: registerObj.district,
+                    postalCode: registerObj.postalCode,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            )
+            const { error, message } = result.data
+
+            if (error) {
+                alert(message)
+            } else {
+                alert(message)
+                window.location.href = '/login'
             }
-        }).then((response) => {
-            console.log(response);
-            setLoading(true)
-            setTimeout(() => {
-                alert(response.message)
-                // // Call API to check user credentials and save token in localstorage
-                localStorage.setItem("token", response.token)
-                setLoading(false)
-                window.location.href = '/app/dashboard'
-            }, [500])
-        }).catch((error) => {
-            alert(error)
-        })
+
+        } catch (error) {
+            console.log(error.response.data)
+        }
+
+
     }
 
     const submitForm = (e) => {
@@ -72,28 +88,31 @@ function Register() {
         if (registerObj.password.trim() === "") return setErrorMessage("Password is required! (use any value)")
         if (registerObj.panNo.trim() === "") return setErrorMessage("Pan No is required! (use any value)")
         if (registerObj.aadharNo.trim() === "") return setErrorMessage("Aadhar No is required! (use any value)")
-        if (registerObj.aadharNo.trim().length !== 16) return setErrorMessage("Please enter correct Aadhaar No")
+        if (registerObj.aadharNo.trim().length !== 12) return setErrorMessage("Please enter correct Aadhaar No")
         if (registerObj.state.trim() === "") return setErrorMessage("State is required! (use any value)")
         if (registerObj.contact.trim() === "") return setErrorMessage("Contact is required! (use any value)")
         if (registerObj.postalCode.trim() === "") return setErrorMessage("Postal Code is required! (use any value)")
         if (registerObj.postalCode.trim().length !== 6) return setErrorMessage("Please enter correct Postal Code")
         if (registerObj.district.trim() === "") return setErrorMessage("District is required! (use any value)")
         if (registerObj.adminId.trim() === "") return setErrorMessage("Admin Id is required! (use any value)")
-        if (registerObj.role.trim() === "") return setErrorMessage("Role is required! (use any value)")
+        if (role.trim() === "") return setErrorMessage("Role is required! (use any value)")
         else {
             console.log(registerObj);
             Authuser()
-            // setLoading(true)
-            // // Call API to check user credentials and save token in localstorage
+            setLoading(true)
+            // Call API to check user credentials and save token in localstorage
             // localStorage.setItem("token", "DumyTokenHere")
-            // setLoading(false)
-            // window.location.href = '/app/welcome'
+            setLoading(false)
         }
     }
 
     const updateFormValue = ({ updateType, value }) => {
         setErrorMessage("")
         setRegisterObj({ ...registerObj, [updateType]: value })
+    }
+
+    const selectHandler = (event) => {
+        setRole(event.target.value)
     }
 
 
@@ -138,11 +157,16 @@ function Register() {
                                     <InputText defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-4" labelTitle="Postal Code" updateFormValue={updateFormValue} />
                                 </div>
                                 <div className='inputRow'>
-                                    <InputText defaultValue={registerObj.role} updateType="role" containerStyle="mt-4" labelTitle="Role" updateFormValue={updateFormValue} />
+                                    <select name="role" defaultValue={role} id="role" onChange={selectHandler} className='select-style'>
+                                        <option value="cluster">Cluster</option>
+                                        <option value="distributor">Distributor</option>
+                                        <option value="retailer">Retailer</option>
+                                    </select>
+                                </div>
+                                <div className='inputRow'>
+                                    {/* <InputText defaultValue={registerObj.role} updateType="role" containerStyle="mt-4" labelTitle="Role" updateFormValue={updateFormValue} /> */}
                                     <InputText defaultValue={registerObj.password} type="password" updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
                                 </div>
-
-
                             </div>
 
                             <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>

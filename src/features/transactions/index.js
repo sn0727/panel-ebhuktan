@@ -32,7 +32,7 @@ function Transactions() {
     const fetchUserData = async () => {
 
         try {
-            const response = await axios.get(`${ApiUrl.transactionAllUserList}/${currentPage}`)
+            const response = await axios.get(`${ApiUrl.transactionAll}/${currentPage}`)
             const result = await response.data;
             const { data, count } = result;
             setPageCount(Math.ceil(count / 10))

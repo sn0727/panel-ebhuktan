@@ -192,3 +192,14 @@ li.active a {
   justify-content: space-between;
   align-items: center;
 }
+.inputRow select {
+  width: 100%;
+  border: 1px solid #d1d1d1;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  outline: none;
+}
+.inputRow select option {
+  padding: 10px 10px;
+}
