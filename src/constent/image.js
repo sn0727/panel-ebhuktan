@@ -1,0 +1,16 @@
+export const image = {
+    upiIcon : require("../assets/service-icon/upi.png"),
+    contact : require("../assets/service-icon/contact.png"),
+    mobile : require("../assets/service-icon/mobile.png"),
+    gas : require("../assets/service-icon/gas.png"),
+    electicbill : require("../assets/service-icon/electic.png"),
+    watter : require("../assets/service-icon/watter.png"),
+    upivia : require("../assets/service-icon/upi-via.png"),
+    dth : require("../assets/service-icon/dth.png"),
+    boardband : require("../assets/service-icon/boardband.png"),
+    municipal : require("../assets/service-icon/municipal.png"),
+    credit : require("../assets/service-icon/credit-card.png"),
+    health : require("../assets/service-icon/health.png"),
+    fastag : require("../assets/service-icon/fastag.png"),
+    wallet : require("../assets/service-icon/wallet.png"),
+}
