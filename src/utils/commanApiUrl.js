@@ -57,8 +57,12 @@ export const ApiUrl = {
   getPendingRetailer: `${APISuperadmin}getPendingRetailer`,
    // this is Retailer api
 
+  // this is user api
+  getUsersAll: `${APISuperadmin}getUsers`,
+  getPendingUser: `${APISuperadmin}getPendingUser`,
+   // this is user api
+
   rechargeGetOperatorList: `${apiBaseUrl}recharge/getOperatorList`,
-  clusterPostList: `${apiBaseUrl}cluster/create`,
 
   fastTagGetOperatorList: `${apiBaseUrl}fastTag/getOperatorList`,
   fastTagFetchDetails: `${apiBaseUrl}fastTag/fetchDetails`,

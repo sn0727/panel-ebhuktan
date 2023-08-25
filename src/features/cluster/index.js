@@ -156,10 +156,6 @@ function Cluster() {
         }
     }
 
-    useEffect(() => {
-        dispatch(getLeadsContent())
-    }, [])
-
     return (
         <>
 
