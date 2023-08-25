@@ -28,7 +28,7 @@ function Login() {
             }
 
         })
-
+        
         let response = await result.json();
         if (!response.error) {
             setLoading(true)
@@ -54,11 +54,6 @@ function Login() {
         if (loginObj.password.trim() === "") return setErrorMessage("Password is required! (use any value)")
         else {
             Authuser()
-            // setLoading(true)
-            // // Call API to check user credentials and save token in localstorage
-            // // localStorage.setItem("token", "DumyTokenHere")
-            // setLoading(false)
-            // window.location.href = '/app/dashboards'
         }
     }
 

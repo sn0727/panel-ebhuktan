@@ -43,7 +43,19 @@ export const ApiUrl = {
 
   // this is cluster api
   getClusterAll: `${APISuperadmin}getCluster`,
+  getPendingCluster: `${APISuperadmin}getPendingCluster`,
+  updateClusterStatus: `${APISuperadmin}updateStatus`,
+   // this is cluster api
 
+  // this is Distributor api
+  getDistributorAll: `${APISuperadmin}getDistributor`,
+  getPendingDistributor: `${APISuperadmin}getPendingDistributor`,
+   // this is Distributor api
+
+    // this is Retailer api
+  getRetailerAll: `${APISuperadmin}getRetailer`,
+  getPendingRetailer: `${APISuperadmin}getPendingRetailer`,
+   // this is Retailer api
 
   rechargeGetOperatorList: `${apiBaseUrl}recharge/getOperatorList`,
   clusterPostList: `${apiBaseUrl}cluster/create`,

@@ -203,3 +203,11 @@ li.active a {
 .inputRow select option {
   padding: 10px 10px;
 }
+.select-with-ps {
+  display: flex;
+  font-style: italic;
+  gap: 10px;
+}
+.badge.badge-primary {
+  cursor: pointer;
+}

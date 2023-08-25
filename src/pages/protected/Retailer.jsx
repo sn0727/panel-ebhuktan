@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
-import RetailerContent from "./../../features/distributor"
+import RetailerContent from "./../../features/retailer"
 import { setPageTitle } from '../../features/common/headerSlice'
 import DynamicTitle from '../../components/dynamic_title';
 
