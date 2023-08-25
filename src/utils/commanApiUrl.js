@@ -41,6 +41,9 @@ export const ApiUrl = {
   // user forder api 
   user_getById: `${APIUser}getById`,
 
+  // this is cluster api
+  getClusterAll: `${APISuperadmin}getCluster`,
+
 
   rechargeGetOperatorList: `${apiBaseUrl}recharge/getOperatorList`,
   clusterPostList: `${apiBaseUrl}cluster/create`,
