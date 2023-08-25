@@ -1,6 +1,6 @@
 import moment from "moment"
 import { useEffect, useState } from "react"
-import { ApiUrl } from "../../utils/commanApiUrl"
+import { ApiUrl, APIRequest } from "../../utils/commanApiUrl"
 // import { useDispatch, useSelecmobiler } from "react-redux"
 // import { showNotification } from "../common/headerSlice"
 import TitleCard from "../../components/Cards/TitleCard";
@@ -8,46 +8,34 @@ import axios from "axios";
 import Pagination from "../../components/pagination/Pagination";
 
 function ElectricityContent() {
-
+    const [isLoading, setisLoading] = useState(true);
     const [transaction, setTransaction] = useState([])
+    const [totalUser, setTotalUser] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
 
-    const fetchTransaction = async () => {
-
-        try {
-            const response = await axios.get(`${ApiUrl.transaction_getElectricity}/${currentPage}`);
-            const result = await response.data;
-            const { error, message, data, count } = result
-            setTransaction(data)
-            // setTotalUser(count)
-        } catch ({ error, message }) {
-            alert(message)
-        }
+    const SendRequest = async () => {
+        setisLoading(true)
+        let config = {
+            url: `${ApiUrl.transaction_getElectricity}/${currentPage}`,
+            method: 'get',
+        };
+        APIRequest(
+            config,
+            res => {
+                console.log(res);
+                setTotalUser(res?.count)
+                setTransaction(res.data)
+                setisLoading(false)
+            },
+            err => {
+                console.log(err);
+                setisLoading(false)
+            }
+        );
     }
-
-    // const SendRequest = async () => {
-    //     setisLoading(true)
-    //     let config = {
-    //         url: `${ApiUrl.transaction_getLPGGas}/${currentPage}`,
-    //         method: 'get',
-    //     };
-    //     APIRequest(
-    //         config,
-    //         res => {
-    //             console.log(res);
-    //             setTotalUser(res?.count)
-    //             setTransaction(res.data)
-    //             setisLoading(false)
-    //         },
-    //         err => {
-    //             console.log(err);
-    //             setisLoading(false)
-    //         }
-    //     );
-    // }
-    // useEffect(() => {
-    //     SendRequest()
-    // }, [currentPage])
+    useEffect(() => {
+        SendRequest()
+    }, [currentPage])
 
     return (
         <>
