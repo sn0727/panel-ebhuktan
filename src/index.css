@@ -208,6 +208,6 @@ li.active a {
   font-style: italic;
   gap: 10px;
 }
-.badge.badge-primary {
+.badge.badge-primary, .badge.badge-red {
   cursor: pointer;
 }

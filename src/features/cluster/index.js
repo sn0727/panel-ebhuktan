@@ -116,6 +116,7 @@ function Cluster() {
                         },
                         err => {
                             console.log(err);
+                            setClusterData([])
                         }
                     );
                 }
@@ -129,30 +130,38 @@ function Cluster() {
 
     // statushandler funcation 
     const statusHandler = async (statusId, status) => {
-        try {
-            const SendRequest = async () => {
-                let config = {
-                    url: ApiUrl.updateClusterStatus,
-                    method: 'post',
-                    body: {
-                        userId: statusId,
-                        status: status
-                    }
-                };
-                APIRequest(
-                    config,
-                    res => {
-                        console.log(res);
-                        Pandinghandler()
-                    },
-                    err => {
-                        console.log(err);
-                    }
-                );
-            }
-            SendRequest();
-        } catch (error) {
+        const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
+            if(choice){
+            try {
+                const SendRequest = async () => {
+                    let config = {
+                        url: ApiUrl.updateClusterStatus,
+                        method: 'post',
+                        body: {
+                            userId: statusId,
+                            status: status
+                        }
+                    };
+                    APIRequest(
+                        config,
+                        res => {
+                            console.log(res);
+                            if(res.err === false) {
+                                alert(res.message)
+                            }else {
+                                alert(res.message)
+                            }
+                            Pandinghandler()
+                        },
+                        err => {
+                            console.log(err);
+                        }
+                    );
+                }
+                SendRequest();
+            } catch (error) {
 
+            }
         }
     }
 
@@ -208,7 +217,8 @@ function Cluster() {
                                             <td>{l.aadharNo}</td>
                                             <td>{l.panNo}</td>
                                             <td>
-                                                <div className="badge badge-primary" onClick={() => statusHandler(l.id, "approved")}>{l.status}</div>
+                                            <div className="badge badge-primary" onClick={() => statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
+                                                {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "reject" ? "approved" : "Reject"}</div>}
                                             </td>
                                             <td>{l.amount}</td>
                                         </tr>

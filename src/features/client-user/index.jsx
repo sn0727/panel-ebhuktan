@@ -21,7 +21,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
     const dispatch = useDispatch()
 
     // select box funtion
-    const [roleStatus, setRoleStatus] = React.useState('aprove');
+    const [roleStatus, setRoleStatus] = React.useState('aproved');
 
     const handleChange = (event) => {
         setRoleStatus(event.target.value);
@@ -54,7 +54,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
                             size="small"
                             onChange={handleChange}
                         >
-                            <MenuItem value={"aprove"} onClick={Aprovehandler}>Aprove</MenuItem>
+                            <MenuItem value={"aproved"} onClick={Aprovehandler}>Aproved</MenuItem>
                             <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
                         </Select>
                     </FormControl>
@@ -141,6 +141,9 @@ function ClientUserContent() {
 
     // statushandler funcation 
     const statusHandler = async (statusId, status) => {
+
+        const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
+        if(choice) {
         try {
             const SendRequest = async () => {
                 let config = {
@@ -155,6 +158,12 @@ function ClientUserContent() {
                     config,
                     res => {
                         console.log(res);
+                        if(res.err === false) {
+                            alert(res.message)
+                            
+                        }else {
+                            alert(res.message)
+                        }
                         Pandinghandler()
                     },
                     err => {
@@ -162,33 +171,13 @@ function ClientUserContent() {
                     }
                 );
             }
+
             SendRequest();
         } catch (error) {
-
         }
+
     }
-
-
-
-    // data fetch from the api
-    // const fetchTransaction = async () => {
-    //     try {
-
-    //         const res = await axios.get(`${ApiUrl.superadminGetUsers}/${currentPage}`);
-    //         // const res = await axios.get(ApiUrl.superadminGetAllUsers);
-    //         const result = await res.data;
-    //         const { error, message, data, count } = result
-    //         if (!error) {
-    //             // alert(message)
-    //             setTotalUser(count)
-    //             setTransaction(data)
-    //         } else {
-    //             alert(message)
-    //         }
-    //     } catch ({error, message}) {
-    //         alert(message)
-    //     }
-    // }
+    }
 
     // paginatin code 
     function prePage() {
@@ -214,7 +203,6 @@ function ClientUserContent() {
     // useEffect(() => {
     //     fetchTransaction()
     // }, [currentPage])
-
     return (
         <>
             <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} />}>
@@ -266,7 +254,8 @@ function ClientUserContent() {
                                             <td>{l.aadharNo}</td>
                                             <td>{l.panNo}</td>
                                             <td>
-                                                <div className="badge badge-primary" onClick={() => statusHandler(l.id, "approved")}>{l.status}</div>
+                                                <div className="badge badge-primary" onClick={() => statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
+                                                {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
                                             </td>
                                             <td>{l.amount}</td>
                                         </tr>
@@ -299,7 +288,6 @@ function ClientUserContent() {
                         </li>
                     </ul>
                 </nav>
-
             </TitleCard>
         </>
     )

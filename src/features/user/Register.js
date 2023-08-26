@@ -158,6 +158,7 @@ function Register() {
                                 </div>
                                 <div className='inputRow'>
                                     <select name="role" defaultValue={role} id="role" onChange={selectHandler} className='select-style'>
+                                        <option value="select">select</option>
                                         <option value="cluster">Cluster</option>
                                         <option value="distributor">Distributor</option>
                                         <option value="retailer">Retailer</option>
