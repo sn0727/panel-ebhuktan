@@ -1,11 +1,12 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import TitleCard from "../../components/Cards/TitleCard"
 import { openModal } from "../common/modalSlice"
 // import { getLeadsContent } from "./leadSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
+import Pagination from "../../components/pagination/Pagination"
 
 // select box code 
 import Box from '@mui/material/Box';
@@ -68,6 +69,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
 function DistributorContent() {
 
     const [clusterData, setClusterData] = React.useState([]);
+    const [currentPage, setCurrentPage] = useState(1)
 
     // i am calling aprove funtion on the click
     const Aprovehandler = () => {
@@ -75,7 +77,7 @@ function DistributorContent() {
             try {
                 const SendRequest = async () => {
                     let config = {
-                        url: `${ApiUrl.getDistributorAll}/${1}`,
+                        url: `${ApiUrl.getDistributorAll}/${currentPage}`,
                         method: 'get',
                     };
                     APIRequest(
@@ -165,6 +167,10 @@ function DistributorContent() {
         }
     }
 
+    useEffect(()=> {
+        Aprovehandler()
+    }, [currentPage])
+
     return (
         <>
             <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} />}>
@@ -227,6 +233,10 @@ function DistributorContent() {
                         </tbody>
                     </table>
                 </div>
+                {/* <Pagination /> */}
+                <nav aria-label="Page navigation example text-right" className="navigation example">
+                    <Pagination apiRoute={ApiUrl.getDistributorAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                </nav>
             </TitleCard>
         </>
     )

@@ -65,7 +65,7 @@ var token = localStorage.getItem("token")
 const decodedToken = jwtDecode(token);
 const { role } = decodedToken.user
 
-alert(role)
+// alert(role)
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`

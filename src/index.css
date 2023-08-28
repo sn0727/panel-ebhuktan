@@ -189,6 +189,7 @@ li.active a {
   text-align: right;
   margin-top: 40px;
   display: flex;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
 }
@@ -210,4 +211,38 @@ li.active a {
 }
 .badge.badge-primary, .badge.badge-red {
   cursor: pointer;
+}
+
+
+/* pegination css code  */
+.pagination-perent ul{
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  justify-content: end;
+}
+.pagination-perent ul li {
+  font-weight: 600;
+  color: #000;
+  display: flex;
+  align-items: center;
+}
+.pagination-perent ul li a svg {
+  font-size: 30px;
+}
+.pagination-perent ul li.selected {
+  background-color: rgba(0, 0, 0, 0.08);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  border-radius: 50px;
+  align-items: center;
+}
+.pagination-perent ul li.next a {
+  font-weight: 600;
+  color: #000;
+}
+.previous.disabled, .next.disabled {
+  opacity: 0.38;
 }

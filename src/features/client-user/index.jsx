@@ -6,7 +6,7 @@ import { openModal } from "../common/modalSlice"
 // import { getLeadsContent } from "./leadSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
-import axios from "axios"
+import Pagination from "../../components/pagination/Pagination"
 
 // select box code 
 import Box from '@mui/material/Box';
@@ -16,9 +16,11 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 // select box code 
 
-const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
+const TopSideButtons = ({ Aprovehandler, Pandinghandler, currentPage }) => {
 
     const dispatch = useDispatch()
+
+    
 
     // select box funtion
     const [roleStatus, setRoleStatus] = React.useState('aproved');
@@ -32,6 +34,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
     useEffect(() => {
         roleStatus ? Aprovehandler() : Pandinghandler()
     }, [])
+
     const openAddNewLeadModal = () => {
         dispatch(openModal({ title: "Add New Lead", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, role:"user" }))
     }
@@ -70,15 +73,6 @@ function ClientUserContent() {
     // const [transactions, setTransaction] = useState([])
     const [clusterData, setClusterData] = React.useState([]);
     const [currentPage, setCurrentPage] = useState(1)
-    const [totalUser, setTotalUser] = useState("")
-    const recordsPerPage = 10;
-    const nPages = Math.ceil(totalUser / recordsPerPage);
-
-    // create page array
-    let pageOfNumber = []
-    for (let index = 1; index < nPages; index++) {
-        pageOfNumber.push(index)
-    }
 
     // i am calling aprove funtion on the click
     const Aprovehandler = () => {
@@ -86,7 +80,7 @@ function ClientUserContent() {
             try {
                 const SendRequest = async () => {
                     let config = {
-                        url: `${ApiUrl.getUsersAll}/${1}`,
+                        url: `${ApiUrl.getUsersAll}/${currentPage}`,
                         method: 'get',
                     };
                     APIRequest(
@@ -112,8 +106,6 @@ function ClientUserContent() {
         const getCusterDatapandding = async () => {
             // let token = localStorage.getItem("token")
             try {
-     
-
                 const SendRequest = async () => {
                     let config = {
                         url: `${ApiUrl.getPendingUser}/${1}`,
@@ -179,33 +171,13 @@ function ClientUserContent() {
     }
     }
 
-    // paginatin code 
-    function prePage() {
-        if (currentPage <= 1) {
-            alert("Record is not found!")
-        } else {
-            setCurrentPage(currentPage - 1)
-        }
-    }
+    useEffect(()=> {
+        Aprovehandler()
+    }, [currentPage])
 
-    function changePage(id) {
-        setCurrentPage(id)
-    }
-
-    function nextPage() {
-        if (currentPage >= nPages) {
-            alert("Record is not found!")
-        } else {
-            setCurrentPage(currentPage + 1)
-        }
-    }
-
-    // useEffect(() => {
-    //     fetchTransaction()
-    // }, [currentPage])
     return (
         <>
-            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} />}>
+            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} currentPage={currentPage}/>}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
@@ -268,25 +240,7 @@ function ClientUserContent() {
 
                 {/* <Pagination /> */}
                 <nav aria-label="Page navigation example text-right" className="navigation example">
-                    <span class="text-sm text-gray-700 dark:text-gray-400">
-                        Showing <span class="font-semibold text-gray-900 dark:text-white">1</span> to <span class="font-semibold text-gray-900 dark:text-white">10</span> of <span class="font-semibold text-gray-900 dark:text-white">{totalUser}</span> Entries
-                    </span>
-                    <ul class="inline-flex -space-x-px text-sm">
-                        <li>
-                            <a href="#" onClick={prePage} class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
-                        </li>
-                        {
-                            pageOfNumber.map((n, i) => (
-                                <li key={i} className={`${currentPage === n ? "active" : ""}`}>
-                                    <a href="#" onClick={() => changePage(n)} class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{n}</a>
-                                </li>
-                            ))
-                        }
-
-                        <li>
-                            <a href="#" onClick={nextPage} class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
-                        </li>
-                    </ul>
+                    <Pagination apiRoute={ApiUrl.getUsersAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 </nav>
             </TitleCard>
         </>

@@ -45,7 +45,6 @@ function Dashboard() {
     const [statsData, setCount] = useState('');
     const [users, setUsers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
-    const [pageCount, setPageCount] = useState(1)
 
     const updateDashboardPeriod = (newRange) => {
         // Dashboard range changed, write code to refresh your values
@@ -80,15 +79,6 @@ function Dashboard() {
         );
     }
 
-    // THIS IS CODE ALL TRANSATION TABLE
-    // Invoke when user click to request another page.
-    const handlePageClick = (event) => {
-        const newOffset = (event.selected * 10) % pageCount;
-        // console.log(event.selected)
-        // setItemOffset(newOffset);
-        setCurrentPage(event.selected)
-    };
-
     // get data from the api
     const SendRequestAllTransaction = async () => {
         setisLoading(true)
@@ -114,7 +104,7 @@ function Dashboard() {
     useEffect(() => {
         SendRequest()
         SendRequestAllTransaction()
-    }, []);
+    }, [currentPage]);
 
 
 
@@ -205,25 +195,8 @@ function Dashboard() {
                 </div>
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
-                    <span className="text-sm text-gray-700 dark:text-gray-400">
-                        Showing <span className="font-semibold text-gray-900 dark:text-white">1</span> to <span className="font-semibold text-gray-900 dark:text-white">10</span> of <span className="font-semibold text-gray-900 dark:text-white">22</span> Entries
-                    </span>
-                    <ReactPaginate
-                        breakLabel="..."
-                        nextLabel="next >"
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={1}
-                        pageCount={pageCount}
-                        previousLabel="< previous"
-                        renderOnZeroPageCount={null}
-                        containerClassName={"inline-flex -space-x-px text-sm"}
-                        previousLinkClassName={"pagination__link"}
-                        nextLinkClassName={"pagination__link"}
-                        disabledClassName={"pagination__link--disabled"}
-                        activeClassName={"active"}
-                    />
+                    <Pagination apiRoute={ApiUrl.transactionAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 </nav>
-                <Pagination apiRoute={ApiUrl.transactionAllUserList} currentPage={currentPage} setCurrentPage={setCurrentPage} />
             </TitleCard>
             {/* all transaction table show in the dashboard */}
         </>

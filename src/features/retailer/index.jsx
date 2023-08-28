@@ -1,5 +1,5 @@
 import React from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import TitleCard from "../../components/Cards/TitleCard"
 import { openModal } from "../common/modalSlice"
@@ -13,6 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Pagination from "../../components/pagination/Pagination"
 // select box code 
 
 const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
@@ -68,6 +69,8 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
 function RetailerContent() {
 
     const [clusterData, setClusterData] = React.useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1)
 
     // i am calling aprove funtion on the click
     const Aprovehandler = () => {
@@ -229,7 +232,9 @@ function RetailerContent() {
                             }
                         </tbody>
                     </table>
+                    
                 </div>
+                <Pagination apiRoute={ApiUrl.getPendingRetailer} currentPage={currentPage} setCurrentPage={setCurrentPage} />          
             </TitleCard>
         </>
     )

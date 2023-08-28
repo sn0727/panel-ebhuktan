@@ -11,6 +11,8 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ReactPaginate from 'react-paginate';
+import { BiChevronLeft } from "react-icons/bi";
+import { BiChevronRight } from "react-icons/bi";
 
 // select box reqired 
 // import Box from '@mui/material/Box';
@@ -24,15 +26,12 @@ function Transactions() {
     const [users, setUsers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [isLoading, setisLoading] = useState(true);
-    const [pageCount, setPageCount] = useState(1)
 
-    // Invoke when user click to request another page.
-    const handlePageClick = (event) => {
-        const newOffset = (event.selected * 10) % pageCount;
-        // console.log(event.selected)
-        // setItemOffset(newOffset);
-        setCurrentPage(event.selected)
-    };
+    // pagination code 
+    // const [count, setCount] = useState("");
+    // const itemsPerPage = 10;
+    // const pageCount = Math.ceil(count / itemsPerPage);
+    // pagination code 
 
     // get data from the api
     const SendRequest = async () => {
@@ -45,6 +44,7 @@ function Transactions() {
             config,
             res => {
                 console.log(res);
+                // setCount(res.count)
                 setUsers(res.data)
                 setisLoading(false)
             },
@@ -55,7 +55,9 @@ function Transactions() {
         );
     }
 
-
+    // const handlePageClick = (event) => {
+    //     setCurrentPage((event.selected) + 1);
+    // };
     useEffect(() => {
         SendRequest()
     }, [currentPage])
@@ -128,25 +130,28 @@ function Transactions() {
                 </div>
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
-                    <span className="text-sm text-gray-700 dark:text-gray-400">
+                    {/* <span className="text-sm text-gray-700 dark:text-gray-400">
                         Showing <span className="font-semibold text-gray-900 dark:text-white">1</span> to <span className="font-semibold text-gray-900 dark:text-white">10</span> of <span className="font-semibold text-gray-900 dark:text-white">22</span> Entries
                     </span>
-                    <ReactPaginate
-                        breakLabel="..."
-                        nextLabel="next >"
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={1}
-                        pageCount={pageCount}
-                        previousLabel="< previous"
-                        renderOnZeroPageCount={null}
-                        containerClassName={"inline-flex -space-x-px text-sm"}
-                        previousLinkClassName={"pagination__link"}
-                        nextLinkClassName={"pagination__link"}
-                        disabledClassName={"pagination__link--disabled"}
-                        activeClassName={"active"}
-                    />
+                    <div className="pagination-perent">
+                        <ReactPaginate
+                            breakLabel="..."
+                            nextLabel={<BiChevronRight />}
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            pageCount={pageCount}
+                            previousLabel={<BiChevronLeft />}
+                            renderOnZeroPageCount={null}
+                            breakClassName="pagination 1"
+
+                        />
+                    </div> */}
+
+
+                    <nav aria-label="Page navigation example text-right" className="navigation example">
+                        <Pagination apiRoute={ApiUrl.transactionAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    </nav>
                 </nav>
-                <Pagination apiRoute={ApiUrl.transactionAllUserList} currentPage={currentPage} setCurrentPage={setCurrentPage} />
             </TitleCard>
         </>
     )

@@ -6,7 +6,7 @@ import { openModal } from "../common/modalSlice"
 import { getLeadsContent } from "./leadSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
-import axios from "axios"
+import Pagination from "../../components/pagination/Pagination"
 
 // select box code 
 import Box from '@mui/material/Box';
@@ -67,6 +67,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
 
 function Cluster() {
     const [clusterData, setClusterData] = React.useState([]);
+    const [currentPage, setCurrentPage] = useState(1)
     const dispatch = useDispatch()
 
     // i am calling aprove funtion on the click
@@ -228,6 +229,9 @@ function Cluster() {
                         </tbody>
                     </table>
                 </div>
+                <nav aria-label="Page navigation example text-right" className="navigation example">
+                    <Pagination apiRoute={ApiUrl.getClusterAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                </nav>
             </TitleCard>
         </>
     )
