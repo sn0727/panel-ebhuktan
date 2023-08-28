@@ -66,7 +66,7 @@ function Transactions() {
 
     return (
         <>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel id="demo-simple-select-helper-label">Age</InputLabel>
                 <Select
                     labelId="demo-simple-select-helper-label"
@@ -83,7 +83,7 @@ function Transactions() {
                     <MenuItem value={30}>Thirty</MenuItem>
                 </Select>
                 <FormHelperText>With label + helper text</FormHelperText>
-            </FormControl>
+            </FormControl> */}
 
             {/* <SelectBox labelTitle="sd" labelDescription="des " placeholder="pla" options={[{ name: "dd", value: "dsd" }, 'sd', "sdfF"]} /> */}
             <DynamicTitle pageTitle={"Transaction"} />
