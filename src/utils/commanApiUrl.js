@@ -18,6 +18,9 @@ export const ApiUrl = {
   accountVerification: `${APIUser}accountVerification`,
   login: `${APIUser}login`,
   update: `${APIUser}update`,
+  addAmount: `${APIUser}addAmount`,
+
+
   forgotPassword: `${APISuperadmin}forgotPassword`,
   resetPassword: `${APISuperadmin}resetPassword`,
   changePassword: `${APIUser}changePassword`,
@@ -25,6 +28,7 @@ export const ApiUrl = {
   superadminGetUsers: `${APISuperadmin}getUsers`,
   superadminGetAllUsers: `${APISuperadmin}getAll`,
   superadminGetCount: `${APISuperadmin}getCount`,
+
 
   // transaction api
   transactionAll: `${apiBaseUrl}transaction/getAll`,
