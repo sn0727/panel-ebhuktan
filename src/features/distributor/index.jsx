@@ -7,6 +7,7 @@ import { openModal } from "../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
 import Pagination from "../../components/pagination/Pagination"
+import jwtDecode from 'jwt-decode';
 
 // select box code 
 import Box from '@mui/material/Box';
@@ -17,12 +18,18 @@ import Select from '@mui/material/Select';
 // select box code 
 
 
-const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
+const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName }) => {
 
     const dispatch = useDispatch()
 
+    var token = localStorage.getItem("token")
+    const decodedToken = jwtDecode(token);
+    const { role } = decodedToken.user
+
+    // alert(role)
+
     // select box funtion
-    const [roleStatus, setRoleStatus] = React.useState('aprove');
+    const [roleStatus, setRoleStatus] = React.useState('aproved');
 
     const handleChange = (event) => {
         setRoleStatus(event.target.value);
@@ -34,32 +41,48 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
         roleStatus ? Aprovehandler() : Pandinghandler()
     }, [])
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New Lead", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW }))
+        dispatch(openModal({ title: "Add New Lead", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName }))
     }
 
     return (
 
         <>
             <div className="select-with-ps">
-                <div className="inline-block float-right">
-                    <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
-                </div>
-                <Box sx={{ minWidth: 120 }}>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={roleStatus}
-                            label="Status"
-                            size="small"
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={"aprove"} onClick={Aprovehandler}>Aprove</MenuItem>
-                            <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
+
+                {
+                    role === "cluster" && (
+                        <div className="inline-block float-right">
+                            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                        </div>
+                    )
+                }
+                {
+                    role === "superAdmin" && (
+                        <>
+                            <div className="inline-block float-right">
+                                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                            </div>
+                            <Box sx={{ minWidth: 120 }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={roleStatus}
+                                        label="Status"
+                                        size="small"
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value={"aproved"} onClick={Aprovehandler}>Aproved</MenuItem>
+                                        <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                        </>
+
+                    )
+                }
+
             </div>
         </>
 
@@ -70,6 +93,10 @@ function DistributorContent() {
 
     const [clusterData, setClusterData] = React.useState([]);
     const [currentPage, setCurrentPage] = useState(1)
+
+    var token = localStorage.getItem("token")
+    const decodedToken = jwtDecode(token);
+    const { role } = decodedToken.user
 
     // i am calling aprove funtion on the click
     const Aprovehandler = () => {
@@ -103,7 +130,7 @@ function DistributorContent() {
         const getCusterDatapandding = async () => {
             // let token = localStorage.getItem("token")
             try {
-     
+
 
                 const SendRequest = async () => {
                     let config = {
@@ -133,7 +160,7 @@ function DistributorContent() {
     // statushandler funcation 
     const statusHandler = async (statusId, status) => {
         const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
-            if(choice){
+        if (choice) {
             try {
                 const SendRequest = async () => {
                     let config = {
@@ -148,9 +175,9 @@ function DistributorContent() {
                         config,
                         res => {
                             console.log(res);
-                            if(res.err === false) {
+                            if (res.err === false) {
                                 alert(res.message)
-                            }else {
+                            } else {
                                 alert(res.message)
                             }
                             Pandinghandler()
@@ -167,15 +194,17 @@ function DistributorContent() {
         }
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         Aprovehandler()
     }, [currentPage])
 
     return (
         <>
-            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} />}>
+            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} createRoleName={'distributor'} Pandinghandler={Pandinghandler} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
+
+                <h3>Login Role : {role}</h3>
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead>
@@ -237,6 +266,8 @@ function DistributorContent() {
                 <nav aria-label="Page navigation example text-right" className="navigation example">
                     <Pagination apiRoute={ApiUrl.getDistributorAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 </nav>
+
+
             </TitleCard>
         </>
     )

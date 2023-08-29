@@ -40,27 +40,6 @@ import { BiUserVoice } from 'react-icons/bi';
 // import { Jwt } from 'jsonwebtoken'
 import jwtDecode from 'jwt-decode';
 
-// function tokenTa() {
-//   var token = localStorage.getItem("token")
-//   const decodedToken = jwtDecode(token);
-//   const { role } = decodedToken.user
-
-//   switch (role) {
-//     case "superAdmin":
-//       return role
-//     case "cluster":
-//       return role
-//     case "distributor":
-//       return role
-//     case "retailer":
-//       return role
-//     default:
-//       break;
-//   }
-
-// }
-// const RoleReturn = tokenTa()
-
 var token = localStorage.getItem("token")
 const decodedToken = jwtDecode(token);
 const { role } = decodedToken.user
@@ -147,6 +126,11 @@ const routes = [
     name: 'Dashboard',
   },
   {
+    path: '/app/commission-transaction',
+    icon: <RiHealthBookLine className={submenuIconClasses} />,
+    name: 'Commission Transaction',
+  },
+  {
     path: "",
     icon: <BiUserCircle className={`${iconClasses} inline`} />,
     name: "UserRoll",
@@ -157,6 +141,11 @@ const routes = [
     icon: <MdMiscellaneousServices className={`${iconClasses} inline`} />, // icon component
     name: 'Recharge & Bill Payment', // name that appear in Sidebar
     submenu: [
+      {
+        path: '/app/transactions',
+        icon: <CurrencyDollarIcon className={iconClasses} />,
+        name: 'All Transactions',
+      },
       {
         path: '/app/mobile-recharge',
         icon: <AiOutlineMobile className={submenuIconClasses} />,
@@ -207,7 +196,6 @@ const routes = [
         icon: <SiFastapi className={submenuIconClasses} />,
         name: 'FASTag',
       }
-
     ]
   },
 

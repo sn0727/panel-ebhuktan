@@ -246,3 +246,19 @@ li.active a {
 .previous.disabled, .next.disabled {
   opacity: 0.38;
 }
+
+/* input feild css code  */
+.sdfhsd-sdfkdsj {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  min-height: 96px;
+}
+input.fileProfile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 60px;
+  /* border: 1px solid #000; */
+}

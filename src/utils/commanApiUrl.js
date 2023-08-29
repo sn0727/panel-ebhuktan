@@ -31,6 +31,7 @@ export const ApiUrl = {
 
 
   // transaction api
+  transaction_commission_getAll: `${apiBaseUrl}transaction/commission/getAll`,
   transactionAll: `${apiBaseUrl}transaction/getAll`,
   transaction_getElectricity: `${apiBaseUrl}transaction/getElectricity`,
   transaction_getRecharge: `${apiBaseUrl}transaction/getRecharge`,

@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react';
 import { useDispatch } from 'react-redux'
-import InsuranceContent from '../../features/insurance';
+import CommissionTransactionContent from '../../features/commission-transaction';
 import { setPageTitle } from '../../features/common/headerSlice'
 import DynamicTitle from '../../components/dynamic_title';
 
 const Insurance = () => {
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(setPageTitle({ title : "Insurance"}))
+        dispatch(setPageTitle({ title : "Commission Transaction"}))
     }, [])
     
     return (
         <>
-            <DynamicTitle pageTitle="Insurance" />
-            <InsuranceContent />
+            <DynamicTitle pageTitle="Commission Transaction" />
+            <CommissionTransactionContent />
         </>
   )
 }

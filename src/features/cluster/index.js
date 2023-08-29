@@ -7,6 +7,7 @@ import { getLeadsContent } from "./leadSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
 import Pagination from "../../components/pagination/Pagination"
+import jwtDecode from 'jwt-decode';
 
 // select box code 
 import Box from '@mui/material/Box';
@@ -20,8 +21,12 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
 
     const dispatch = useDispatch()
 
+    var token = localStorage.getItem("token")
+    const decodedToken = jwtDecode(token);
+    const { role } = decodedToken.user
+
     // select box funtion
-    const [roleStatus, setRoleStatus] = React.useState('aprove');
+    const [roleStatus, setRoleStatus] = React.useState('aproved');
 
     const handleChange = (event) => {
         setRoleStatus(event.target.value);
@@ -40,25 +45,31 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
 
         <>
             <div className="select-with-ps">
-                <div className="inline-block float-right">
-                    <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
-                </div>
-                <Box sx={{ minWidth: 120 }}>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={roleStatus}
-                            label="Status"
-                            size="small"
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={"aprove"} onClick={Aprovehandler}>Aprove</MenuItem>
-                            <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
+            {
+                role === "superAdmin" && (
+                    <>
+                        <div className="inline-block float-right">
+                            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                        </div>
+                        <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={roleStatus}
+                                    label="Status"
+                                    size="small"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={"aproved"} onClick={Aprovehandler}>Aproved</MenuItem>
+                                    <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </>
+                )
+            }
             </div>
         </>
 

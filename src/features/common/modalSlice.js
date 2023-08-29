@@ -8,14 +8,16 @@ export const modalSlice = createSlice({
         bodyType : "",   // modal content management
         size : "",   // modal content management
         extraObject : {},   
+        createRoleName: ""
     },
     reducers: {
 
         openModal: (state, action) => {
-            const {title, bodyType, extraObject, size} = action.payload
+            const {title, bodyType, extraObject, size, createRoleName} = action.payload
             state.isOpen = true
             state.bodyType = bodyType
             state.title = title
+            state.createRoleName = createRoleName
             state.size = size || 'md'
             state.extraObject = extraObject
         },
@@ -24,6 +26,7 @@ export const modalSlice = createSlice({
             state.isOpen = false
             state.bodyType = ""
             state.title = ""
+            state.createRoleName = ""
             state.extraObject = {}
         },
 
