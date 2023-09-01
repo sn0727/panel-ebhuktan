@@ -4,7 +4,7 @@
 
 import axios from "axios";
 
-export const BASEURL = 'http://16.171.43.151:3000';
+export const BASEURL = 'https://api.ebhuktan.com';
 const apiBaseUrl = `${BASEURL}/api/`;
 export const SaveBillOption = ['Home', 'Mom', 'Office', 'Other']
 
@@ -50,22 +50,22 @@ export const ApiUrl = {
   getClusterAll: `${APISuperadmin}getCluster`,
   getPendingCluster: `${APISuperadmin}getPendingCluster`,
   updateClusterStatus: `${APISuperadmin}updateStatus`,
-   // this is cluster api
+  // this is cluster api
 
   // this is Distributor api
   getDistributorAll: `${APISuperadmin}getDistributor`,
   getPendingDistributor: `${APISuperadmin}getPendingDistributor`,
-   // this is Distributor api
+  // this is Distributor api
 
-    // this is Retailer api
+  // this is Retailer api
   getRetailerAll: `${APISuperadmin}getRetailer`,
   getPendingRetailer: `${APISuperadmin}getPendingRetailer`,
-   // this is Retailer api
+  // this is Retailer api
 
   // this is user api
   getUsersAll: `${APISuperadmin}getUsers`,
   getPendingUser: `${APISuperadmin}getPendingUser`,
-   // this is user api
+  // this is user api
 
   rechargeGetOperatorList: `${apiBaseUrl}recharge/getOperatorList`,
 
