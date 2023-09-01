@@ -154,7 +154,7 @@ function CommissionTransactionContent() {
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
                     <nav aria-label="Page navigation example text-right" className="navigation example">
-                        <Pagination apiRoute={ApiUrl.transactionAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                        <Pagination apiRoute={ApiUrl.transaction_commission_getAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                     </nav>
                 </nav>
             </TitleCard>
