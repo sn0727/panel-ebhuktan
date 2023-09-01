@@ -6,6 +6,7 @@ import { openModal } from "../common/modalSlice"
 // import { getLeadsContent } from "./leadSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
+import jwtDecode from 'jwt-decode';
 
 // select box code 
 import Box from '@mui/material/Box';
@@ -16,12 +17,20 @@ import Select from '@mui/material/Select';
 import Pagination from "../../components/pagination/Pagination"
 // select box code 
 
-const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
+const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName }) => {
 
     const dispatch = useDispatch()
 
+    var token = localStorage.getItem("token")
+    const decodedToken = jwtDecode(token);
+    const { role } = decodedToken.user
+
+    console.log(decodedToken)
+
     // select box funtion
-    const [roleStatus, setRoleStatus] = React.useState('aprove');
+    const [roleStatus, setRoleStatus] = React.useState('aproved');
+
+    console.log(createRoleName)
 
     const handleChange = (event) => {
         setRoleStatus(event.target.value);
@@ -33,32 +42,51 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
         roleStatus ? Aprovehandler() : Pandinghandler()
     }, [])
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New Lead", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW }))
+        dispatch(openModal({ title: "Add New Lead", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName }))
     }
 
     return (
 
         <>
             <div className="select-with-ps">
-                <div className="inline-block float-right">
-                    <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
-                </div>
-                <Box sx={{ minWidth: 120 }}>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={roleStatus}
-                            label="Status"
-                            size="small"
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={"aprove"} onClick={Aprovehandler}>Aprove</MenuItem>
-                            <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
+            {
+                    role === "superAdmin" && (
+                        <>
+                            <div className="inline-block float-right">
+                                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                            </div>
+                            <Box sx={{ minWidth: 120 }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={roleStatus}
+                                        label="Status"
+                                        size="small"
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value={"aproved"} onClick={Aprovehandler}>Aproved</MenuItem>
+                                        <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                        </>
+                    )
+                }
+                {
+                    role === "cluster" && (
+                        ''
+                    )
+                }
+                {
+                    role === "distributor" && (
+                        <div className="inline-block float-right">
+                            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                        </div>
+                    )
+                }
+                
             </div>
         </>
 
@@ -69,7 +97,6 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler }) => {
 function RetailerContent() {
 
     const [clusterData, setClusterData] = React.useState([]);
-
     const [currentPage, setCurrentPage] = useState(1)
 
     // i am calling aprove funtion on the click
@@ -130,8 +157,8 @@ function RetailerContent() {
 
     // statushandler funcation 
     const statusHandler = async (statusId, status) => {
-        const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`) 
-        if(choice){
+        const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
+        if (choice) {
             try {
                 const SendRequest = async () => {
                     let config = {
@@ -146,19 +173,19 @@ function RetailerContent() {
                         config,
                         res => {
                             console.log(res, "status check");
-                            if(res.err === false) {
+                            if (res.err === false) {
                                 alert(res.message)
-                            }else {
+                            } else {
                                 alert(res.message)
                             }
                             Pandinghandler()
-                            
+
                         },
                         err => {
                             console.log(err);
-                            if(err.error){
+                            if (err.error) {
                                 alert(err.message)
-                            }else {
+                            } else {
                                 alert(err.message)
                             }
                         }
@@ -173,7 +200,7 @@ function RetailerContent() {
 
     return (
         <>
-            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} />}>
+            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} createRoleName={'retailer'} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
@@ -232,9 +259,9 @@ function RetailerContent() {
                             }
                         </tbody>
                     </table>
-                    
+
                 </div>
-                <Pagination apiRoute={ApiUrl.getPendingRetailer} currentPage={currentPage} setCurrentPage={setCurrentPage} />          
+                <Pagination apiRoute={ApiUrl.getPendingRetailer} currentPage={currentPage} setCurrentPage={setCurrentPage} />
             </TitleCard>
         </>
     )

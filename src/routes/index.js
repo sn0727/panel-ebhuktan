@@ -29,7 +29,7 @@ const DthRecharge = lazy(()=> import('../pages/protected/DthRecharge'))
 const BoardBandService = lazy(()=> import('../pages/protected/BoardBandService'))
 const MunicipalService = lazy(()=> import('../pages/protected/MunicipalService'))
 const CreditCard = lazy(()=> import('../pages/protected/CreditCard'))
-const Insurance = lazy(()=> import('../pages/protected/Insurance'))
+const CommissionTransaction = lazy(()=> import('../pages/protected/CommissionTransaction'))
 const FASTag = lazy(()=> import('../pages/protected/Fastag'))
 const Distributor = lazy(()=> import('../pages/protected/Distributor'))
 const Retailer = lazy(()=> import('../pages/protected/Retailer'))
@@ -99,8 +99,8 @@ const routes = [
     component: CreditCard
   },
   {
-    path: "/insurance",
-    component: Insurance
+    path: "/commission-transaction",
+    component: CommissionTransaction
   },
   {
     path : "/fastag",

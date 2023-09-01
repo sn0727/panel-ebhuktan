@@ -1,28 +1,17 @@
 import moment from "moment"
 import { useEffect, useState } from "react"
-import { APIRequest, ApiUrl } from '../../utils/commanApiUrl';
-import TitleCard from "../../components/Cards/TitleCard";
+// import { useDispatch, useSelecmobiler } from "react-redux"
+// import { showNotification } from "../common/headerSlice"
+import TitleCard from "../../components/Cards/TitleCard"
 import Pagination from "../../components/pagination/Pagination";
-import DynamicTitle from "../../components/dynamic_title";
-import SelectBox from "../../components/Input/SelectBox";
+import { APIRequest, ApiUrl } from '../../utils/commanApiUrl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ReactPaginate from 'react-paginate';
-import { BiChevronLeft } from "react-icons/bi";
-import { BiChevronRight } from "react-icons/bi";
 
-// select box reqired 
-// import Box from '@mui/material/Box';
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
-// select box reqired 
+function CommissionTransactionContent() {
 
-function Transactions() {
     const [users, setUsers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [isLoading, setisLoading] = useState(true);
@@ -39,7 +28,7 @@ function Transactions() {
     const SendRequest = async () => {
         setisLoading(true)
         let config = {
-            url: `${ApiUrl.transactionAll}`,
+            url: `${ApiUrl.transaction_commission_getAll}`,
             method: 'post',
             body: {
                 page: currentPage,
@@ -87,22 +76,16 @@ function Transactions() {
         SendRequestGetType()
     }, [currentPage, category])
 
-
-
     return (
         <>
-
-
-            <DynamicTitle pageTitle={"Transaction"} />
-
             {/* total amout section */}
             <div className="total-amount">
                 <div>total : {`${parseFloat(totalAmount).toFixed(2)}`}</div>
                 <div>count : {`${parseFloat(totalCount)}`}</div>
             </div>
 
-
-            <TitleCard title="All Recent Transactions" topMargin="mt-2">
+            {/* Team Member list in table format loaded constant */}
+            <TitleCard title="All Commission Transactions" topMargin="mt-2">
                 <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
                     <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
                     <Select
@@ -115,13 +98,13 @@ function Transactions() {
                         <MenuItem value="None">
                             <em>None</em>
                         </MenuItem>
-
+                        
                         {
-                            categoryType.map(({ type }) => (
+                            categoryType.map(({type})=>(
                                 <MenuItem value={type}>{type}</MenuItem>
                             ))
                         }
-
+                        
                     </Select>
                 </FormControl>
                 {/* Team Member list in table format loaded constant */}
@@ -130,34 +113,36 @@ function Transactions() {
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Consume Id</th>
+                                <th>Transaction Id</th>
                                 <th>Amount</th>
-                                <th>Type</th>
-                                <th>Image</th>
-                                <th>Invoice No</th>
+                                <th>Operator Id</th>
+                                <th>ConsumeId</th>
                                 <th>Admin Pin Code</th>
+                                <th>Cluster Amount</th>
+                                <th>Retailer Amount</th>
+                                <th>Distributor Amount</th>
+                                <th>Admin Amount</th>
+                                <th className="text-center">Type</th>
                                 <th className="text-center">Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                users.map(({ id, consumerId, amount, type, image, invoiceNo, adminPinCode, createdAt }, k) => {
+                                users.map(({id, transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, createdAt }, k) => {
                                     return (
                                         <tr key={k}>
                                             <td className="text-center">{id}</td>
-                                            <td className="text-center">{consumerId}</td>
+                                            <td className="text-center">{transactionId}</td>
                                             <td className="text-center">{amount}</td>
-                                            <td className="text-center">{type}</td>
-                                            <td className="text-center">
-                                                <div className="avatar">
-                                                    <div className="mask mask-squircle w-12 h-12">
-
-                                                        <img src={image ? image : "https://e-bhuktan.s3.eu-north-1.amazonaws.com/image/1692695219537_image.png"} alt="Avatar" />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="text-center">{invoiceNo}</td>
+                                            <td className="text-center">{operatorId}</td>
+                                            <td className="text-center">{consumerId}</td>
                                             <td className="text-center">{adminPinCode}</td>
+                                            <td className="text-center">{clusterAmount}</td>
+                                            <td className="text-center">{retailerAmount}</td>
+                                            <td className="text-center">{distributorAmount}</td>
+                                            <td className="text-center">{adminAmount}</td>
+                                            <td className="text-center">{type}</td>
+                                            {/* <td className="text-center">{moment().format(createdAt)}</td> */}
                                             <td className="text-center">{moment(createdAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
                                         </tr>
                                     )
@@ -178,4 +163,4 @@ function Transactions() {
 }
 
 
-export default Transactions
+export default CommissionTransactionContent

@@ -1,12 +1,17 @@
 import { useState } from "react"
 import { ApiUrl, APIRequest } from '../../../utils/commanApiUrl';
 import ErrorText from '../../../components/Typography/ErrorText'
-// import axios from "axios";
+import jwtDecode from 'jwt-decode';
 
 
-function AddLeadModalBody({ closeModal }) {
+function AddLeadModalBody({ closeModal, createRoleName }) {
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
+
+    // get token object 
+    var token = localStorage.getItem("token")
+    const decodedToken = jwtDecode(token);
+    const { id } = decodedToken.user
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -15,8 +20,6 @@ function AddLeadModalBody({ closeModal }) {
     const [password, setPassword] = useState("")
     const [statevalue, setStateValue] = useState("")
     const [district, setDistrict] = useState("")
-    const [addminId, setAdminId] = useState("")
-    const [addminRole, setAdminRole] = useState("")
     const [addharcard, setAddharCard] = useState("")
     const [pancard, setPanCard] = useState("")
 
@@ -26,15 +29,13 @@ function AddLeadModalBody({ closeModal }) {
 
         if (name.trim() === "") return setErrorMessage("Name is required! (use any value)")
         if (email.trim() === "") return setErrorMessage("Email Id is required! (use any value)")
-        if (contact.trim() === "") return setErrorMessage("Password is required! (use any value)")
-        if (postCode.trim() === "") return setErrorMessage("Pan No is required! (use any value)")
-        if (password.trim() === "") return setErrorMessage("Aadhar No is required! (use any value)")
+        if (contact.trim() === "") return setErrorMessage("Contact is required! (use any value)")
+        if (postCode.trim() === "") return setErrorMessage("Postal is required! (use any value)")
+        if (password.trim() === "") return setErrorMessage("Password is required! (use any value)")
         if (statevalue.trim() == "") return setErrorMessage("Please enter correct Aadhaar No")
         if (district.trim() === "") return setErrorMessage("State is required! (use any value)")
-        if (addminId.trim() === "") return setErrorMessage("Contact is required! (use any value)")
-        if (addminRole.trim() === "") return setErrorMessage("Postal Code is required! (use any value)")
-        if (addharcard.trim().length !== 12) return setErrorMessage("Please enter correct Postal Code")
-        if (pancard.trim() === "") return setErrorMessage("District is required! (use any value)")
+        if (addharcard.trim().length !== 12) return setErrorMessage("Aadhar No is required! (use any value)")
+        if (pancard.trim() === "") return setErrorMessage("Pan Card No is required! (use any value)")
         else {
             try {
 
@@ -51,8 +52,8 @@ function AddLeadModalBody({ closeModal }) {
                             district: district,
                             aadharCard: addharcard,
                             panCard: pancard,
-                            adminId: addminId,
-                            role: addminRole,
+                            adminId: id,
+                            role: createRoleName,
                             password: password
                         }
                     };
@@ -62,7 +63,7 @@ function AddLeadModalBody({ closeModal }) {
                             console.log(res, "add modle");
                             if (res.error) {
                                 alert(res.message)
-                            }else {
+                            } else {
                                 alert(res.message)
                             }
                         },
@@ -120,7 +121,6 @@ function AddLeadModalBody({ closeModal }) {
                             onChange={(e) => setContact(e.target.value)}
                             value={contact}
                             name="number"
-
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="enter number" />
                     </div>
 
@@ -171,31 +171,6 @@ function AddLeadModalBody({ closeModal }) {
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="text" placeholder={"District"} />
                     </div>
-
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Admin Id
-                        </label>
-                        <input
-                            onChange={(e) => setAdminId(e.target.value)}
-                            value={addminId}
-                            name="number"
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="text" placeholder={"Admin Id"} />
-                    </div>
-
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Admin Role
-                        </label>
-                        <input
-                            onChange={(e) => setAdminRole(e.target.value)}
-                            value={addminRole}
-                            name="number"
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="text" placeholder={"Admin Role"} />
-                    </div>
-
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
                             Addhar Card No

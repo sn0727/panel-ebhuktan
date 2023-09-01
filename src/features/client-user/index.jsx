@@ -14,13 +14,18 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import jwtDecode from 'jwt-decode';
 // select box code 
 
 const TopSideButtons = ({ Aprovehandler, Pandinghandler, currentPage }) => {
 
     const dispatch = useDispatch()
 
-    
+    var token = localStorage.getItem("token")
+    const decodedToken = jwtDecode(token);
+    const { role } = decodedToken.user
+
+    console.log(decodedToken)
 
     // select box funtion
     const [roleStatus, setRoleStatus] = React.useState('aproved');
@@ -36,13 +41,13 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, currentPage }) => {
     }, [])
 
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New Lead", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, role:"user" }))
+        dispatch(openModal({ title: "Add New Lead", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, role: "user" }))
     }
 
     return (
 
         <>
-            <div className="select-with-ps">
+            {/* <div className="select-with-ps">
                 <div className="inline-block float-right">
                     <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
                 </div>
@@ -62,6 +67,42 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, currentPage }) => {
                         </Select>
                     </FormControl>
                 </Box>
+            </div> */}
+
+            <div className="select-with-ps">
+                {
+                    role === "superAdmin" && (
+                        <>
+                            {/* <div className="inline-block float-right">
+                                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                            </div> */}
+                            <Box sx={{ minWidth: 120 }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={roleStatus}
+                                        label="Status"
+                                        size="small"
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value={"aproved"} onClick={Aprovehandler}>Aproved</MenuItem>
+                                        <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                        </>
+                    )
+                }
+                {
+                    role === "retailer" && (
+                        // <div className="inline-block float-right">
+                        //     <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                        // </div>
+                        null
+                    )
+                }
             </div>
         </>
 
@@ -116,7 +157,7 @@ function ClientUserContent() {
                         res => {
                             console.log(res);
                             setClusterData(res.data)
-                            
+
                         },
                         err => {
                             console.log(err);
@@ -135,49 +176,49 @@ function ClientUserContent() {
     const statusHandler = async (statusId, status) => {
 
         const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
-        if(choice) {
-        try {
-            const SendRequest = async () => {
-                let config = {
-                    url: ApiUrl.updateClusterStatus,
-                    method: 'post',
-                    body: {
-                        userId: statusId,
-                        status: status
-                    }
-                };
-                APIRequest(
-                    config,
-                    res => {
-                        console.log(res);
-                        if(res.err === false) {
-                            alert(res.message)
-                            
-                        }else {
-                            alert(res.message)
+        if (choice) {
+            try {
+                const SendRequest = async () => {
+                    let config = {
+                        url: ApiUrl.updateClusterStatus,
+                        method: 'post',
+                        body: {
+                            userId: statusId,
+                            status: status
                         }
-                        Pandinghandler()
-                    },
-                    err => {
-                        console.log(err);
-                    }
-                );
+                    };
+                    APIRequest(
+                        config,
+                        res => {
+                            console.log(res);
+                            if (res.err === false) {
+                                alert(res.message)
+
+                            } else {
+                                alert(res.message)
+                            }
+                            Pandinghandler()
+                        },
+                        err => {
+                            console.log(err);
+                        }
+                    );
+                }
+
+                SendRequest();
+            } catch (error) {
             }
 
-            SendRequest();
-        } catch (error) {
         }
-
-    }
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         Aprovehandler()
     }, [currentPage])
 
     return (
         <>
-            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} currentPage={currentPage}/>}>
+            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} currentPage={currentPage} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
