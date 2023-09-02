@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText';
@@ -8,8 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function Login() {
-
-    const navigate = useNavigate();
 
     const INITIAL_LOGIN_OBJ = {
         email: "",
@@ -42,7 +40,7 @@ function Login() {
                 // // Call API to check user credentials and save token in localstorage
                 localStorage.setItem("token", response.token)
                 setLoading(false)
-                navigate('/app/dashboard');
+                window.location.href = '/app/dashboard'
             }, [500])
 
         } else {
