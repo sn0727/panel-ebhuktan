@@ -7,7 +7,7 @@ import { ApiUrl } from '../../utils/commanApiUrl';
 import { toast } from 'react-toastify';
 
 function Login() {
-
+    const navigation = useNavigate();
     const INITIAL_LOGIN_OBJ = {
         email: "",
         password: "",
@@ -39,7 +39,7 @@ function Login() {
                 // // Call API to check user credentials and save token in localstorage
                 localStorage.setItem("token", response.token)
                 setLoading(false)
-                window.location.href = '/app/dashboard'
+                navigation('/app/dashboard')
             }, [500])
 
         } else {
