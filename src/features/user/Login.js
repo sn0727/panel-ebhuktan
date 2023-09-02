@@ -1,11 +1,13 @@
 import { useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText';
 import { ApiUrl } from '../../utils/commanApiUrl';
 
 function Login() {
+
+    const naviagte = useNavigate();
 
     const INITIAL_LOGIN_OBJ = {
         email: "",
@@ -37,7 +39,7 @@ function Login() {
                 // // Call API to check user credentials and save token in localstorage
                 localStorage.setItem("token", response.token)
                 setLoading(false)
-                window.location.href = '/app/dashboard'
+                naviagte('/app/dashboard')
             }, [500])
 
         } else {
