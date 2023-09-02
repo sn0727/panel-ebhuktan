@@ -28,6 +28,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ReactPaginate from 'react-paginate';
+import jwtDecode from 'jwt-decode';
 // THIS IS CODE ALL TANSACTION TABLE CODE
 
 // const statsData = [
@@ -47,6 +48,15 @@ function Dashboard() {
     const [currentPage, setCurrentPage] = useState(1)
     const [category, setCategory] = useState('');
     const [categoryType, setCategoryType] = useState([]);
+    const [totalAmount, setTotalAmount] = useState(0)
+    const [totalCount, setTotalCount] = useState(0)
+
+    // i am getting authantication role
+    var token = localStorage.getItem("token")
+    const decodedToken = jwtDecode(token);
+    const { role } = decodedToken.user
+
+    console.log(role)
 
     const updateDashboardPeriod = (newRange) => {
         // Dashboard range changed, write code to refresh your values
@@ -68,14 +78,41 @@ function Dashboard() {
             config,
             res => {
                 console.log(res);
-                setCount(
-                    [
-                        { title: "All Users", value: res?.userCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "↗︎ 2300 (22%)" },
-                        { title: "All Cluster", value: res?.clusterCount, icon: <CreditCardIcon className='w-8 h-8' />, description: "Current month" },
-                        { title: "All distributor", value: res?.distributorCount, icon: <CircleStackIcon className='w-8 h-8' />, description: "50 in hot leads" },
-                        { title: "All Retailer", value: res?.retailerCount, icon: <UsersIcon className='w-8 h-8' />, description: "↙ 300 (18%)" },
-                    ]
-                )
+
+                if (role === "superAdmin") {
+                    setCount(
+                        [
+                            { title: "All Users", value: res?.userCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Cluster", value: res?.clusterCount, icon: <CreditCardIcon className='w-8 h-8' />, description: "" },
+                            { title: "All distributor", value: res?.distributorCount, icon: <CircleStackIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Retailer", value: res?.retailerCount, icon: <UsersIcon className='w-8 h-8' />, description: "" },
+                        ]
+                    )
+                } else if (role === "cluster") {
+                    setCount(
+                        [
+                            { title: "All Users", value: res?.userCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                            // { title: "All Cluster", value: res?.clusterCount, icon: <CreditCardIcon className='w-8 h-8' />, description: "" },
+                            { title: "All distributor", value: res?.distributorCount, icon: <CircleStackIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Retailer", value: res?.retailerCount, icon: <UsersIcon className='w-8 h-8' />, description: "" },
+                        ]
+                    )
+                } else if (role === "distributor") {
+                    setCount(
+                        [
+                            { title: "All Users", value: res?.userCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Retailer", value: res?.retailerCount, icon: <UsersIcon className='w-8 h-8' />, description: "" },
+                        ]
+                    )
+                } else if (role === "retailer") {
+                    setCount(
+                        [
+                            { title: "All Users", value: res?.userCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                        ]
+                    )
+                }
+
+
                 setisLoading(false)
             },
             err => {
@@ -100,6 +137,8 @@ function Dashboard() {
             config,
             res => {
                 console.log(res, "this is cate api");
+                setTotalCount(res.count)
+                setTotalAmount(res.total)
                 setUsers(res.data)
                 setisLoading(false)
             },
@@ -136,7 +175,7 @@ function Dashboard() {
         SendRequestAll();
         SendRequestGetType();
         // SendRequestAllTransaction()
-    }, [currentPage, category]);
+    }, [currentPage, category, totalCount]);
 
 
 
@@ -184,9 +223,16 @@ function Dashboard() {
             {/* all transaction table show in the dashboard */}
             {/* <SelectBox labelTitle="sd" labelDescription="des " placeholder="pla" options={[{ name: "dd", value: "dsd" }, 'sd', "sdfF"]} /> */}
             <DynamicTitle pageTitle={"Transaction"} />
+
+            {/* total amout section */}
+            <div className="total-amount mt-5">
+                <div>total : {`${parseFloat(totalAmount).toFixed(2)}`}</div>
+                <div>count : {`${parseFloat(totalCount)}`}</div>
+            </div>
+
             <TitleCard title="All Recent Transactions" topMargin="mt-2">
 
-            <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
+                <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
                     <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
                     <Select
                         labelId="demo-select-small-label"
@@ -253,7 +299,13 @@ function Dashboard() {
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
                     <nav aria-label="Page navigation example text-right" className="navigation example">
-                        <Pagination apiRoute={ApiUrl.transactionAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                        <Pagination
+                            apiRoute={ApiUrl.transactionAll}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            setTotalCount={setTotalCount}
+                            category={category}
+                        />
                     </nav>
                 </nav>
             </TitleCard>

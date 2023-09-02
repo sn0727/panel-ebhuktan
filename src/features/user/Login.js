@@ -4,8 +4,12 @@ import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText';
 import { ApiUrl } from '../../utils/commanApiUrl';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Login() {
+
+    const navigate = useNavigate();
 
     const INITIAL_LOGIN_OBJ = {
         email: "",
@@ -30,14 +34,15 @@ function Login() {
         })
         
         let response = await result.json();
+        console.log(response)
         if (!response.error) {
             setLoading(true)
             setTimeout(() => {
-                alert(response.message)
+                toast.success(response.message)
                 // // Call API to check user credentials and save token in localstorage
                 localStorage.setItem("token", response.token)
                 setLoading(false)
-                window.location.href = '/app/dashboard'
+                navigate('/app/dashboard');
             }, [500])
 
         } else {

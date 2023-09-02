@@ -13,6 +13,8 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
     const decodedToken = jwtDecode(token);
     const { id } = decodedToken.user
 
+    console.log(id)
+    console.log(decodedToken)
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [contact, setContact] = useState("")

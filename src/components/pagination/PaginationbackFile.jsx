@@ -7,10 +7,10 @@ import { BiChevronRight } from "react-icons/bi";
 
 const Pagination = (props) => {
 
-    const { apiRoute, currentPage, setCurrentPage, totalCount, setTotalCount, category} = props;
+    const { apiRoute, currentPage, setCurrentPage, } = props;
     const [isLoading, setisLoading] = useState(true);
 
-    // console.log(totalCount)
+    console.log(apiRoute)
 
     // pagination code 
     const [count, setCount] = useState("");
@@ -18,7 +18,7 @@ const Pagination = (props) => {
     const pageCount = Math.ceil(count / itemsPerPage);
     // pagination code 
 
-    // console.log(count)
+    console.log(count)
     // get data from the api
     const SendRequest = async () => {
         let config = {
@@ -26,13 +26,12 @@ const Pagination = (props) => {
             method: 'post',
             body: {
                 page: currentPage,
-                type : category
             }
         };
         APIRequest(
             config,
             res => {
-                console.log(res, "typesdfd");
+                console.log(res);
                 setCount(res.count)
                 setisLoading(false)
             },
@@ -45,12 +44,11 @@ const Pagination = (props) => {
 
     const handlePageClick = (event) => {
         setCurrentPage((event.selected) + 1);
-        setTotalCount((event.selected) + 1);
     };
 
     useEffect(() => {
         SendRequest()
-    }, [currentPage, totalCount, category])
+    }, [currentPage])
 
     return (
         <>

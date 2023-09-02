@@ -20,6 +20,8 @@ function CommissionTransactionContent() {
     const [totalAmount, setTotalAmount] = useState(0)
     const [totalCount, setTotalCount] = useState(0)
 
+    console.log(totalCount, "total count")
+
     const handleChange = (event) => {
         setCategory(event.target.value);
     };
@@ -74,7 +76,7 @@ function CommissionTransactionContent() {
     useEffect(() => {
         SendRequest()
         SendRequestGetType()
-    }, [currentPage, category])
+    }, [currentPage, category, totalCount])
 
     return (
         <>
@@ -95,16 +97,16 @@ function CommissionTransactionContent() {
                         label="Choice Category"
                         onChange={handleChange}
                     >
-                        <MenuItem value="None">
+                        {/* <MenuItem value="None">
                             <em>None</em>
-                        </MenuItem>
-                        
+                        </MenuItem> */}
+
                         {
-                            categoryType.map(({type})=>(
+                            categoryType.map(({ type }) => (
                                 <MenuItem value={type}>{type}</MenuItem>
                             ))
                         }
-                        
+
                     </Select>
                 </FormControl>
                 {/* Team Member list in table format loaded constant */}
@@ -128,7 +130,7 @@ function CommissionTransactionContent() {
                         </thead>
                         <tbody>
                             {
-                                users.map(({id, transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, createdAt }, k) => {
+                                users.map(({ id, transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, createdAt }, k) => {
                                     return (
                                         <tr key={k}>
                                             <td className="text-center">{id}</td>
@@ -154,7 +156,14 @@ function CommissionTransactionContent() {
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
                     <nav aria-label="Page navigation example text-right" className="navigation example">
-                        <Pagination apiRoute={ApiUrl.transaction_commission_getAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                        <Pagination
+                            apiRoute={ApiUrl.transaction_commission_getAll}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            totalCount={totalCount}
+                            setTotalCount={setTotalCount}
+                            category={category}
+                        />
                     </nav>
                 </nav>
             </TitleCard>

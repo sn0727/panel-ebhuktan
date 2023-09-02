@@ -85,7 +85,7 @@ function Transactions() {
     useEffect(() => {
         SendRequest()
         SendRequestGetType()
-    }, [currentPage, category])
+    }, [currentPage, category, totalCount])
 
 
 
@@ -112,9 +112,9 @@ function Transactions() {
                         label="Choice Category"
                         onChange={handleChange}
                     >
-                        <MenuItem value="None">
+                        {/* <MenuItem value="None">
                             <em>None</em>
-                        </MenuItem>
+                        </MenuItem> */}
 
                         {
                             categoryType.map(({ type }) => (
@@ -169,7 +169,13 @@ function Transactions() {
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
                     <nav aria-label="Page navigation example text-right" className="navigation example">
-                        <Pagination apiRoute={ApiUrl.transactionAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                        <Pagination
+                            apiRoute={ApiUrl.transactionAll}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            setTotalCount={setTotalCount}
+                            category={category}
+                        />
                     </nav>
                 </nav>
             </TitleCard>
