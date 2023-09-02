@@ -262,3 +262,17 @@ input.fileProfile {
   min-height: 60px;
   /* border: 1px solid #000; */
 }
+/* total transaction css code */
+.total-amount {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+}
+
+.total-amount > div {
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-transform: capitalize;
+  font-weight: 600;
+}

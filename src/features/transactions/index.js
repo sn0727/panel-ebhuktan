@@ -26,19 +26,32 @@ function Transactions() {
     const [users, setUsers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [isLoading, setisLoading] = useState(true);
+    const [category, setCategory] = useState('');
+    const [categoryType, setCategoryType] = useState([]);
+    const [totalAmount, setTotalAmount] = useState(0)
+    const [totalCount, setTotalCount] = useState(0)
+
+    const handleChange = (event) => {
+        setCategory(event.target.value);
+    };
 
     // get data from the api
     const SendRequest = async () => {
         setisLoading(true)
         let config = {
-            url: `${ApiUrl.transactionAll}/${currentPage}`,
-            method: 'get',
+            url: `${ApiUrl.transactionAll}`,
+            method: 'post',
+            body: {
+                page: currentPage,
+                type: category
+            }
         };
         APIRequest(
             config,
             res => {
-                console.log(res);
-                // setCount(res.count)
+                console.log(res, "this is cate api");
+                setTotalCount(res.count)
+                setTotalAmount(res.total)
                 setUsers(res.data)
                 setisLoading(false)
             },
@@ -48,73 +61,104 @@ function Transactions() {
             }
         );
     }
+    // get type from the api
+    const SendRequestGetType = async () => {
+        setisLoading(true)
+        let config = {
+            url: `${ApiUrl.transaction_getType}`,
+            method: 'get',
+        };
+        APIRequest(
+            config,
+            res => {
+                console.log(res);
+                setCategoryType(res.data)
+                setisLoading(false)
+            },
+            err => {
+                console.log(err);
+                setisLoading(false)
+            }
+        );
+    }
 
-    // const handlePageClick = (event) => {
-    //     setCurrentPage((event.selected) + 1);
-    // };
     useEffect(() => {
         SendRequest()
-    }, [currentPage])
+        SendRequestGetType()
+    }, [currentPage, category])
 
 
 
     return (
         <>
-            {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-helper-label">Age</InputLabel>
-                <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    value={30}
-                    label="Age"
-                // onChange={handleChange}
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-                <FormHelperText>With label + helper text</FormHelperText>
-            </FormControl> */}
 
-            {/* <SelectBox labelTitle="sd" labelDescription="des " placeholder="pla" options={[{ name: "dd", value: "dsd" }, 'sd', "sdfF"]} /> */}
+
             <DynamicTitle pageTitle={"Transaction"} />
-            <TitleCard title="All Recent Transactions" topMargin="mt-2">
 
+            {/* total amout section */}
+            <div className="total-amount">
+                <div>total : {`${parseFloat(totalAmount).toFixed(2)}`}</div>
+                <div>count : {`${parseFloat(totalCount)}`}</div>
+            </div>
+
+
+            <TitleCard title="All Recent Transactions" topMargin="mt-2">
+                <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
+                    <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
+                    <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={category}
+                        label="Choice Category"
+                        onChange={handleChange}
+                    >
+                        <MenuItem value="None">
+                            <em>None</em>
+                        </MenuItem>
+
+                        {
+                            categoryType.map(({ type }) => (
+                                <MenuItem value={type}>{type}</MenuItem>
+                            ))
+                        }
+
+                    </Select>
+                </FormControl>
                 {/* Team Member list in table format loaded constant */}
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead>
                             <tr>
-                                <th>Consumer Id</th>
-                                <th>Image</th>
-                                <th>Date</th>
-                                <th>Invoice No.</th>
-                                <th>Type</th>
+                                <th>Id</th>
+                                <th>Consume Id</th>
                                 <th>Amount</th>
+                                <th>Type</th>
+                                <th>Image</th>
+                                <th>Invoice No</th>
+                                <th>Admin Pin Code</th>
+                                <th className="text-center">Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                users.map((l, k) => {
+                                users.map(({ id, consumerId, amount, type, image, invoiceNo, adminPinCode, createdAt }, k) => {
                                     return (
                                         <tr key={k}>
-                                            <td>{l.consumerId}</td>
-                                            <td>
-                                                <div className="flex items-center space-x-3">
-                                                    <div className="avatar">
-                                                        <div className="mask mask-circle w-12 h-12">
-                                                            <img src={l.image} alt="Avatar" />
-                                                        </div>
+                                            <td className="text-center">{id}</td>
+                                            <td className="text-center">{consumerId}</td>
+                                            <td className="text-center">{amount}</td>
+                                            <td className="text-center">{type}</td>
+                                            <td className="text-center">
+                                                <div className="avatar">
+                                                    <div className="mask mask-squircle w-12 h-12">
+
+                                                        <img src={image ? image : "https://e-bhuktan.s3.eu-north-1.amazonaws.com/image/1692695219537_image.png"} alt="Avatar" />
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{moment(l.date).format("D MMM")}</td>
-                                            <td>{l.invoiceNo}</td>
-                                            <td>{l.type}</td>
-                                            <td>{l.amount}</td>
+                                            <td className="text-center">{invoiceNo}</td>
+                                            <td className="text-center">{adminPinCode}</td>
+                                            <td className="text-center">{moment(createdAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
                                         </tr>
                                     )
                                 })
@@ -124,24 +168,6 @@ function Transactions() {
                 </div>
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
-                    {/* <span className="text-sm text-gray-700 dark:text-gray-400">
-                        Showing <span className="font-semibold text-gray-900 dark:text-white">1</span> to <span className="font-semibold text-gray-900 dark:text-white">10</span> of <span className="font-semibold text-gray-900 dark:text-white">22</span> Entries
-                    </span>
-                    <div className="pagination-perent">
-                        <ReactPaginate
-                            breakLabel="..."
-                            nextLabel={<BiChevronRight />}
-                            onPageChange={handlePageClick}
-                            pageRangeDisplayed={5}
-                            pageCount={pageCount}
-                            previousLabel={<BiChevronLeft />}
-                            renderOnZeroPageCount={null}
-                            breakClassName="pagination 1"
-
-                        />
-                    </div> */}
-
-
                     <nav aria-label="Page navigation example text-right" className="navigation example">
                         <Pagination apiRoute={ApiUrl.transactionAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                     </nav>

@@ -42,15 +42,21 @@ import ReactPaginate from 'react-paginate';
 function Dashboard() {
     const dispatch = useDispatch()
     const [isLoading, setisLoading] = useState(true);
-    const [statsData, setCount] = useState('');
+    const [statsData, setCount] = useState([]);
     const [users, setUsers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
+    const [category, setCategory] = useState('');
+    const [categoryType, setCategoryType] = useState([]);
 
     const updateDashboardPeriod = (newRange) => {
         // Dashboard range changed, write code to refresh your values
         dispatch(showNotification({ message: `Period updated to ${newRange.startDate} to ${newRange.endDate}`, status: 1 }))
     }
 
+    // type dropdown
+    const handleChange = (event) => {
+        setCategory(event.target.value);
+    };
 
     const SendRequest = async () => {
         setisLoading(true)
@@ -80,16 +86,20 @@ function Dashboard() {
     }
 
     // get data from the api
-    const SendRequestAllTransaction = async () => {
+    const SendRequestAll = async () => {
         setisLoading(true)
         let config = {
-            url: `${ApiUrl.transactionAll}/${currentPage}`,
-            method: 'get',
+            url: `${ApiUrl.transactionAll}`,
+            method: 'post',
+            body: {
+                page: currentPage,
+                type: category
+            }
         };
         APIRequest(
             config,
             res => {
-                console.log(res);
+                console.log(res, "this is cate api");
                 setUsers(res.data)
                 setisLoading(false)
             },
@@ -99,12 +109,34 @@ function Dashboard() {
             }
         );
     }
-    // THIS IS CODE ALL TRANSATION TABLE
+    // get type from the api
+    const SendRequestGetType = async () => {
+        setisLoading(true)
+        let config = {
+            url: `${ApiUrl.transaction_getType}`,
+            method: 'get',
+        };
+        APIRequest(
+            config,
+            res => {
+                console.log(res);
+                setCategoryType(res.data)
+                setisLoading(false)
+            },
+            err => {
+                console.log(err);
+                setisLoading(false)
+            }
+        );
+    }
 
+    // THIS IS CODE ALL TRANSATION TABLE
     useEffect(() => {
         SendRequest()
-        SendRequestAllTransaction()
-    }, [currentPage]);
+        SendRequestAll();
+        SendRequestGetType();
+        // SendRequestAllTransaction()
+    }, [currentPage, category]);
 
 
 
@@ -154,38 +186,63 @@ function Dashboard() {
             <DynamicTitle pageTitle={"Transaction"} />
             <TitleCard title="All Recent Transactions" topMargin="mt-2">
 
+            <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
+                    <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
+                    <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        value={category}
+                        label="Choice Category"
+                        onChange={handleChange}
+                    >
+                        <MenuItem value="None">
+                            <em>None</em>
+                        </MenuItem>
+
+                        {
+                            categoryType.map(({ type }) => (
+                                <MenuItem value={type}>{type}</MenuItem>
+                            ))
+                        }
+
+                    </Select>
+                </FormControl>
+
                 {/* Team Member list in table format loaded constant */}
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead>
                             <tr>
-                                <th>Consumer Id</th>
-                                <th>Image</th>
-                                <th>Date</th>
-                                <th>Invoice No.</th>
-                                <th>Type</th>
+                                <th>Id</th>
+                                <th>Consume Id</th>
                                 <th>Amount</th>
+                                <th>Type</th>
+                                <th>Image</th>
+                                <th>Invoice No</th>
+                                <th>Admin Pin Code</th>
+                                <th className="text-center">Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                users.map((l, k) => {
+                                users.map(({ id, consumerId, amount, type, image, invoiceNo, adminPinCode, createdAt }, k) => {
                                     return (
                                         <tr key={k}>
-                                            <td>{l.consumerId}</td>
-                                            <td>
-                                                <div className="flex items-center space-x-3">
-                                                    <div className="avatar">
-                                                        <div className="mask mask-circle w-12 h-12">
-                                                            <img src={l.image} alt="Avatar" />
-                                                        </div>
+                                            <td className="text-center">{id}</td>
+                                            <td className="text-center">{consumerId}</td>
+                                            <td className="text-center">{amount}</td>
+                                            <td className="text-center">{type}</td>
+                                            <td className="text-center">
+                                                <div className="avatar">
+                                                    <div className="mask mask-squircle w-12 h-12">
+
+                                                        <img src={image ? image : "https://e-bhuktan.s3.eu-north-1.amazonaws.com/image/1692695219537_image.png"} alt="Avatar" />
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{moment(l.date).format("D MMM")}</td>
-                                            <td>{l.invoiceNo}</td>
-                                            <td>{l.type}</td>
-                                            <td>{l.amount}</td>
+                                            <td className="text-center">{invoiceNo}</td>
+                                            <td className="text-center">{adminPinCode}</td>
+                                            <td className="text-center">{moment(createdAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
                                         </tr>
                                     )
                                 })
@@ -195,7 +252,9 @@ function Dashboard() {
                 </div>
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
-                    <Pagination apiRoute={ApiUrl.transactionAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    <nav aria-label="Page navigation example text-right" className="navigation example">
+                        <Pagination apiRoute={ApiUrl.transactionAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    </nav>
                 </nav>
             </TitleCard>
             {/* all transaction table show in the dashboard */}

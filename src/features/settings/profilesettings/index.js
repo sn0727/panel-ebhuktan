@@ -83,9 +83,9 @@ function ProfileSettings() {
                         <img src={file === null || file === "" ? "/logo02.png" : file} width={80} alt="profile-image" />
                     </div>
                 </div>
-                <div className="mt-16">
+                {/* <div className="mt-16">
                     <button type="submit" className="btn btn-primary float-right" onClick={updateProfileUser}>Update</button>
-                </div>
+                </div> */}
             </TitleCard>
         </>
     )
