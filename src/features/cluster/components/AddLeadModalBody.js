@@ -24,6 +24,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
     const [district, setDistrict] = useState("")
     const [addharcard, setAddharCard] = useState("")
     const [pancard, setPanCard] = useState("")
+    const [Id, setId] = useState('');
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -185,8 +186,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="text" placeholder={"Addhar Card No"} />
                     </div>
-
-                    <div className="w-full px-3">
+                    <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
                             Pan Card No
                         </label>
@@ -197,8 +197,21 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="text" placeholder={"Pan Card No"} />
                     </div>
+                    <div className="w-full md:w-1/2 px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                            Parent Id
+                        </label>
+                        <input
+                            onChange={(e) => setId(e.target.value)}
+                            value={Id}
+                            name="number"
+                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                            type="number" placeholder={"Parent Id"} />
+                    </div>
+                    <div className="w-full px-3">
+                        <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
+                    </div>
 
-                    <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
                     <button type="submit" class="my-4  mx-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Add Cluster
                     </button>

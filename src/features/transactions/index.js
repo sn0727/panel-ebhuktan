@@ -13,6 +13,7 @@ import Select from '@mui/material/Select';
 import ReactPaginate from 'react-paginate';
 import { BiChevronLeft } from "react-icons/bi";
 import { BiChevronRight } from "react-icons/bi";
+import Loader from "../../components/Loader";
 
 // select box reqired 
 // import Box from '@mui/material/Box';
@@ -30,6 +31,7 @@ function Transactions() {
     const [categoryType, setCategoryType] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0)
     const [totalCount, setTotalCount] = useState(0)
+    const [Check, setCheck] = useState(false);
 
     const handleChange = (event) => {
         setCategory(event.target.value);
@@ -54,6 +56,7 @@ function Transactions() {
                 setTotalAmount(res.total)
                 setUsers(res.data)
                 setisLoading(false)
+                setCheck(false)
             },
             err => {
                 console.log(err);
@@ -84,9 +87,18 @@ function Transactions() {
 
     useEffect(() => {
         SendRequest()
-        SendRequestGetType()
-    }, [currentPage, category, totalCount])
+    }, [currentPage])
+    useEffect(() => {
+        if (currentPage !== '1') {
+            setCurrentPage(1)
+        }
+        setCheck(true)
+        SendRequest()
+    }, [category])
 
+    useEffect(() => {
+        SendRequestGetType()
+    }, []);
 
 
     return (
@@ -169,16 +181,17 @@ function Transactions() {
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
                     <nav aria-label="Page navigation example text-right" className="navigation example">
-                        <Pagination
+                        {Check ? null : <Pagination
                             apiRoute={ApiUrl.transactionAll}
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
                             setTotalCount={setTotalCount}
                             category={category}
-                        />
+                        />}
                     </nav>
                 </nav>
             </TitleCard>
+            {isLoading? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
         </>
     )
 }

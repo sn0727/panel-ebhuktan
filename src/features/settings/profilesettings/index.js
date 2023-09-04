@@ -65,8 +65,13 @@ function ProfileSettings() {
         <>
 
             <TitleCard title="Profile Settings" topMargin="mt-2">
+                <div style={{ display: 'flex', flexDirection: 'row', gap:'20px' }}>
+                    <h3>User Id</h3>
+                    <h3>{id}</h3>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <InputText labelTitle="Name" defaultValue={name} updateType="name" updateFormValue={updateFormValue} />
                     <InputText labelTitle="Name" defaultValue={name} updateType="name" updateFormValue={updateFormValue} />
                     <InputText labelTitle="Email Id" defaultValue={email} updateType="email" updateFormValue={updateFormValue} />
                     <InputText labelTitle="Contact" defaultValue={contact} updateType="contact" updateFormValue={updateFormValue} />

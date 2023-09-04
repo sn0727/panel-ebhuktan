@@ -74,7 +74,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName }) => {
                                         onChange={handleChange}
                                     >
                                         <MenuItem value={"aproved"} onClick={Aprovehandler}>Aproved</MenuItem>
-                                        <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
+                                        <MenuItem value={"Pending"} onClick={Pandinghandler}>Pending</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>
@@ -251,7 +251,7 @@ function DistributorContent() {
                                             <td>{l.aadharNo}</td>
                                             <td>{l.panNo}</td>
                                             <td>
-                                                <div className="badge badge-primary" onClick={() => statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
+                                                <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
                                                 {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "reject" ? "approved" : "Reject"}</div>}
                                             </td>
                                             <td>{l.amount}</td>

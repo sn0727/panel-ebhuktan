@@ -198,6 +198,53 @@ const routes = [
       }
     ]
   },
+  {
+    path: '', //no url needed as this has submenu
+    icon: <MdMiscellaneousServices className={`${iconClasses} inline`} />, // icon component
+    name: 'Operator', // name that appear in Sidebar
+    submenu: [
+      {
+        path: '/app/mobile-recharge',
+        icon: <AiOutlineMobile className={submenuIconClasses} />,
+        name: 'Mobile Recharge',
+      },
+      {
+        path: '/app/gas-booking',
+        icon: <LiaGasPumpSolid className={submenuIconClasses} />,
+        name: 'Gas Booking',
+      },
+      {
+        path: '/app/operator/electricity',
+        icon: <GiElectric className={submenuIconClasses} />,
+        name: 'Electricity',
+      },
+      {
+        path: '/app/watter-bill',
+        icon: <TbRecharging className={submenuIconClasses} />,
+        name: 'Water Bill',
+      },
+      {
+        path: '/app/dth-recharge',
+        icon: <BsClipboardData className={submenuIconClasses} />,
+        name: 'DTH Recharge',
+      },
+      {
+        path: '/app/boardband-service',
+        icon: <RiCommunityLine className={submenuIconClasses} />,
+        name: 'Broadband Services',
+      },
+      {
+        path: '/app/municipal-service',
+        icon: <AiOutlineWallet className={submenuIconClasses} />,
+        name: 'Municipal Services',
+      },
+      {
+        path: '/app/fastag',
+        icon: <SiFastapi className={submenuIconClasses} />,
+        name: 'FASTag',
+      }
+    ]
+  },
 
 ]
 

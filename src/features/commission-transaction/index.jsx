@@ -19,7 +19,7 @@ function CommissionTransactionContent() {
     const [categoryType, setCategoryType] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0)
     const [totalCount, setTotalCount] = useState(0)
-
+    const [Check, setCheck] = useState(false);
     console.log(totalCount, "total count")
 
     const handleChange = (event) => {
@@ -44,6 +44,7 @@ function CommissionTransactionContent() {
                 setTotalCount(res.count)
                 setTotalAmount(res.total)
                 setUsers(res.data)
+                setCheck(false)
                 setisLoading(false)
             },
             err => {
@@ -73,10 +74,25 @@ function CommissionTransactionContent() {
         );
     }
 
+    // useEffect(() => {
+    //     SendRequest()
+    //     SendRequestGetType()
+    // }, [currentPage, category, totalCount])
+
     useEffect(() => {
         SendRequest()
+    }, [currentPage])
+    useEffect(() => {
+        if (currentPage !== '1') {
+            setCurrentPage(1)
+        }
+        setCheck(true)
+        SendRequest()
+    }, [category])
+
+    useEffect(() => {
         SendRequestGetType()
-    }, [currentPage, category, totalCount])
+    }, []);
 
     return (
         <>
@@ -156,17 +172,19 @@ function CommissionTransactionContent() {
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
                     <nav aria-label="Page navigation example text-right" className="navigation example">
-                        <Pagination
+                        {Check ? null : <Pagination
                             apiRoute={ApiUrl.transaction_commission_getAll}
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
                             totalCount={totalCount}
                             setTotalCount={setTotalCount}
                             category={category}
-                        />
+                        />}
                     </nav>
                 </nav>
             </TitleCard>
+            {isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
+
         </>
     )
 }

@@ -77,6 +77,7 @@ export const ApiUrl = {
   electricityGetOperatorList: `${apiBaseUrl}electricity/bill-payment/getOperaterList`,
   electricityGetState: `${apiBaseUrl}electricity/bill-payment/getState`,
   electricityFetchBill: `${apiBaseUrl}electricity/bill-payment/fetchBill`,
+  
 
   waterGetOperaterList: `${apiBaseUrl}water/bill-payment/getOperaterList`,
 

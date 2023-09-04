@@ -42,14 +42,14 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName }) => {
         roleStatus ? Aprovehandler() : Pandinghandler()
     }, [])
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New Lead", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName }))
+        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName }))
     }
 
     return (
 
         <>
             <div className="select-with-ps">
-            {
+                {
                     role === "superAdmin" && (
                         <>
                             <div className="inline-block float-right">
@@ -67,7 +67,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName }) => {
                                         onChange={handleChange}
                                     >
                                         <MenuItem value={"aproved"} onClick={Aprovehandler}>Aproved</MenuItem>
-                                        <MenuItem value={"pandding"} onClick={Pandinghandler}>Pandding</MenuItem>
+                                        <MenuItem value={"Pending"} onClick={Pandinghandler}>Pending</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>
@@ -86,7 +86,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName }) => {
                         </div>
                     )
                 }
-                
+
             </div>
         </>
 
@@ -249,7 +249,7 @@ function RetailerContent() {
                                             <td>{l.aadharNo}</td>
                                             <td>{l.panNo}</td>
                                             <td>
-                                                <div className="badge badge-primary" onClick={() => statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
+                                                <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
                                                 {l.status !== "approved" && <div className="badge badge-red" onClick={() => statusHandler(l.id, "reject")}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
                                             </td>
                                             <td>{l.amount}</td>

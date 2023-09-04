@@ -29,7 +29,7 @@ function Login() {
             }
 
         })
-        
+
         let response = await result.json();
         console.log(response)
         if (!response.error) {
@@ -43,8 +43,7 @@ function Login() {
             }, [500])
 
         } else {
-            alert(response.message)
-
+            toast.error(response.message)
         }
     }
 

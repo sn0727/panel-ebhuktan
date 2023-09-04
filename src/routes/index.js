@@ -19,21 +19,22 @@ const DocFeatures = lazy(() => import('../pages/DocFeatures'))
 const DocComponents = lazy(() => import('../pages/DocComponents'))
 // import new page
 const UpiTransaction = lazy(() => import('../pages/protected/UpiTransaction'))
-const ToContact = lazy(()=> import('../pages/protected/ToContact'))
-const MobileRecharge = lazy(()=> import('../pages/protected/MobileRecharge'))
-const GasBooking = lazy(()=> import('../pages/protected/GasBooking'))
-const Electricity = lazy(()=> import('../pages/protected/Electricity'))
-const Wallet = lazy(()=> import('../pages/protected/Wallet'))
-const WatterBill = lazy(()=> import('../pages/protected/WatterBill'))
-const DthRecharge = lazy(()=> import('../pages/protected/DthRecharge'))
-const BoardBandService = lazy(()=> import('../pages/protected/BoardBandService'))
-const MunicipalService = lazy(()=> import('../pages/protected/MunicipalService'))
-const CreditCard = lazy(()=> import('../pages/protected/CreditCard'))
-const CommissionTransaction = lazy(()=> import('../pages/protected/CommissionTransaction'))
-const FASTag = lazy(()=> import('../pages/protected/Fastag'))
-const Distributor = lazy(()=> import('../pages/protected/Distributor'))
-const Retailer = lazy(()=> import('../pages/protected/Retailer'))
-const ClientUser = lazy(()=> import('../pages/protected/ClientUser'))
+const ToContact = lazy(() => import('../pages/protected/ToContact'))
+const MobileRecharge = lazy(() => import('../pages/protected/MobileRecharge'))
+const GasBooking = lazy(() => import('../pages/protected/GasBooking'))
+const Electricity = lazy(() => import('../pages/protected/Electricity'))
+const Wallet = lazy(() => import('../pages/protected/Wallet'))
+const WatterBill = lazy(() => import('../pages/protected/WatterBill'))
+const DthRecharge = lazy(() => import('../pages/protected/DthRecharge'))
+const BoardBandService = lazy(() => import('../pages/protected/BoardBandService'))
+const MunicipalService = lazy(() => import('../pages/protected/MunicipalService'))
+const CreditCard = lazy(() => import('../pages/protected/CreditCard'))
+const CommissionTransaction = lazy(() => import('../pages/protected/CommissionTransaction'))
+const FASTag = lazy(() => import('../pages/protected/Fastag'))
+const Distributor = lazy(() => import('../pages/protected/Distributor'))
+const Retailer = lazy(() => import('../pages/protected/Retailer'))
+const ClientUser = lazy(() => import('../pages/protected/ClientUser'))
+const OperatorElectricity = lazy(() => import('../pages/protected/operator/Electricity'))
 
 
 
@@ -43,52 +44,52 @@ const routes = [
     component: Dashboard, // view rendered
   },
   {
-    path : '/distributor',
+    path: '/distributor',
     component: Distributor
   },
   {
-    path : '/retailer',
+    path: '/retailer',
     component: Retailer
   },
   {
-    path : '/client-user',
+    path: '/client-user',
     component: ClientUser
   },
   {
-    path : "/send-via-upi",
+    path: "/send-via-upi",
     component: UpiTransaction
   },
   {
-    path : "/to-contact",
+    path: "/to-contact",
     component: ToContact
   },
   {
-    path : "/mobile-recharge",
+    path: "/mobile-recharge",
     component: MobileRecharge
   },
   {
-    path : "/gas-booking",
+    path: "/gas-booking",
     component: GasBooking
   },
   {
-    path : "/electricity-bill",
+    path: "/electricity-bill",
     component: Electricity
   },
   {
-    path : "/wallet",
+    path: "/wallet",
     component: Wallet
   },
   {
-    path : "/watter-bill",
+    path: "/watter-bill",
     component: WatterBill
   },
   {
-    path : "/dth-recharge",
-    component : DthRecharge
+    path: "/dth-recharge",
+    component: DthRecharge
   },
   {
-    path : "/boardband-service",
-    component : BoardBandService
+    path: "/boardband-service",
+    component: BoardBandService
   },
   {
     path: "/municipal-service",
@@ -103,8 +104,14 @@ const routes = [
     component: CommissionTransaction
   },
   {
-    path : "/fastag",
-    component : FASTag
+    path: "/fastag",
+    component: FASTag
+  },
+
+  // Operator route
+  {
+    path: "/operator/electricity",
+    component: OperatorElectricity
   },
 
 
@@ -115,7 +122,7 @@ const routes = [
 
 
 
-  
+
   {
     path: '/welcome', // the url
     component: Welcome, // view rendered
