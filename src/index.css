@@ -276,3 +276,7 @@ input.fileProfile {
   text-transform: capitalize;
   font-weight: 600;
 }
+
+.remove-background:active{
+  background-color: #fff;
+}

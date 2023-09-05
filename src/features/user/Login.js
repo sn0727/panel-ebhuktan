@@ -13,7 +13,7 @@ function Login() {
         password: "",
     }
 
-    const [loading, setLoading] = useState(false)
+    const [isLoading, setisLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ)
 
@@ -21,6 +21,7 @@ function Login() {
     let password = loginObj.password
 
     const Authuser = async () => {
+        setisLoading(true)
         let result = await fetch(ApiUrl.login, {
             method: "post",
             body: JSON.stringify({ data: email, password }),
@@ -33,18 +34,17 @@ function Login() {
         let response = await result.json();
         console.log(response)
         if (!response.error) {
-            setLoading(true)
-            setTimeout(() => {
-                toast.success(response.message)
-                // // Call API to check user credentials and save token in localstorage
-                localStorage.setItem("token", response.token)
-                setLoading(false)
-                navigation('/app/dashboard')
-            }, [500])
+            toast.success(response.message)
+            // // Call API to check user credentials and save token in localstorage
+            localStorage.setItem("token", response.token)
+            navigation('/app/dashboard')
+            setisLoading(false)
 
         } else {
             toast.error(response.message)
+            setisLoading(false)
         }
+        setisLoading(false)
     }
 
     const submitForm = (e) => {
@@ -86,7 +86,7 @@ function Login() {
                             </div>
 
                             <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
-                            <button type="submit" className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Login</button>
+                            <button type="submit" className={"btn mt-2 w-full btn-primary" + (isLoading ? " loading" : "")}>Login</button>
 
                             <div className='text-center mt-4'>Don't have an account yet? <Link to="/register"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Register</span></Link></div>
                         </form>

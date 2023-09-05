@@ -5,6 +5,7 @@ import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
 import { ApiUrl } from '../../utils/commanApiUrl'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 function Register() {
 
@@ -66,9 +67,9 @@ function Register() {
             const { error, message } = result.data
 
             if (error) {
-                alert(message)
+                toast.error(message)
             } else {
-                alert(message)
+                toast.success(message)
                 window.location.href = '/login'
             }
 

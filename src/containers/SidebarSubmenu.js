@@ -14,7 +14,7 @@ function SidebarSubmenu({submenu, name, icon}){
     }, [])
 
     return (
-        <div className='flex-col'>
+        <div className='flex-col remove-background' >
 
             {/** Route header */}
             <div className='w-full' onClick={() => setIsExpanded(!isExpanded)}>

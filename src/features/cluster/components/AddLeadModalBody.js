@@ -2,6 +2,7 @@ import { useState } from "react"
 import { ApiUrl, APIRequest } from '../../../utils/commanApiUrl';
 import ErrorText from '../../../components/Typography/ErrorText'
 import jwtDecode from 'jwt-decode';
+import { toast } from "react-toastify";
 
 
 function AddLeadModalBody({ closeModal, createRoleName }) {
@@ -64,11 +65,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                         config,
                         res => {
                             console.log(res, "add modle");
-                            if (res.error) {
-                                alert(res.message)
-                            } else {
-                                alert(res.message)
-                            }
+                            toast.success(res.message)
                         },
                         err => {
                             console.log(err);
@@ -101,7 +98,8 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             name="name"
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                             id="grid-first-name"
-                            type="text" placeholder="Jane" />
+                            type="text" placeholder="Jane"
+                            required />
                     </div>
 
                     <div className="w-full md:w-1/2 px-3">
@@ -112,7 +110,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             onChange={(e) => setEmail(e.target.value)}
                             value={email}
                             name="email"
-
+                            required
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Email" />
                     </div>
 
@@ -124,6 +122,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             onChange={(e) => setContact(e.target.value)}
                             value={contact}
                             name="number"
+                            required
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="enter number" />
                     </div>
 
@@ -135,6 +134,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             onChange={(e) => setPostCode(e.target.value)}
                             value={postCode}
                             name="number"
+                            required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="number" placeholder={90210} />
                     </div>
@@ -147,6 +147,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
                             name="number"
+                            required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="number" placeholder={'Enter Valid Password'} />
                     </div>
@@ -159,6 +160,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             onChange={(e) => setStateValue(e.target.value)}
                             value={statevalue}
                             name="text"
+                            required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="text" placeholder={"state"} />
                     </div>
@@ -171,6 +173,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             onChange={(e) => setDistrict(e.target.value)}
                             value={district}
                             name="text"
+                            required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="text" placeholder={"District"} />
                     </div>
@@ -183,6 +186,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             value={addharcard}
                             min={12}
                             name="number"
+                            required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="text" placeholder={"Addhar Card No"} />
                     </div>
@@ -194,6 +198,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             onChange={(e) => setPanCard(e.target.value)}
                             value={pancard}
                             name="number"
+                            required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="text" placeholder={"Pan Card No"} />
                     </div>
@@ -205,6 +210,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             onChange={(e) => setId(e.target.value)}
                             value={Id}
                             name="number"
+                            required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="number" placeholder={"Parent Id"} />
                     </div>

@@ -72,7 +72,7 @@ function WalletContent() {
                     statsData.map((d, k) => {
                         return (
                             <div onClick={()=> {
-                                d.value === 'Add amount' && alert('skjbbkr')
+                                d.value === 'Add amount' && alert('')
                             }}>
                                 <DashboardStats key={k} {...d} colorIndex={k} />
                             </div>

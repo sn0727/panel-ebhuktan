@@ -49,7 +49,7 @@ function ProfileSettings() {
     // Call API to update profile settings changes
     const updateProfileUser = (e) => {
         e.preventDefault();
-        alert("Proccessing..")
+        // alert("Proccessing..")
     }
 
     const handleFileChange = (e) => {
@@ -83,10 +83,10 @@ function ProfileSettings() {
                     <InputText labelTitle="Address" defaultValue="Delhi India" updateType="address" updateFormValue={updateFormValue} />
                     <InputText labelTitle="Password" defaultValue={'12222'} updateType="password" updateFormValue={updateFormValue} />
                     <InputText labelTitle="role" defaultValue={role} updateType="role" updateFormValue={updateFormValue} />
-                    <div className="sdfhsd-sdfkdsj">
+                    {/* <div className="sdfhsd-sdfkdsj">
                         <input type="file" accept="*" onChange={handleFileChange} className="fileProfile" />
                         <img src={file === null || file === "" ? "/logo02.png" : file} width={80} alt="profile-image" />
-                    </div>
+                    </div> */}
                 </div>
                 {/* <div className="mt-16">
                     <button type="submit" className="btn btn-primary float-right" onClick={updateProfileUser}>Update</button>

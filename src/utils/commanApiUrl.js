@@ -28,6 +28,7 @@ export const ApiUrl = {
   superadminGetUsers: `${APISuperadmin}getUsers`,
   superadminGetAllUsers: `${APISuperadmin}getAll`,
   superadminGetCount: `${APISuperadmin}getCount`,
+  superadminDeleteUser: `${APISuperadmin}deleteUser`,
 
 
   // transaction api

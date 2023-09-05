@@ -10,6 +10,8 @@ import { APIRequest, ApiUrl } from '../../utils/commanApiUrl';
 
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import ErrorText from '../../components/Typography/ErrorText';
+import { toast } from 'react-toastify';
 
 
 const style = {
@@ -28,8 +30,9 @@ const style = {
 const Wallet = () => {
   const dispatch = useDispatch()
   const [isLoading, setisLoading] = useState(false);
-  const [Amount, setAmount] = useState();
+  const [Amount, setAmount] = useState(0);
   const [CurruntAmount, setCurruntAmount] = useState('');
+  const [errorMessage, setErrorMessage] = useState("")
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -60,7 +63,7 @@ const Wallet = () => {
         console.log(err);
         setisLoading(false)
         if (err?.message) {
-          alert(err?.message)
+          toast.error(err.message)
         }
       }
     );
@@ -83,19 +86,26 @@ const Wallet = () => {
         console.log(res);
         setisLoading(false)
         SendRequest()
-        alert(res?.message)
+        toast.success(res?.message)
       },
       err => {
         console.log(err);
         setisLoading(false)
-        alert(err?.message)
+        toast.error(err.message)
       }
     );
   }
 
   const Submit = () => {
-    Add()
+    setErrorMessage('')
+    if (parseInt(Amount) > 1) {
+      Add()
+    }
+    return setErrorMessage("Amount is required! (use any value)")
   }
+  useEffect(()=>{
+    setErrorMessage('')
+  },[])
 
   return (
     <>
@@ -126,7 +136,10 @@ const Wallet = () => {
             value={Amount}
             name="amount"
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="number" placeholder="100" />
-          <button onClick={() => Add()} className="btn px-6 mt-5 btn-primary" style={{ width: '100%' }}> Add </button>
+          <div className="w-full px-3">
+            <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
+          </div>
+          <button onClick={() => Submit()} className="btn px-6 mt-5 btn-primary" style={{ width: '100%' }}> Add </button>
         </Box>
       </Modal>
     </>

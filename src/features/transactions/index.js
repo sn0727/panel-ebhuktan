@@ -33,6 +33,7 @@ function Transactions() {
     const [totalCount, setTotalCount] = useState(0)
     const [Check, setCheck] = useState(false);
 
+
     const handleChange = (event) => {
         setCategory(event.target.value);
     };
@@ -187,6 +188,7 @@ function Transactions() {
                             setCurrentPage={setCurrentPage}
                             setTotalCount={setTotalCount}
                             category={category}
+                            totalCount={totalCount}
                         />}
                     </nav>
                 </nav>

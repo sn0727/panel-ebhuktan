@@ -131,120 +131,130 @@ const routes = [
     name: 'Commission Transaction',
   },
   {
+    path: '/app/transactions',
+    icon: <CurrencyDollarIcon className={iconClasses} />,
+    name: 'All Transactions',
+  },
+  {
     path: "",
     icon: <BiUserCircle className={`${iconClasses} inline`} />,
     name: "UserRoll",
     submenu: userSubMenu
   },
   {
-    path: '', //no url needed as this has submenu
-    icon: <MdMiscellaneousServices className={`${iconClasses} inline`} />, // icon component
-    name: 'Recharge & Bill Payment', // name that appear in Sidebar
-    submenu: [
-      {
-        path: '/app/transactions',
-        icon: <CurrencyDollarIcon className={iconClasses} />,
-        name: 'All Transactions',
-      },
-      {
-        path: '/app/mobile-recharge',
-        icon: <AiOutlineMobile className={submenuIconClasses} />,
-        name: 'Mobile Recharge',
-      },
-      {
-        path: '/app/gas-booking',
-        icon: <LiaGasPumpSolid className={submenuIconClasses} />,
-        name: 'Gas Booking',
-      },
-      {
-        path: '/app/electricity-bill',
-        icon: <GiElectric className={submenuIconClasses} />,
-        name: 'Electricity',
-      },
-      {
-        path: '/app/wallet',
-        icon: <BsWater className={submenuIconClasses} />,
-        name: 'Wallet',
-      },
-      {
-        path: '/app/watter-bill',
-        icon: <TbRecharging className={submenuIconClasses} />,
-        name: 'Water Bill',
-      },
-      {
-        path: '/app/dth-recharge',
-        icon: <BsClipboardData className={submenuIconClasses} />,
-        name: 'DTH Recharge',
-      },
-      {
-        path: '/app/boardband-service',
-        icon: <RiCommunityLine className={submenuIconClasses} />,
-        name: 'Broadband Services',
-      },
-      {
-        path: '/app/municipal-service',
-        icon: <AiOutlineWallet className={submenuIconClasses} />,
-        name: 'Municipal Services',
-      },
-      {
-        path: '/app/credit-card',
-        icon: <AiFillCreditCard className={submenuIconClasses} />,
-        name: 'Credit Card',
-      },
-      {
-        path: '/app/fastag',
-        icon: <SiFastapi className={submenuIconClasses} />,
-        name: 'FASTag',
-      }
-    ]
+    path: '/app/wallet',
+    icon: <BsWater className={submenuIconClasses} />,
+    name: 'Wallet',
   },
-  {
-    path: '', //no url needed as this has submenu
-    icon: <MdMiscellaneousServices className={`${iconClasses} inline`} />, // icon component
-    name: 'Operator', // name that appear in Sidebar
-    submenu: [
-      {
-        path: '/app/mobile-recharge',
-        icon: <AiOutlineMobile className={submenuIconClasses} />,
-        name: 'Mobile Recharge',
-      },
-      {
-        path: '/app/gas-booking',
-        icon: <LiaGasPumpSolid className={submenuIconClasses} />,
-        name: 'Gas Booking',
-      },
-      {
-        path: '/app/operator/electricity',
-        icon: <GiElectric className={submenuIconClasses} />,
-        name: 'Electricity',
-      },
-      {
-        path: '/app/watter-bill',
-        icon: <TbRecharging className={submenuIconClasses} />,
-        name: 'Water Bill',
-      },
-      {
-        path: '/app/dth-recharge',
-        icon: <BsClipboardData className={submenuIconClasses} />,
-        name: 'DTH Recharge',
-      },
-      {
-        path: '/app/boardband-service',
-        icon: <RiCommunityLine className={submenuIconClasses} />,
-        name: 'Broadband Services',
-      },
-      {
-        path: '/app/municipal-service',
-        icon: <AiOutlineWallet className={submenuIconClasses} />,
-        name: 'Municipal Services',
-      },
-      {
-        path: '/app/fastag',
-        icon: <SiFastapi className={submenuIconClasses} />,
-        name: 'FASTag',
-      }
-    ]
-  },
+  // {
+  //   path: '', //no url needed as this has submenu
+  //   icon: <MdMiscellaneousServices className={`${iconClasses} inline`} />, // icon component
+  //   name: 'Recharge & Bill Payment', // name that appear in Sidebar
+  //   submenu: [
+  //     {
+  //       path: '/app/transactions',
+  //       icon: <CurrencyDollarIcon className={iconClasses} />,
+  //       name: 'All Transactions',
+  //     },
+  //     {
+  //       path: '/app/mobile-recharge',
+  //       icon: <AiOutlineMobile className={submenuIconClasses} />,
+  //       name: 'Mobile Recharge',
+  //     },
+  //     {
+  //       path: '/app/gas-booking',
+  //       icon: <LiaGasPumpSolid className={submenuIconClasses} />,
+  //       name: 'Gas Booking',
+  //     },
+  //     {
+  //       path: '/app/electricity-bill',
+  //       icon: <GiElectric className={submenuIconClasses} />,
+  //       name: 'Electricity',
+  //     },
+  //     {
+  //       path: '/app/wallet',
+  //       icon: <BsWater className={submenuIconClasses} />,
+  //       name: 'Wallet',
+  //     },
+  //     {
+  //       path: '/app/watter-bill',
+  //       icon: <TbRecharging className={submenuIconClasses} />,
+  //       name: 'Water Bill',
+  //     },
+  //     {
+  //       path: '/app/dth-recharge',
+  //       icon: <BsClipboardData className={submenuIconClasses} />,
+  //       name: 'DTH Recharge',
+  //     },
+  //     {
+  //       path: '/app/boardband-service',
+  //       icon: <RiCommunityLine className={submenuIconClasses} />,
+  //       name: 'Broadband Services',
+  //     },
+  //     {
+  //       path: '/app/municipal-service',
+  //       icon: <AiOutlineWallet className={submenuIconClasses} />,
+  //       name: 'Municipal Services',
+  //     },
+  //     {
+  //       path: '/app/credit-card',
+  //       icon: <AiFillCreditCard className={submenuIconClasses} />,
+  //       name: 'Credit Card',
+  //     },
+  //     {
+  //       path: '/app/fastag',
+  //       icon: <SiFastapi className={submenuIconClasses} />,
+  //       name: 'FASTag',
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '', //no url needed as this has submenu
+  //   icon: <MdMiscellaneousServices className={`${iconClasses} inline`} />, // icon component
+  //   name: 'Operator', // name that appear in Sidebar
+  //   submenu: [
+  //     {
+  //       path: '/app/mobile-recharge',
+  //       icon: <AiOutlineMobile className={submenuIconClasses} />,
+  //       name: 'Mobile Recharge',
+  //     },
+  //     {
+  //       path: '/app/gas-booking',
+  //       icon: <LiaGasPumpSolid className={submenuIconClasses} />,
+  //       name: 'Gas Booking',
+  //     },
+  //     {
+  //       path: '/app/operator/electricity',
+  //       icon: <GiElectric className={submenuIconClasses} />,
+  //       name: 'Electricity',
+  //     },
+  //     {
+  //       path: '/app/watter-bill',
+  //       icon: <TbRecharging className={submenuIconClasses} />,
+  //       name: 'Water Bill',
+  //     },
+  //     {
+  //       path: '/app/dth-recharge',
+  //       icon: <BsClipboardData className={submenuIconClasses} />,
+  //       name: 'DTH Recharge',
+  //     },
+  //     {
+  //       path: '/app/boardband-service',
+  //       icon: <RiCommunityLine className={submenuIconClasses} />,
+  //       name: 'Broadband Services',
+  //     },
+  //     {
+  //       path: '/app/municipal-service',
+  //       icon: <AiOutlineWallet className={submenuIconClasses} />,
+  //       name: 'Municipal Services',
+  //     },
+  //     {
+  //       path: '/app/fastag',
+  //       icon: <SiFastapi className={submenuIconClasses} />,
+  //       name: 'FASTag',
+  //     }
+  //   ]
+  // },
 
 ]
 

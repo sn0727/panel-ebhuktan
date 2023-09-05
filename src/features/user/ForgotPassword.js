@@ -5,6 +5,7 @@ import ErrorText from  '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
 import CheckCircleIcon  from '@heroicons/react/24/solid/CheckCircleIcon';
 import { ApiUrl } from '../../utils/commanApiUrl';
+import { toast } from 'react-toastify'
 
 function ForgotPassword(){
 
@@ -33,14 +34,13 @@ function ForgotPassword(){
         if(!response.error) {
             setLoading(true)
             setTimeout(()=>{
-                alert(response.message)
+                toast.success(response.message)
                 setLoading(false)
             }, [1000])
             setLinkSent(true)
             
         }else{
-            alert(response.message)
-            
+            toast.error(response.message)
         }
     }
 

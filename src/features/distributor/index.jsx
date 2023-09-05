@@ -15,10 +15,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { AiTwotoneDelete } from "react-icons/ai"
+import { toast } from "react-toastify"
 // select box code 
 
 
-const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName }) => {
+const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCategory }) => {
 
     const dispatch = useDispatch()
 
@@ -73,8 +75,8 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName }) => {
                                         size="small"
                                         onChange={handleChange}
                                     >
-                                        <MenuItem value={"aproved"} onClick={Aprovehandler}>Aproved</MenuItem>
-                                        <MenuItem value={"Pending"} onClick={Pandinghandler}>Pending</MenuItem>
+                                        <MenuItem value={"aproved"} onClick={() => setCategory('Aproved')}>Aproved</MenuItem>
+                                        <MenuItem value={"Pending"} onClick={() => setCategory('Pending')}>Pending</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>
@@ -93,6 +95,10 @@ function DistributorContent() {
 
     const [clusterData, setClusterData] = React.useState([]);
     const [currentPage, setCurrentPage] = useState(1)
+    const [isLoading, setisLoading] = useState(false);
+    const [totalCount, setTotalCount] = useState(0)
+    const [Category, setCategory] = useState('Aproved');
+    const [Check, setCheck] = useState(false);
 
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
@@ -101,6 +107,7 @@ function DistributorContent() {
     // i am calling aprove funtion on the click
     const Aprovehandler = () => {
         const getCusterData = async () => {
+            setisLoading(true)
             try {
                 const SendRequest = async () => {
                     let config = {
@@ -112,9 +119,12 @@ function DistributorContent() {
                         res => {
                             console.log(res);
                             setClusterData(res.data)
+                            setCheck(false)
+                            setisLoading(false)
                         },
                         err => {
                             console.log(err);
+                            setisLoading(false)
                         }
                     );
                 }
@@ -130,11 +140,10 @@ function DistributorContent() {
         const getCusterDatapandding = async () => {
             // let token = localStorage.getItem("token")
             try {
-
-
+                setisLoading(true)
                 const SendRequest = async () => {
                     let config = {
-                        url: `${ApiUrl.getPendingDistributor}/${1}`,
+                        url: `${ApiUrl.getPendingDistributor}/${currentPage}`,
                         method: 'get',
                     };
                     APIRequest(
@@ -142,10 +151,13 @@ function DistributorContent() {
                         res => {
                             console.log(res);
                             setClusterData(res.data)
+                            setCheck(false)
+                            setisLoading(false)
                         },
                         err => {
                             console.log(err);
                             setClusterData([])
+                            setisLoading(false)
                         }
                     );
                 }
@@ -156,12 +168,35 @@ function DistributorContent() {
         }
         getCusterDatapandding()
     }
-
+    const Delete = (id) => {
+        const choice = window.confirm(`Are you sure you want to delete user ?`)
+        if (choice) {
+            setisLoading(true)
+            let config = {
+                url: `${ApiUrl.superadminDeleteUser}/${id}`,
+                method: 'delete',
+            };
+            APIRequest(
+                config,
+                res => {
+                    console.log(res);
+                    Pandinghandler()
+                    Aprovehandler()
+                    setisLoading(false)
+                },
+                err => {
+                    console.log(err);
+                    setisLoading(false)
+                }
+            );
+        }
+    }
     // statushandler funcation 
     const statusHandler = async (statusId, status) => {
         const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
         if (choice) {
             try {
+                setisLoading(true)
                 const SendRequest = async () => {
                     let config = {
                         url: ApiUrl.updateClusterStatus,
@@ -175,15 +210,13 @@ function DistributorContent() {
                         config,
                         res => {
                             console.log(res);
-                            if (res.err === false) {
-                                alert(res.message)
-                            } else {
-                                alert(res.message)
-                            }
+                            toast.success(res.message)
                             Pandinghandler()
+                            setisLoading(false)
                         },
                         err => {
                             console.log(err);
+                            setisLoading(false)
                         }
                     );
                 }
@@ -197,78 +230,111 @@ function DistributorContent() {
     useEffect(() => {
         Aprovehandler()
     }, [currentPage])
+    useEffect(() => {
+        if (Category === 'Aproved') {
+            Aprovehandler()
+        } else {
+            Pandinghandler()
+        }
+    }, [currentPage])
+
+
+    useEffect(() => {
+        if (currentPage !== '1') {
+            setCurrentPage(1)
+        }
+        setCheck(true)
+        if (Category === 'Aproved') {
+            Aprovehandler()
+        } else {
+            Pandinghandler()
+        }
+    }, [Category]);
 
     return (
         <>
-            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons clusterData={clusterData} Aprovehandler={Aprovehandler} createRoleName={'distributor'} Pandinghandler={Pandinghandler} />}>
+            <TitleCard title="Current Distributor" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} createRoleName={'distributor'} Pandinghandler={Pandinghandler} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
-
-                <h3>Login Role : {role}</h3>
                 <div className="overflow-x-auto w-full">
-                    <table className="table w-full">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Email Id</th>
-                                <th>Contact No.</th>
-                                <th>Address</th>
-                                <th>DOB</th>
-                                <td>AddharNo</td>
-                                <td>PanNo</td>
-                                <td>Status</td>
-                                <td>Amount</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                clusterData.map((l, k) => {
-                                    return (
-                                        <tr key={k}>
-                                            <td>{l.id}</td>
-                                            <td>
-                                                <div className="flex items-center space-x-3">
-                                                    <div className="avatar">
-                                                        <div className="mask mask-squircle w-12 h-12">
+                    {clusterData.length > 0 ?
+                        <table className="table w-full">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Email Id</th>
+                                    <th>Contact No.</th>
+                                    <th>Address</th>
+                                    <td>AddharNo</td>
+                                    <td>PanNo</td>
+                                    <td>Status</td>
+                                    <td>Amount</td>
+                                    {role === "superAdmin" && <td>Delete</td>}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    clusterData.map((l, k) => {
+                                        return (
+                                            <tr key={k}>
+                                                <td>{l.id}</td>
+                                                <td>
+                                                    <div className="flex items-center space-x-3">
+                                                        <div className="avatar">
+                                                            <div className="mask mask-squircle w-12 h-12">
 
-                                                            <img src={l.image ? l.image : "https://e-bhuktan.s3.eu-north-1.amazonaws.com/image/1692695219537_image.png"} alt="Avatar" />
+                                                                <img src={l.image ? l.image : "https://e-bhuktan.s3.eu-north-1.amazonaws.com/image/1692695219537_image.png"} alt="Avatar" />
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div className="font-bold">{l.name}</div>
                                                         </div>
                                                     </div>
+                                                </td>
+                                                <td>{l.email}</td>
+                                                <td>{l.contact}</td>
+                                                <td>
                                                     <div>
-                                                        <div className="font-bold">{l.name}</div>
+                                                        <address> Noida sector, {l.district}, {l.state}, <br></br> {l.postalCode} </address>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>{l.email}</td>
-                                            <td>{l.contact}</td>
-                                            <td>
-                                                <div>
-                                                    <address> Noida sector, {l.district}, {l.state}, <br></br> {l.postalCode} </address>
-                                                </div>
-                                            </td>
-                                            <td>{l.dob}</td>
-                                            <td>{l.aadharNo}</td>
-                                            <td>{l.panNo}</td>
-                                            <td>
-                                                <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
-                                                {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "reject" ? "approved" : "Reject"}</div>}
-                                            </td>
-                                            <td>{l.amount}</td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+                                                </td>
+                                                <td>{l.aadharNo}</td>
+                                                <td>{l.panNo}</td>
+                                                <td>
+                                                    <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
+                                                    {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "reject" ? "approved" : "Reject"}</div>}
+                                                </td>
+                                                <td>{l.amount}</td>
+                                                {role === "superAdmin" && <td>
+                                                    <div className="mx-3 cursor-pointer" >
+                                                        <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
+                                                    </div>
+                                                </td>}
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                        :
+                        <div className="w-100">
+                            <h3 className="text-center w-100 p-5 text-xl">Data Not found!</h3>
+                        </div>
+                    }
                 </div>
                 {/* <Pagination /> */}
                 <nav aria-label="Page navigation example text-right" className="navigation example">
-                    <Pagination apiRoute={ApiUrl.getDistributorAll} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    {Check ? null : <Pagination
+                        apiRoute={`${ApiUrl.getUsersAll}/1`}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        setTotalCount={setTotalCount}
+                        totalCount={totalCount}
+                    />}
                 </nav>
-
-
             </TitleCard>
+            {isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
         </>
     )
 }

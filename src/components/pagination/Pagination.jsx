@@ -7,58 +7,58 @@ import { BiChevronRight } from "react-icons/bi";
 
 const Pagination = (props) => {
 
-    const { apiRoute, currentPage, setCurrentPage, totalCount, setTotalCount, category} = props;
+    const { setCurrentPage, totalCount, setTotalCount } = props;
     const [isLoading, setisLoading] = useState(true);
 
     // console.log(totalCount)
 
     // pagination code 
-    const [count, setCount] = useState("");
+    const [count, setCount] = useState(totalCount);
     const itemsPerPage = 10;
     const pageCount = Math.ceil(count / itemsPerPage);
     // pagination code 
 
     // console.log(count)
     // get data from the api
-    const SendRequest = async () => {
-        let config = {
-            url: `${apiRoute}`,
-            method: 'post',
-            body: {
-                page: currentPage,
-                type : category
-            }
-        };
-        APIRequest(
-            config,
-            res => {
-                console.log(res, "typesdfd");
-                setCount(res.count)
-                setisLoading(false)
-            },
-            err => {
-                console.log(err);
-                setisLoading(false)
-            }
-        );
-    }
+    // const SendRequest = async () => {
+    //     let config = {
+    //         url: `${apiRoute}`,
+    //         method: 'post',
+    //         body: {
+    //             page: currentPage,
+    //             type : category
+    //         }
+    //     };
+    //     APIRequest(
+    //         config,
+    //         res => {
+    //             console.log(res, "typesdfd");
+    //             setCount(res.count)
+    //             setisLoading(false)
+    //         },
+    //         err => {
+    //             console.log(err);
+    //             setisLoading(false)
+    //         }
+    //     );
+    // }
 
     const handlePageClick = (event) => {
         setCurrentPage((event.selected) + 1);
         setTotalCount((event.selected) + 1);
     };
 
-    useEffect(() => {
-        SendRequest()
-    }, [currentPage, totalCount, category])
+    // useEffect(() => {
+    //     SendRequest()
+    // }, [currentPage, totalCount, category])
 
     return (
         <>
             {/* <Pagination /> */}
-            <span class="text-sm text-gray-700 dark:text-gray-400">
+            {count > 9 ? <span class="text-sm text-gray-700 dark:text-gray-400">
                 Showing <span class="font-semibold text-gray-900 dark:text-white">1</span> to <span class="font-semibold text-gray-900 dark:text-white">10</span> of <span class="font-semibold text-gray-900 dark:text-white">{count}</span> Entries
-            </span>
-            <div className="pagination-perent">
+            </span> : null}
+            {count > 9 ? <div className="pagination-perent">
                 <ReactPaginate
                     breakLabel="..."
                     nextLabel={<BiChevronRight />}
@@ -69,7 +69,7 @@ const Pagination = (props) => {
                     renderOnZeroPageCount={null}
                     breakClassName="pagination 1"
                 />
-            </div>
+            </div> : null}
         </>
     )
 }
