@@ -127,47 +127,53 @@ function CommissionTransactionContent() {
                 </FormControl>
                 {/* Team Member list in table format loaded constant */}
                 <div className="overflow-x-auto w-full">
-                    <table className="table w-full">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Transaction Id</th>
-                                <th>Amount</th>
-                                <th>Operator Id</th>
-                                <th>ConsumeId</th>
-                                <th>Admin Pin Code</th>
-                                <th>Cluster Amount</th>
-                                <th>Retailer Amount</th>
-                                <th>Distributor Amount</th>
-                                <th>Admin Amount</th>
-                                <th className="text-center">Type</th>
-                                <th className="text-center">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                users.map(({ id, transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, createdAt }, k) => {
-                                    return (
-                                        <tr key={k}>
-                                            <td className="text-center">{id}</td>
-                                            <td className="text-center">{transactionId}</td>
-                                            <td className="text-center">{amount}</td>
-                                            <td className="text-center">{operatorId}</td>
-                                            <td className="text-center">{consumerId}</td>
-                                            <td className="text-center">{adminPinCode}</td>
-                                            <td className="text-center">{clusterAmount}</td>
-                                            <td className="text-center">{retailerAmount}</td>
-                                            <td className="text-center">{distributorAmount}</td>
-                                            <td className="text-center">{adminAmount}</td>
-                                            <td className="text-center">{type}</td>
-                                            {/* <td className="text-center">{moment().format(createdAt)}</td> */}
-                                            <td className="text-center">{moment(createdAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+                    {users.length > 0 ?
+                        <table className="table w-full">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Transaction Id</th>
+                                    <th>Amount</th>
+                                    <th>Operator Id</th>
+                                    <th>ConsumeId</th>
+                                    <th>Admin Pin Code</th>
+                                    <th>Cluster Amount</th>
+                                    <th>Retailer Amount</th>
+                                    <th>Distributor Amount</th>
+                                    <th>Admin Amount</th>
+                                    <th className="text-center">Type</th>
+                                    <th className="text-center">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    users.map(({ id, transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, modifiedCreatedAt }, k) => {
+                                        return (
+                                            <tr key={k}>
+                                                <td className="text-center">{id}</td>
+                                                <td className="text-center">{transactionId}</td>
+                                                <td className="text-center">{amount}</td>
+                                                <td className="text-center">{operatorId}</td>
+                                                <td className="text-center">{consumerId}</td>
+                                                <td className="text-center">{adminPinCode}</td>
+                                                <td className="text-center">{clusterAmount}</td>
+                                                <td className="text-center">{retailerAmount}</td>
+                                                <td className="text-center">{distributorAmount}</td>
+                                                <td className="text-center">{adminAmount}</td>
+                                                <td className="text-center">{type}</td>
+                                                {/* <td className="text-center">{moment().format(modifiedCreatedAt)}</td> */}
+                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                        :
+                        <div className="w-100">
+                            <h3 className="text-center w-100 p-5 text-xl">Data Not found!</h3>
+                        </div>
+                    }
                 </div>
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">

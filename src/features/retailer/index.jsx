@@ -311,7 +311,7 @@ function RetailerContent() {
                                                     <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
                                                     {l.status !== "approved" && <div className="badge badge-red" onClick={() => statusHandler(l.id, "reject")}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
                                                 </td>
-                                                <td>{l.amount}</td>
+                                                <td>{parseFloat(l.amount).toFixed(2)}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
@@ -325,7 +325,7 @@ function RetailerContent() {
                         </table>
                         :
                         <div className="w-100">
-                            <h3 className="text-center w-100 p-5">Not found!</h3>
+                            <h3 className="text-center w-100 p-5 text-xl">Data Not found!</h3>
                         </div>
                     }
                 </div>

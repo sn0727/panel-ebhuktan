@@ -139,45 +139,51 @@ function Transactions() {
                 </FormControl>
                 {/* Team Member list in table format loaded constant */}
                 <div className="overflow-x-auto w-full">
-                    <table className="table w-full">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Consume Id</th>
-                                <th>Amount</th>
-                                <th>Type</th>
-                                <th>Image</th>
-                                <th>Invoice No</th>
-                                <th>Admin Pin Code</th>
-                                <th className="text-center">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                users.map(({ id, consumerId, amount, type, image, invoiceNo, adminPinCode, createdAt }, k) => {
-                                    return (
-                                        <tr key={k}>
-                                            <td className="text-center">{id}</td>
-                                            <td className="text-center">{consumerId}</td>
-                                            <td className="text-center">{amount}</td>
-                                            <td className="text-center">{type}</td>
-                                            <td className="text-center">
-                                                <div className="avatar">
-                                                    <div className="mask mask-squircle w-12 h-12">
+                    {users.length > 0 ?
+                        <table className="table w-full">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Consumer Id</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Image</th>
+                                    <th>Invoice No</th>
+                                    <th>Admin Pin Code</th>
+                                    <th className="text-center">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    users.map(({ id, consumerId, amount, type, image, invoiceNo, adminPinCode, modifiedCreatedAt }, k) => {
+                                        return (
+                                            <tr key={k}>
+                                                <td className="text-center">{id}</td>
+                                                <td className="text-center">{consumerId}</td>
+                                                <td className="text-center">{amount}</td>
+                                                <td className="text-center">{type}</td>
+                                                <td className="text-center">
+                                                    <div className="avatar">
+                                                        <div className="mask mask-squircle w-12 h-12">
 
-                                                        <img src={image ? image : "https://e-bhuktan.s3.eu-north-1.amazonaws.com/image/1692695219537_image.png"} alt="Avatar" />
+                                                            <img src={image ? image : "https://e-bhuktan.s3.eu-north-1.amazonaws.com/image/1692695219537_image.png"} alt="Avatar" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td className="text-center">{invoiceNo}</td>
-                                            <td className="text-center">{adminPinCode}</td>
-                                            <td className="text-center">{moment(createdAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+                                                </td>
+                                                <td className="text-center">{invoiceNo}</td>
+                                                <td className="text-center">{adminPinCode}</td>
+                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                        :
+                        <div className="w-100">
+                            <h3 className="text-center w-100 p-5 text-xl">Data Not found!</h3>
+                        </div>
+                    }
                 </div>
 
                 <nav aria-label="Page navigation example text-right" className="navigation example">
@@ -193,7 +199,7 @@ function Transactions() {
                     </nav>
                 </nav>
             </TitleCard>
-            {isLoading? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
+            {isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
         </>
     )
 }

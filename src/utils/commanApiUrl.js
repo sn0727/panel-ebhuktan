@@ -16,7 +16,8 @@ export const ApiUrl = {
   signup: `${APIUser}signup`,
   createUser: `${APIUser}createUser`,
   accountVerification: `${APIUser}accountVerification`,
-  login: `${APIUser}login`,
+  // login: `${APIUser}login`,
+  login: `${APISuperadmin}login`,
   update: `${APIUser}update`,
   addAmount: `${APIUser}addAmount`,
 
