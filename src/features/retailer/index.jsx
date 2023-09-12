@@ -17,6 +17,7 @@ import Select from '@mui/material/Select';
 import Pagination from "../../components/pagination/Pagination"
 import { AiTwotoneDelete } from "react-icons/ai"
 import { toast } from "react-toastify"
+import AddMoneyModal from "../../components/Model/AddMoneyModal"
 // select box code 
 
 const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCategory }) => {
@@ -96,7 +97,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCate
 }
 
 
-function RetailerContent() {
+function  RetailerContent() {
 
     const [clusterData, setClusterData] = React.useState([]);
     const [currentPage, setCurrentPage] = useState(1)
@@ -314,7 +315,7 @@ function RetailerContent() {
                                                 <td>{parseFloat(l.amount).toFixed(2)}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
-                                                        <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
+                                                        <AddMoneyModal id={l.id} />
                                                     </div>
                                                 </td>}
                                             </tr>

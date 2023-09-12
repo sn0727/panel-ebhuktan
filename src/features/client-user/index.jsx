@@ -7,7 +7,7 @@ import { openModal } from "../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
 import Pagination from "../../components/pagination/Pagination"
-import { AiTwotoneDelete } from "react-icons/ai";
+import { AiOutlinePlusCircle, AiTwotoneDelete } from "react-icons/ai";
 
 // select box code 
 import Box from '@mui/material/Box';
@@ -18,6 +18,8 @@ import Select from '@mui/material/Select';
 import jwtDecode from 'jwt-decode';
 import AlertDialog from "../../components/Alert"
 import { toast } from "react-toastify"
+import BasicModal from "../../components/Model/AddMoneyModal"
+import AddMoneyModal from "../../components/Model/AddMoneyModal"
 // select box code 
 
 const TopSideButtons = ({ Aprovehandler, Pandinghandler, currentPage, setCategory }) => {
@@ -118,6 +120,7 @@ function ClientUserContent() {
     const [totalCount, setTotalCount] = useState(0)
     const [Category, setCategory] = useState('Aproved');
     const [Check, setCheck] = useState(false);
+    const [isAddMoney, setisAddMoney] = useState(false)
 
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
@@ -292,6 +295,7 @@ function ClientUserContent() {
                                     <td>Status</td>
                                     <td>Amount</td>
                                     {role === "superAdmin" && <td>Delete</td>}
+                                    {role === "superAdmin" && <td>Add Money</td>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -330,6 +334,11 @@ function ClientUserContent() {
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
+                                                    </div>
+                                                </td>}
+                                                {role === "superAdmin" && <td>
+                                                    <div className="mx-3 cursor-pointer" >
+                                                        <AddMoneyModal id={l.id} />
                                                     </div>
                                                 </td>}
                                             </tr>

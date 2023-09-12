@@ -37,9 +37,8 @@ function Login() {
             toast.success(response.message)
             // // Call API to check user credentials and save token in localstorage
             localStorage.setItem("token", response.token)
-            navigation('/app/dashboard')
             setisLoading(false)
-
+            navigation('/app/dashboard')
         } else {
             toast.error(response.message)
             setisLoading(false)

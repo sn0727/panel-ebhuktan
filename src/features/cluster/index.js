@@ -8,6 +8,8 @@ import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/gl
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
 import Pagination from "../../components/pagination/Pagination"
 import jwtDecode from 'jwt-decode';
+import AddMoneyModal from "../../components/Model/AddMoneyModal"
+
 
 // select box code 
 import Box from '@mui/material/Box';
@@ -257,6 +259,7 @@ function Cluster() {
                                     <td>Status</td>
                                     <td>Amount</td>
                                     {role === "superAdmin" && <td>Delete</td>}
+                                    {role === "superAdmin" && <td>Add Money</td>}
 
                                 </tr>
                             </thead>
@@ -296,6 +299,11 @@ function Cluster() {
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
+                                                    </div>
+                                                </td>}
+                                                {role === "superAdmin" && <td>
+                                                    <div className="mx-3 cursor-pointer" >
+                                                        <AddMoneyModal id={l.id} />
                                                     </div>
                                                 </td>}
                                             </tr>

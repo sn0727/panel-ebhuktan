@@ -17,6 +17,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { AiTwotoneDelete } from "react-icons/ai"
 import { toast } from "react-toastify"
+import AddMoneyModal from "../../components/Model/AddMoneyModal"
 // select box code 
 
 
@@ -271,6 +272,7 @@ function DistributorContent() {
                                     <td>Status</td>
                                     <td>Amount</td>
                                     {role === "superAdmin" && <td>Delete</td>}
+                                    {role === "superAdmin" && <td>Add Money</td>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -309,6 +311,11 @@ function DistributorContent() {
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
+                                                    </div>
+                                                </td>}
+                                                {role === "superAdmin" && <td>
+                                                    <div className="mx-3 cursor-pointer" >
+                                                        <AddMoneyModal id={l.id} />
                                                     </div>
                                                 </td>}
                                             </tr>
