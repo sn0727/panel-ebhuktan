@@ -82,7 +82,7 @@ function Login() {
 
                                 <InputText type="email" defaultValue={loginObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue} />
                                 <div className='relative'>
-                                    <InputText defaultValue={loginObj.password} type="password" updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
+                                    <InputText defaultValue={loginObj.password} type={showPass} updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
                                     {showPass === "password" ? <AiOutlineEye onClick={showPassword} className='eye-icon' /> : <AiOutlineEyeInvisible onClick={showPassword} className='eye-icon' />}
                                 </div>
 

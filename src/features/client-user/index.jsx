@@ -206,6 +206,7 @@ function ClientUserContent() {
                     Pandinghandler()
                     Aprovehandler()
                     setisLoading(false)
+                    toast.success(res.message)
                 },
                 err => {
                     console.log(err);
