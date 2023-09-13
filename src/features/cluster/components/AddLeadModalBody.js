@@ -56,7 +56,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             district: district,
                             aadharCard: addharcard,
                             panCard: pancard,
-                            adminId: id,
+                            adminId: Id,
                             role: createRoleName,
                             password: password
                         }
@@ -146,10 +146,10 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                         <input
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
-                            name="number"
+                            name="text"
                             required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="number" placeholder={'Enter Valid Password'} />
+                            type="text" placeholder={'Enter Valid Password'} />
                     </div>
 
                     <div className="w-full md:w-1/2 px-3">

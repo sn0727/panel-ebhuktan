@@ -54,7 +54,7 @@ export const ApiUrl = {
   // this is cluster api
   getClusterAll: `${APISuperadmin}getCluster`,
   getPendingCluster: `${APISuperadmin}getPendingCluster`,
-  updateClusterStatus: `${APISuperadmin}updateStatus`,
+  updateStatus: `${APISuperadmin}updateStatus`,
   // this is cluster api
 
   // this is Distributor api
@@ -65,6 +65,11 @@ export const ApiUrl = {
   // this is Retailer api
   getRetailerAll: `${APISuperadmin}getRetailer`,
   getPendingRetailer: `${APISuperadmin}getPendingRetailer`,
+  // this is Retailer api
+
+  // this is Retailer api
+  getFranchiseAll: `${APISuperadmin}getFranchise`,
+  getPendingFranchise: `${APISuperadmin}getPendingFranchise`,
   // this is Retailer api
 
   // this is user api

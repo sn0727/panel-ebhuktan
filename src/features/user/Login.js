@@ -5,6 +5,7 @@ import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText';
 import { ApiUrl } from '../../utils/commanApiUrl';
 import { toast } from 'react-toastify';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 function Login() {
     const navigation = useNavigate();
@@ -16,6 +17,7 @@ function Login() {
     const [isLoading, setisLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ)
+    const [showPass, setShowPass] = useState('password')
 
     let email = loginObj.email;
     let password = loginObj.password
@@ -62,6 +64,9 @@ function Login() {
         setLoginObj({ ...loginObj, [updateType]: value })
     }
 
+    const showPassword = () => {
+        showPass === "password" ? setShowPass("text") : setShowPass("password")
+    }
     return (
         <div className="min-h-screen bg-base-200 flex items-center">
             <div className="card mx-auto w-full max-w-5xl  shadow-xl">
@@ -76,8 +81,10 @@ function Login() {
                             <div className="mb-4">
 
                                 <InputText type="email" defaultValue={loginObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue} />
-
-                                <InputText defaultValue={loginObj.password} type="password" updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
+                                <div className='relative'>
+                                    <InputText defaultValue={loginObj.password} type="password" updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
+                                    {showPass === "password" ? <AiOutlineEye onClick={showPassword} className='eye-icon' /> : <AiOutlineEyeInvisible onClick={showPassword} className='eye-icon' />}
+                                </div>
 
                             </div>
 

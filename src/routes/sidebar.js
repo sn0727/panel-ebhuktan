@@ -58,6 +58,11 @@ if (role === "cluster") {
       name: 'Distributor',
     },
     {
+      path: '/app/franchise',
+      icon: <BiUserPlus className={submenuIconClasses} />,
+      name: 'Franchise',
+    },
+    {
       path: '/app/retailer',
       icon: <BiUserPlus className={submenuIconClasses} />,
       name: 'Retailer',
@@ -77,11 +82,24 @@ if (role === "cluster") {
       name: 'Retailer',
     },
     {
+      path: '/app/franchise',
+      icon: <BiUserPlus className={submenuIconClasses} />,
+      name: 'Franchise',
+    },
+    {
       path: '/app/client-user',
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'User',
     },
 
+  );
+} else if (role === "franchise") {
+  userSubMenu.push(
+    {
+      path: '/app/client-user',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'User',
+    },
   );
 } else if (role === "retailer") {
   userSubMenu.push(
@@ -90,7 +108,6 @@ if (role === "cluster") {
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'User',
     },
-
   );
 } else if (role === "superAdmin") {
   userSubMenu.push(
@@ -109,6 +126,11 @@ if (role === "cluster") {
       path: '/app/retailer',
       icon: <BiUserPlus className={submenuIconClasses} />,
       name: 'Retailer',
+    },
+    {
+      path: '/app/franchise',
+      icon: <BiUserPlus className={submenuIconClasses} />,
+      name: 'Franchise',
     },
     {
       path: '/app/client-user',

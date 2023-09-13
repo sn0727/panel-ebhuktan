@@ -189,7 +189,7 @@ function Cluster() {
             try {
                 const SendRequest = async () => {
                     let config = {
-                        url: ApiUrl.updateClusterStatus,
+                        url: ApiUrl.updateStatus,
                         method: 'post',
                         body: {
                             userId: statusId,

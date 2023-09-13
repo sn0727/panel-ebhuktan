@@ -97,7 +97,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCate
 }
 
 
-function RetailerContent() {
+function FranchiseContent() {
 
     const [clusterData, setClusterData] = React.useState([]);
     const [currentPage, setCurrentPage] = useState(1)
@@ -116,7 +116,7 @@ function RetailerContent() {
                 setisLoading(true)
                 const SendRequest = async () => {
                     let config = {
-                        url: `${ApiUrl.getRetailerAll}/${1}`,
+                        url: `${ApiUrl.getFranchiseAll}/${1}`,
                         method: 'get',
                     };
                     APIRequest(
@@ -147,7 +147,7 @@ function RetailerContent() {
                 setisLoading(true)
                 const SendRequest = async () => {
                     let config = {
-                        url: `${ApiUrl.getPendingRetailer}/${1}`,
+                        url: `${ApiUrl.getPendingFranchise}/${1}`,
                         method: 'get',
                     };
                     APIRequest(
@@ -354,4 +354,4 @@ function RetailerContent() {
 }
 
 
-export default RetailerContent
+export default FranchiseContent

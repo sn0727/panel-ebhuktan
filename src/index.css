@@ -280,3 +280,11 @@ input.fileProfile {
 .remove-background:active{
   background-color: #fff;
 }
+
+svg.eye-icon {
+  position: absolute;
+  top: 45px;
+  right: 11px;
+  font-size: 25px;
+  cursor: pointer;
+}
