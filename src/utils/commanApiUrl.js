@@ -4,8 +4,7 @@
 
 import axios from "axios";
 
-// export const BASEURL = 'https://api.ebhuktan.com';
-export const BASEURL = 'http://65.2.143.179:3000';
+export const BASEURL = 'https://api.ebhuktan.com';
 const apiBaseUrl = `${BASEURL}/api/`;
 export const SaveBillOption = ['Home', 'Mom', 'Office', 'Other']
 
