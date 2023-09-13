@@ -260,7 +260,7 @@ function RetailerContent() {
 
     return (
         <>
-            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} createRoleName={'franchise'} />}>
+            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} createRoleName={'retailer'} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">

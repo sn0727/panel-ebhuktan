@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 
 function AddLeadModalBody({ closeModal, createRoleName }) {
-    const [loading, setLoading] = useState(false)
+    const [isLoading, setisLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
 
     // get token object 
@@ -28,6 +28,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
     const [Id, setId] = useState('');
 
     const submitHandler = async (e) => {
+        setisLoading(true)
         e.preventDefault();
         setErrorMessage("")
 
@@ -54,8 +55,8 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             postalCode: postCode,
                             state: statevalue,
                             district: district,
-                            aadharCard: addharcard,
-                            panCard: pancard,
+                            aadharNo: addharcard,
+                            panNo: pancard,
                             adminId: Id,
                             role: createRoleName,
                             password: password
@@ -66,9 +67,11 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                         res => {
                             console.log(res, "add modle");
                             toast.success(res.message)
+                            setisLoading(false)
                         },
                         err => {
                             console.log(err);
+                            setisLoading(false)
                         }
                     );
                 }
@@ -219,11 +222,12 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                     </div>
 
                     <button type="submit" class="my-4  mx-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Add Cluster
+                        Add
                     </button>
                 </div>
             </form>
 
+            {isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
 
         </>
     )
