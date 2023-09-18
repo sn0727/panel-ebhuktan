@@ -295,6 +295,8 @@ function ClientUserContent() {
                                     <td>PanNo</td>
                                     <td>Status</td>
                                     <td>Amount</td>
+                                    {/* {clusterData[0]?.earning && <td>Earning</td>} */}
+                                    {clusterData[0]?.commission && <td>Commission</td>}
                                     {role === "superAdmin" && <td>Delete</td>}
                                     {role === "superAdmin" && <td>Add Money</td>}
                                 </tr>
@@ -331,7 +333,9 @@ function ClientUserContent() {
                                                     <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
                                                     {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
                                                 </td>
-                                                <td>{l.amount}</td>
+                                                <td>{parseFloat(l.amount).toFixed(2)}</td>
+                                                {/* <td>{parseFloat(l?.earning).toFixed(2)}</td> */}
+                                                <td>{parseFloat(l?.commission).toFixed(2)}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />

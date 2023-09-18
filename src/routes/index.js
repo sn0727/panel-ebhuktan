@@ -3,6 +3,7 @@
 import { lazy } from 'react'
 import FastTagOperator from '../pages/protected/operator/FastTagOperator'
 import LPGGasOperator from '../pages/protected/operator/LPGGasOperator'
+import Commission from '../pages/protected/Commission'
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
 const Page404 = lazy(() => import('../pages/protected/404'))
@@ -134,6 +135,12 @@ const routes = [
   },
 
 
+
+
+  {
+    path: "/Commission",
+    component: Commission
+  },
 
 
 

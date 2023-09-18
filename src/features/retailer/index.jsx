@@ -18,6 +18,8 @@ import Pagination from "../../components/pagination/Pagination"
 import { AiTwotoneDelete } from "react-icons/ai"
 import { toast } from "react-toastify"
 import AddMoneyModal from "../../components/Model/AddMoneyModal"
+import { FaArrowCircleRight } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
 // select box code 
 
 const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCategory }) => {
@@ -98,7 +100,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCate
 
 
 function RetailerContent() {
-
+    const navigate = useNavigate();
     const [clusterData, setClusterData] = React.useState([]);
     const [currentPage, setCurrentPage] = useState(1)
     const [isLoading, setisLoading] = useState(false);
@@ -277,9 +279,11 @@ function RetailerContent() {
                                     <td>PanNo</td>
                                     <td>Status</td>
                                     <td>Amount</td>
+                                    {clusterData[0]?.earning && <td>Earning</td>}
+                                    {clusterData[0]?.commission && <td>Commission</td>}
                                     {role === "superAdmin" && <td>Delete</td>}
                                     {role === "superAdmin" && <td>Add Money</td>}
-
+                                    <td>View Details</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -315,6 +319,8 @@ function RetailerContent() {
                                                     {l.status !== "approved" && <div className="badge badge-red" onClick={() => statusHandler(l.id, "reject")}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
                                                 </td>
                                                 <td>{parseFloat(l.amount).toFixed(2)}</td>
+                                                <td>{parseFloat(l?.earning).toFixed(2)}</td>
+                                                <td>{parseFloat(l?.commission).toFixed(2)}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
@@ -325,6 +331,11 @@ function RetailerContent() {
                                                         <AddMoneyModal id={l.id} />
                                                     </div>
                                                 </td>}
+                                                <td>
+                                                    <div className="mx-3 cursor-pointer" >
+                                                        <FaArrowCircleRight fontSize={28} id={l.id} onClick={() => navigate('/app/commission', { state: { id: l.id } })} />
+                                                    </div>
+                                                </td>
                                             </tr>
                                         )
                                     })

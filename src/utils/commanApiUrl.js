@@ -30,6 +30,7 @@ export const ApiUrl = {
   superadminGetAllUsers: `${APISuperadmin}getAll`,
   superadminGetCount: `${APISuperadmin}getCount`,
   superadminDeleteUser: `${APISuperadmin}deleteUser`,
+  superadminGetNestedCommission: `${APISuperadmin}getNestedCommission`,
 
 
   // updateCommission
