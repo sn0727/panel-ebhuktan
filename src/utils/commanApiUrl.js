@@ -32,6 +32,14 @@ export const ApiUrl = {
   superadminDeleteUser: `${APISuperadmin}deleteUser`,
 
 
+  // updateCommission
+  updateMobileRechargeCommission : `${apiBaseUrl}recharge/updateCommission`,
+  electricityUpdateCommission : `${apiBaseUrl}electricity/bill-payment/updateCommission`,
+  fastTagUpdateCommission : `${apiBaseUrl}fastTag/updateCommission`,
+  lpgGasUpdateCommission : `${apiBaseUrl}lpg-gas/updateCommission`,
+
+
+
   // transaction api
   transaction_commission_getAll: `${apiBaseUrl}transaction/commission/getAll`,
   transaction_getType: `${apiBaseUrl}transaction/getType`,
@@ -90,6 +98,7 @@ export const ApiUrl = {
 
   lpgGetOperatorList: `${apiBaseUrl}lpg-gas/getOperatorList`,
   lpgGetBookingList: `${apiBaseUrl}lpg-gas/getBookingList`,
+  lpgGasGetOperatorList: `${apiBaseUrl}lpg-gas/getOperatorList`,
   lpgFetchDetails: `${apiBaseUrl}lpg-gas/fetchDetails`,
 
   municipalityGetOperatorList: `${apiBaseUrl}municipality/getOperatorList`,

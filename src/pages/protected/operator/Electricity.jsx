@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import DynamicTitle from '../../../components/dynamic_title'
 import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
+import { ApiUrl } from '../../../utils/commanApiUrl'
 
 const Electricity = () => {
   const dispatch = useDispatch()
@@ -13,7 +14,7 @@ const Electricity = () => {
   return (
     <>
       <DynamicTitle pageTitle={"Electricity Bill"} />
-      <OperatorListTable />
+      <OperatorListTable pageTitlle={"Electricity Operator"} getOperatorList={ApiUrl.electricityGetOperatorList} getCommission={ApiUrl.electricityUpdateCommission} />
     </>
   )
 }

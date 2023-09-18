@@ -6,21 +6,24 @@ import { ApiUrl, APIRequest } from "../../utils/commanApiUrl"
 import TitleCard from "../../components/Cards/TitleCard";
 import Pagination from "../../components/pagination/Pagination";
 import { FaRegEdit } from "react-icons/fa";
+import EditOperatorModal from "../../components/Model/EditOperatorModal";
 
 
 
 const submenuIconClasses = `h-5 w-5`
 
-function OperatorListTable() {
+function OperatorListTable({ pageTitlle, getOperatorList, getCommission }) {
   const [isLoading, setisLoading] = useState(true);
   const [transaction, setTransaction] = useState([])
   const [totalUser, setTotalUser] = useState("")
   const [currentPage, setCurrentPage] = useState(1);
 
+  // console.log(getCommission, "getCommission")
+
   const SendRequest = async () => {
     setisLoading(true)
     let config = {
-      url: `${ApiUrl.electricityGetOperatorList}`,
+      url: getOperatorList,
       method: 'get',
     };
     APIRequest(
@@ -37,13 +40,16 @@ function OperatorListTable() {
       }
     );
   }
+  // useEffect(() => {
+  //   SendRequest()
+  // }, [currentPage])
   useEffect(() => {
     SendRequest()
-  }, [currentPage])
+  }, [])
 
   return (
     <>
-      <TitleCard title="Recent Transactions" topMargin="mt-2">
+      <TitleCard title={pageTitlle} topMargin="mt-2">
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full">
           <table className="table w-full">
@@ -54,6 +60,7 @@ function OperatorListTable() {
                 <th>Name</th>
                 <th>Category</th>
                 <th>Commission type</th>
+                <th>Commission</th>
                 <th>Status</th>
                 <th>Update</th>
               </tr>
@@ -70,17 +77,22 @@ function OperatorListTable() {
                             <div className="mask mask-circle w-12 h-12">
                               <img src={l.image} alt="Avatar" />
                             </div>
-                            <div className="m-4">
-                              <FaRegEdit className={submenuIconClasses} />
-                            </div>
                           </div>
                         </div>
                       </td>
                       {/* <td>{moment(l.date).format("D MMM")}</td> */}
-                      <td>{l.name}</td>
+                      <td>
+                        <div className="description-data">{l.name}</div>
+                      </td>
                       <td>{l.category}</td>
                       <td>{l.isPercentage ? 'Percentage' : 'Fixed'}</td>
+                      <td className="text-center">{l.commission}</td>
                       <td>{l.isEnable}</td>
+                      <td>
+                        <div className="m-4">
+                          <EditOperatorModal id={l.id} isPercentage={l.isPercentage} isEnable1={l.isEnable} getCommissionApi={getCommission} />
+                        </div>
+                      </td>
                     </tr>
                   )
                 })

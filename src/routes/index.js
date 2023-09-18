@@ -1,6 +1,8 @@
 // All components mapping with path for internal routes
 
 import { lazy } from 'react'
+import FastTagOperator from '../pages/protected/operator/FastTagOperator'
+import LPGGasOperator from '../pages/protected/operator/LPGGasOperator'
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
 const Page404 = lazy(() => import('../pages/protected/404'))
@@ -35,6 +37,7 @@ const Retailer = lazy(() => import('../pages/protected/Retailer'))
 const Franchise = lazy(() => import('../pages/protected/Franchise'))
 const ClientUser = lazy(() => import('../pages/protected/ClientUser'))
 const OperatorElectricity = lazy(() => import('../pages/protected/operator/Electricity'))
+const MobileRechargeOperators = lazy(()=> import('../pages/protected/operator/MobileRechargeOperator'))
 
 
 
@@ -117,6 +120,20 @@ const routes = [
     path: "/operator/electricity",
     component: OperatorElectricity
   },
+  {
+    path: "/operator/mobile-recharge-operator",
+    component: MobileRechargeOperators
+  },
+  {
+    path: "/operator/fast-tag-operator",
+    component: FastTagOperator
+  },
+  {
+    path: "/operator/lpg-gag-operator",
+    component: LPGGasOperator
+  },
+
+
 
 
 

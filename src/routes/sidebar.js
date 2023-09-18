@@ -50,6 +50,7 @@ const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
 
 let userSubMenu = [];
+let userSubMenu1 = [];
 if (role === "cluster") {
   userSubMenu.push(
     {
@@ -139,7 +140,61 @@ if (role === "cluster") {
     },
 
   );
-}
+  userSubMenu1.push(
+    {
+      path: '/app/operator/mobile-recharge-operator',
+      icon: <BiUserCheck className={submenuIconClasses} />,
+      name: 'Mobile Recharge',
+
+    },
+    {
+      path: '/app/operator/electricity',
+      icon: <BiUserPin className={submenuIconClasses} />,
+      name: 'Electricity Bill Payment',
+    },
+    {
+      path: '/app/operator/fast-tag-operator',
+      icon: <BiUserPlus className={submenuIconClasses} />,
+      name: 'Fast Tag',
+    },
+    {
+      path: '/app/operator/lpg-gag-operator',
+      icon: <BiUserPlus className={submenuIconClasses} />,
+      name: 'Gas Bill Payment',
+    },
+    {
+      path: '/app/client-user',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'Municipality',
+    },
+    {
+      path: '/app/client-user',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'Card Payment',
+    },
+    {
+      path: '/app/client-user',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'DTH Recharge',
+    },
+    {
+      path: '/app/client-user',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'Broadband Bill Payment',
+    },
+    {
+      path: '/app/client-user',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'Water Bill Payment',
+    },
+    {
+      path: '/app/client-user',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'LIC',
+    },
+
+  );
+} 
 
 const routes = [
   {
@@ -162,6 +217,12 @@ const routes = [
     icon: <BiUserCircle className={`${iconClasses} inline`} />,
     name: "UserRoll",
     submenu: userSubMenu
+  },
+  {
+    path: "",
+    icon: <BiUserCircle className={`${iconClasses} inline`} />,
+    name: "Operator",
+    submenu: userSubMenu1
   },
   {
     path: '/app/wallet',
