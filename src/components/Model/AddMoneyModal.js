@@ -47,6 +47,7 @@ export default function AddMoneyModal(props) {
                 console.log(res);
                 toast.success(res.message)
                 setisLoading(false)
+                window.location.reload(false)
             },
             err => {
                 console.log(err);

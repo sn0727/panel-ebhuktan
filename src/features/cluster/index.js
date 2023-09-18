@@ -9,8 +9,6 @@ import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
 import Pagination from "../../components/pagination/Pagination"
 import jwtDecode from 'jwt-decode';
 import AddMoneyModal from "../../components/Model/AddMoneyModal"
-
-
 // select box code 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -18,7 +16,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { AiTwotoneDelete } from "react-icons/ai"
+import { FaArrowCircleRight } from "react-icons/fa";
 import { toast } from "react-toastify"
+import { Link, useNavigate } from "react-router-dom"
 // select box code 
 
 const TopSideButtons = ({ Aprovehandler, Pandinghandler, setCategory }) => {
@@ -81,6 +81,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, setCategory }) => {
 }
 
 function Cluster() {
+    const navigate = useNavigate();
     const [clusterData, setClusterData] = React.useState([]);
     const [currentPage, setCurrentPage] = useState(1)
     const [isLoading, setisLoading] = useState(false);
@@ -258,8 +259,11 @@ function Cluster() {
                                     <td>PanNo</td>
                                     <td>Status</td>
                                     <td>Amount</td>
+                                    {/* {clusterData[0]?.earning && <td>Earning</td>} */}
+                                    {clusterData[0]?.commission && <td>Commission</td>}
                                     {role === "superAdmin" && <td>Delete</td>}
                                     {role === "superAdmin" && <td>Add Money</td>}
+                                    <td>View Details</td>
 
                                 </tr>
                             </thead>
@@ -296,6 +300,8 @@ function Cluster() {
                                                     {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "reject" ? "approved" : "Reject"}</div>}
                                                 </td>
                                                 <td>{l.amount}</td>
+                                                {/* <td>{parseFloat(l?.earning).toFixed(2)}</td> */}
+                                                <td>{parseFloat(l?.commission).toFixed(2)}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
@@ -306,6 +312,11 @@ function Cluster() {
                                                         <AddMoneyModal id={l.id} />
                                                     </div>
                                                 </td>}
+                                                <td>
+                                                    <div className="mx-3 cursor-pointer" >
+                                                        <FaArrowCircleRight fontSize={28} id={l.id} onClick={() => navigate('/app/commission', { state: { id: l.id } })} />
+                                                    </div>
+                                                </td>
                                             </tr>
                                         )
                                     })
