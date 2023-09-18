@@ -4,18 +4,20 @@ import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
 import { ApiUrl } from '../../../utils/commanApiUrl'
 
-const LPGGasOperator = () => {
+const DTHRechargeOperator = () => {
+
+  console.log(ApiUrl.updateCommission)
 
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(setPageTitle({ title: "LPG Gas Operator" }))
+    dispatch(setPageTitle({ title: "DTHRecharge Operator" }))
   }, [])
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"LPG Gas Operator"} getOperatorList={ApiUrl.lpgGasGetOperatorList} getCommission={ApiUrl.lpgGasUpdateCommission} getAddIcon={ApiUrl.lpgGasOperatorAddIcon} />
+      <OperatorListTable pageTitlle={"DTHRecharge Operator"} getOperatorList={ApiUrl.DthGetOperatorList} getCommission={ApiUrl.MobileRechargeAddIcon} getAddIcon={ApiUrl.MobileRechargeAddIcon} />
     </div>
   )
 }
 
-export default LPGGasOperator
+export default DTHRechargeOperator

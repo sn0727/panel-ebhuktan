@@ -4,20 +4,20 @@ import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
 import { ApiUrl } from '../../../utils/commanApiUrl'
 
-const FastTagOperator = () => {
+const MunicipalityOperator = () => {
 
   console.log(ApiUrl.updateCommission)
 
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(setPageTitle({ title: "Fast Tag Operator" }))
+    dispatch(setPageTitle({ title: "Municipality" }))
   }, [])
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Fast Tag Operator"} getOperatorList={ApiUrl.fastTagGetOperatorList} getCommission={ApiUrl.fastTagUpdateCommission} getAddIcon={ApiUrl.fastTagOperatorAddIcon} />
+      <OperatorListTable pageTitlle={"Municipality Operator"} getOperatorList={ApiUrl.municipalityGetOperatorList} getCommission={ApiUrl.municipalityUpdateCommission} getAddIcon={ApiUrl.municipalityOperatorAddIcon} />
     </div>
   )
 }
 
-export default FastTagOperator
+export default MunicipalityOperator

@@ -163,36 +163,25 @@ if (role === "cluster") {
       name: 'Gas Bill Payment',
     },
     {
-      path: '/app/client-user',
+      path: '/app/operator/municipality-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'Municipality',
     },
     {
-      path: '/app/client-user',
-      icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Card Payment',
-    },
-    {
-      path: '/app/client-user',
+      path: '/app/operator/dth-Recharge-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'DTH Recharge',
     },
     {
-      path: '/app/client-user',
+      path: '/app/operator/broadband-bill-Payment',
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'Broadband Bill Payment',
     },
     {
-      path: '/app/client-user',
+      path: '/app/operator/watter-bill-Payment',
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'Water Bill Payment',
     },
-    {
-      path: '/app/client-user',
-      icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'LIC',
-    },
-
   );
 } 
 

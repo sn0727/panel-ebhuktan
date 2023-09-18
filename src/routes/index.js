@@ -4,6 +4,10 @@ import { lazy } from 'react'
 import FastTagOperator from '../pages/protected/operator/FastTagOperator'
 import LPGGasOperator from '../pages/protected/operator/LPGGasOperator'
 import Commission from '../pages/protected/Commission'
+import MunicipalityOperator from '../pages/protected/operator/MunicipalityOperator'
+import DTHRechargeOperator from '../pages/protected/operator/DTHRechargeOperator'
+import BroadbandBillPaymentOperator from '../pages/protected/operator/BroadbandBillPaymentOperator'
+import WaterBillPaymentOperator from '../pages/protected/operator/WaterBillPaymentOperator'
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
 const Page404 = lazy(() => import('../pages/protected/404'))
@@ -133,10 +137,22 @@ const routes = [
     path: "/operator/lpg-gag-operator",
     component: LPGGasOperator
   },
-
-
-
-
+  {
+    path: "/operator/municipality-operator",
+    component: MunicipalityOperator
+  },
+  {
+    path: "/operator/dth-Recharge-operator",
+    component: DTHRechargeOperator
+  },
+  {
+    path: "/operator/broadband-bill-Payment",
+    component: BroadbandBillPaymentOperator
+  },
+  {
+    path: "/operator/watter-bill-Payment",
+    component: WaterBillPaymentOperator
+  },
   {
     path: "/Commission",
     component: Commission
@@ -144,13 +160,7 @@ const routes = [
 
 
 
-
-
-
-
-
-
-
+  
   {
     path: '/welcome', // the url
     component: Welcome, // view rendered

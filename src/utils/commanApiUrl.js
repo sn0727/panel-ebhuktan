@@ -38,6 +38,18 @@ export const ApiUrl = {
   electricityUpdateCommission : `${apiBaseUrl}electricity/bill-payment/updateCommission`,
   fastTagUpdateCommission : `${apiBaseUrl}fastTag/updateCommission`,
   lpgGasUpdateCommission : `${apiBaseUrl}lpg-gas/updateCommission`,
+  municipalityUpdateCommission : `${apiBaseUrl}municipality/updateCommission`,
+  dthRechargeUpdateCommission : `${apiBaseUrl}dth-recharge/updateCommission`,
+  broadbandBillPaymentUpdateCommission : `${apiBaseUrl}broadband/bill-payment/updateCommission`,
+  waterBillPaymentUpdateCommission : `${apiBaseUrl}water/bill-payment/updateCommission`,
+
+
+  // add Icon operator image
+  MobileRechargeAddIcon : `${apiBaseUrl}recharge/addIcon`,
+  electricityOperatorAddIcon : `${apiBaseUrl}electricity/bill-payment/addIcon`,
+  fastTagOperatorAddIcon : `${apiBaseUrl}fastTag/addIcon`,
+  lpgGasOperatorAddIcon : `${apiBaseUrl}lpg-gas/addIcon`,
+  municipalityOperatorAddIcon : `${apiBaseUrl}municipality/addIcon`,
 
 
 
@@ -158,5 +170,51 @@ export const APIRequest = async (config = {}, onSuccess, onError, noAuth = null)
       });
   } catch (error) {
     console.log("error", error);
+  }
+};
+
+export const APIRequestWithFile = async (config = {}, onSuccess, onError) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    let data;
+    if (token) {
+      data = {
+        method: config.method,
+        url: config.url,
+        data: config.body,
+        headers: {
+          Accept: 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+          token: token
+
+        },
+      };
+    } else {
+      data = {
+        method: config.method,
+        url: config.url,
+        data: config.body,
+        headers: {
+          Accept: 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+    }
+
+    console.log('config', data);
+    axios(data)
+      .then(res => {
+        if (res.status == 200 || res.status == 201) {
+          console.log(res.data);
+          onSuccess(res.data);
+        }
+      })
+      .catch(err => {
+        onError(err?.response);
+      });
+  } catch (error) {
+    console.log(error);
   }
 };

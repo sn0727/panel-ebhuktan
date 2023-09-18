@@ -4,20 +4,20 @@ import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
 import { ApiUrl } from '../../../utils/commanApiUrl'
 
-const FastTagOperator = () => {
+const BroadbandBillPaymentOperator = () => {
 
   console.log(ApiUrl.updateCommission)
 
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(setPageTitle({ title: "Fast Tag Operator" }))
+    dispatch(setPageTitle({ title: "Broadband  Bill-Payment Operator" }))
   }, [])
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Fast Tag Operator"} getOperatorList={ApiUrl.fastTagGetOperatorList} getCommission={ApiUrl.fastTagUpdateCommission} getAddIcon={ApiUrl.fastTagOperatorAddIcon} />
+      <OperatorListTable pageTitlle={"Broadband  Bill-Payment Operator"} getOperatorList={ApiUrl.broadbandGetOperatorList} getCommission={ApiUrl.broadbandBillPaymentUpdateCommission} getAddIcon={ApiUrl.electricityOperatorAddIcon} />
     </div>
   )
 }
 
-export default FastTagOperator
+export default BroadbandBillPaymentOperator

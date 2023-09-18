@@ -4,7 +4,7 @@ import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
 import { ApiUrl } from '../../../utils/commanApiUrl'
 
-const MobileRecharge = () => {
+const MobileRechargeOperator = () => {
 
   console.log(ApiUrl.updateCommission)
 
@@ -15,9 +15,9 @@ const MobileRecharge = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Mobile Operator"} getOperatorList={ApiUrl.rechargeGetOperatorList} getCommission={ApiUrl.updateMobileRechargeCommission} />
+      <OperatorListTable pageTitlle={"Mobile Operator"} getOperatorList={ApiUrl.rechargeGetOperatorList} getCommission={ApiUrl.updateMobileRechargeCommission} getAddIcon={ApiUrl.MobileRechargeAddIcon} />
     </div>
   )
 }
 
-export default MobileRecharge
+export default MobileRechargeOperator

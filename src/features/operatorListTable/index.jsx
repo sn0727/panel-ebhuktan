@@ -5,14 +5,15 @@ import { ApiUrl, APIRequest } from "../../utils/commanApiUrl"
 // import { showNotification } from "../common/headerSlice"
 import TitleCard from "../../components/Cards/TitleCard";
 import Pagination from "../../components/pagination/Pagination";
-import { FaRegEdit } from "react-icons/fa";
 import EditOperatorModal from "../../components/Model/EditOperatorModal";
+import EditOperatorImageModal from "../../components/Model/EditOperatorImageModal";
+
 
 
 
 const submenuIconClasses = `h-5 w-5`
 
-function OperatorListTable({ pageTitlle, getOperatorList, getCommission }) {
+function OperatorListTable({ pageTitlle, getOperatorList, getCommission, getAddIcon }) {
   const [isLoading, setisLoading] = useState(true);
   const [transaction, setTransaction] = useState([])
   const [totalUser, setTotalUser] = useState("")
@@ -40,6 +41,7 @@ function OperatorListTable({ pageTitlle, getOperatorList, getCommission }) {
       }
     );
   }
+
   // useEffect(() => {
   //   SendRequest()
   // }, [currentPage])
@@ -76,6 +78,7 @@ function OperatorListTable({ pageTitlle, getOperatorList, getCommission }) {
                           <div className="avatar">
                             <div className="mask mask-circle w-12 h-12">
                               <img src={l.image} alt="Avatar" />
+                              <EditOperatorImageModal id={l.id} getAddIcon={getAddIcon} />
                             </div>
                           </div>
                         </div>
@@ -102,6 +105,7 @@ function OperatorListTable({ pageTitlle, getOperatorList, getCommission }) {
         </div>
         <Pagination apiRoute={ApiUrl.transaction_getElectricity} currentPage={currentPage} setCurrentPage={setCurrentPage} />
       </TitleCard>
+      {isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
     </>
   )
 }

@@ -7,7 +7,7 @@ import Modal from '@mui/material/Modal';
 import { FaEdit } from 'react-icons/fa';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { APIRequest, ApiUrl } from '../../utils/commanApiUrl';
+import { APIRequestWithFile, ApiUrl } from '../../utils/commanApiUrl';
 import InputText from '../Input/InputText';
 
 const style = {
@@ -22,42 +22,40 @@ const style = {
   borderRadius: '16px'
 };
 
-export default function EditOperatorModal(props) {
+export default function EditOperatorImageModal(props) {
   const { id = null } = props
-  const { isPercentage = null } = props
-  const { isEnable1 = null } = props
-  const { getCommissionApi = null } = props
+  const { getAddIcon = null } = props
   const [open, setOpen] = useState(false);
   const [isLoading, setisLoading] = useState(false)
-  const [commission, setCommission] = useState('')
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [isEnable, setIsEnable] = useState(isEnable1);
 
-  console.log(getCommissionApi, "getCommissionApi pop")
+  const [selectedFile, setSelectedFile] = useState('');
 
-  const Add = () => {
+  console.log(selectedFile, "getCommissionApi pop")
+
+  let formData = new FormData();
+  formData.append('id', id);
+  formData.append('icon', selectedFile);
+
+  const AddIcon = () => {
     setisLoading(true)
+
     setOpen(false)
     let config = {
-      url: getCommissionApi,
+      url: getAddIcon,
       method: 'post',
-      body: {
-        id: id,
-        commission: commission,
-        isPercentage: isPercentage,
-        isEnable: isEnable
-      }
+      body: formData
     };
-    APIRequest(
+    APIRequestWithFile(
       config,
       res => {
         console.log(res);
         toast.success(res.message)
+        setisLoading(false)
         setTimeout(()=>{
           window.location.reload(true)
-        }, [1000])
-        setisLoading(false)
+        }, [2000])
       },
       err => {
         console.log(err);
@@ -66,14 +64,18 @@ export default function EditOperatorModal(props) {
     );
   }
 
-  const updateFormValue = ({ updateType, value }) => {
-    setCommission(value)
-  }
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file)
+    setSelectedFile(file);
+  };
 
 
   return (
     <div>
-      <FaEdit className='add-style-sdf' fontSize={20} onClick={handleOpen} />
+      <div className="overlaybtn" onClick={handleOpen}>
+        <FaEdit />
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
@@ -81,16 +83,9 @@ export default function EditOperatorModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <InputText type="text" placeholder={'Commission Amount'} defaultValue={''} updateType="name" containerStyle="mt-4" labelTitle={isPercentage ? "Enter Commission Percentage Value" : "Enter Commission Amount"} updateFormValue={updateFormValue} />
-          <label class="switch">
-            <input type="checkbox"
-              checked={isEnable === "true"}
-              onClick={() => setIsEnable(isEnable !== "true" ? "true" : "false")}
-            />
-            <span class="slider round"></span>
-          </label>
+          <input className='file-input-operator' type='file' name="file" onChange={handleFileChange} />
           <div className="mt-3 m-auto">
-            <button type="submit" className="btn btn-primary" onClick={() => Add()}>Save</button>
+            <button type="submit" className="btn btn-primary" onClick={() => AddIcon()}>Update</button>
           </div>
         </Box>
       </Modal>
