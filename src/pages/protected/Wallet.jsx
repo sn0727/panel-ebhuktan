@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import ErrorText from '../../components/Typography/ErrorText';
 import { toast } from 'react-toastify';
+import WalletTransactions from '../../features/wallet-transactions';
 
 
 const style = {
@@ -34,6 +35,7 @@ const Wallet = () => {
   const [CurruntAmount, setCurruntAmount] = useState('');
   const [errorMessage, setErrorMessage] = useState("")
   const [open, setOpen] = React.useState(false);
+  const [contactNumber, setcontactNumber] = useState('')
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -73,9 +75,10 @@ const Wallet = () => {
     handleClose()
     setisLoading(true)
     let config = {
-      url: ApiUrl.addAmount,
+      url: ApiUrl.walletTransfer,
       method: 'post',
       body: {
+        contact: contactNumber,
         amount: Amount
       }
     };
@@ -103,9 +106,9 @@ const Wallet = () => {
     }
     return setErrorMessage("Amount is required! (use any value)")
   }
-  useEffect(()=>{
+  useEffect(() => {
     setErrorMessage('')
-  },[])
+  }, [])
 
   return (
     <>
@@ -117,10 +120,10 @@ const Wallet = () => {
           <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {CurruntAmount}</h2>
         </div>
         <div>
-          {role === 'superAdmin' ? <button onClick={handleOpen} className="btn px-6 btn-sm normal-case btn-primary"> Add Amount</button> : null}
+          <button onClick={handleOpen} className="btn px-6 btn-sm normal-case btn-primary"> Send Amount</button>
         </div>
       </div>
-      <Transactions />
+      <WalletTransactions />
 
 
       <Modal
@@ -130,7 +133,15 @@ const Wallet = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <h1 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '20px' }}>Add amount</h1>
+          <h1 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '10px' }}>Enter mobile no.</h1>
+          <input
+            onChange={(e) => setcontactNumber(e.target.value)}
+            value={contactNumber}
+            name="mobile"
+            maxLength={10}
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text"
+            placeholder="7737811655" />
+          <h1 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '10px', marginTop: '10px' }}>Add amount</h1>
           <input
             onChange={(e) => setAmount(e.target.value)}
             value={Amount}
@@ -139,7 +150,7 @@ const Wallet = () => {
           <div className="w-full px-3">
             <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
           </div>
-          <button onClick={() => Submit()} className="btn px-6 mt-5 btn-primary" style={{ width: '100%' }}> Add </button>
+          <button onClick={() => Submit()} className="btn px-6 mt-5 btn-primary" style={{ width: '100%' }}> Send </button>
         </Box>
       </Modal>
     </>

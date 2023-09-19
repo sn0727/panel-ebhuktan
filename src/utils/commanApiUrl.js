@@ -20,6 +20,7 @@ export const ApiUrl = {
   login: `${APISuperadmin}login`,
   update: `${APIUser}update`,
   addAmount: `${APIUser}addAmount`,
+  walletTransfer: `${APIUser}walletTransfer`,
 
 
   forgotPassword: `${APISuperadmin}forgotPassword`,
@@ -67,6 +68,7 @@ export const ApiUrl = {
   transaction_getDTHRecharge: `${apiBaseUrl}transaction/getDTHRecharge`,
   transaction_getMunicipality: `${apiBaseUrl}transaction/getMunicipality`,
   transaction_getCardPayment: `${apiBaseUrl}transaction/getCardPayment`,
+  transaction_getWallet: `${apiBaseUrl}transaction/wallet/get/transaction`,
 
   // user forder api 
   user_getById: `${APIUser}getById`,
