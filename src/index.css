@@ -333,7 +333,7 @@ input.file-input-operator {
   display: inline-block;
   width: 40px;
   height: 22px;
-  margin-top: 15px;
+  margin-top: 5px;
 }
 
 .switch input { 
@@ -388,3 +388,21 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 /* =============== switch css code ============= */
+
+.stat-title {
+  font-size: 13px !important;
+}
+.stat-value {
+  font-size: 28px !important;
+}
+ul.commission-customize li {
+  text-transform: capitalize;
+  margin: 8px 3px;
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+ul.commission-customize li div svg {
+  margin-left: auto !important;
+}

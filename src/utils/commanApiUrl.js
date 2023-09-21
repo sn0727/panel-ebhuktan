@@ -44,6 +44,11 @@ export const ApiUrl = {
   broadbandBillPaymentUpdateCommission : `${apiBaseUrl}broadband/bill-payment/updateCommission`,
   waterBillPaymentUpdateCommission : `${apiBaseUrl}water/bill-payment/updateCommission`,
 
+  // total Commission transaction
+  TotalCommissionTransaction : `${apiBaseUrl}transaction/totalCommission`,
+  superAdminGetConfigList : `${apiBaseUrl}superAdmin/getConfig`,
+  superAdminUpdateConfig : `${apiBaseUrl}superAdmin/updateConfig`,
+
 
   // add Icon operator image
   MobileRechargeAddIcon : `${apiBaseUrl}recharge/addIcon`,

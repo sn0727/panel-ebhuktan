@@ -279,8 +279,8 @@ function RetailerContent() {
                                     <td>PanNo</td>
                                     <td>Status</td>
                                     <td>Amount</td>
-                                    {clusterData[0]?.earning && <td>Earning</td>}
-                                    {clusterData[0]?.commission && <td>Commission</td>}
+                                    <td>Earning</td>
+                                    <td>Commission</td>
                                     {role === "superAdmin" && <td>Delete</td>}
                                     {role === "superAdmin" && <td>Add Money</td>}
                                     <td>View Details</td>

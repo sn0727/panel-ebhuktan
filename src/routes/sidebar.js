@@ -199,6 +199,11 @@ routes = [
     name: 'Commission Transaction',
   },
   {
+    path: '/app/customize-commission',
+    icon: <RiHealthBookLine className={submenuIconClasses} />,
+    name: 'Customize Commission',
+  },
+  {
     path: '/app/transactions',
     icon: <CurrencyDollarIcon className={iconClasses} />,
     name: 'All Transactions',

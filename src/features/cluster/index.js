@@ -21,7 +21,7 @@ import { toast } from "react-toastify"
 import { Link, useNavigate } from "react-router-dom"
 // select box code 
 
-const TopSideButtons = ({ Aprovehandler, Pandinghandler, setCategory }) => {
+const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCategory }) => {
 
     const dispatch = useDispatch()
 
@@ -42,7 +42,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, setCategory }) => {
         roleStatus ? Aprovehandler() : Pandinghandler()
     }, [])
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW }))
+        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName }))
     }
 
     return (
@@ -242,7 +242,7 @@ function Cluster() {
     return (
         <>
 
-            <TitleCard title="Current Cluster" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} />}>
+            <TitleCard title="Current Cluster" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} createRoleName={'cluster'} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
@@ -259,8 +259,9 @@ function Cluster() {
                                     <td>PanNo</td>
                                     <td>Status</td>
                                     <td>Amount</td>
-                                    {/* {clusterData[0]?.earning && <td>Earning</td>} */}
-                                    {clusterData[0]?.commission && <td>Commission</td>}
+                                    <td>Earning</td>
+                                    {/* {clusterData[0]?.commission ? <td>Commission</td> : null} */}
+                                    <td>Commission</td>
                                     {role === "superAdmin" && <td>Delete</td>}
                                     {role === "superAdmin" && <td>Add Money</td>}
                                     <td>View Details</td>
@@ -300,7 +301,7 @@ function Cluster() {
                                                     {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "reject" ? "approved" : "Reject"}</div>}
                                                 </td>
                                                 <td>{l.amount}</td>
-                                                {/* <td>{parseFloat(l?.earning).toFixed(2)}</td> */}
+                                                <td>{parseFloat(l?.earning).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.commission).toFixed(2)}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >

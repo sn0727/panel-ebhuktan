@@ -273,7 +273,7 @@ function DistributorContent() {
                                     <td>PanNo</td>
                                     <td>Status</td>
                                     <td>Amount</td>
-                                    {/* {clusterData[0]?.earning && <td>Earning</td>} */}
+                                    <td>Earning</td>
                                     <td>Commission</td>
                                     {role === "superAdmin" && <td>Delete</td>}
                                     {role === "superAdmin" && <td>Add Money</td>}
@@ -313,7 +313,7 @@ function DistributorContent() {
                                                     {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "reject" ? "approved" : "Reject"}</div>}
                                                 </td>
                                                 <td>{parseFloat(l.amount).toFixed(2)}</td>
-                                                {/* <td>{parseFloat(l?.earning).toFixed(2)}</td> */}
+                                                <td>{parseFloat(l?.earning).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.commission).toFixed(2)}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >

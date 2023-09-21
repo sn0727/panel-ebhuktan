@@ -72,7 +72,6 @@ function ProfileSettings() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <InputText labelTitle="Name" defaultValue={name} updateType="name" updateFormValue={updateFormValue} />
-                    <InputText labelTitle="Name" defaultValue={name} updateType="name" updateFormValue={updateFormValue} />
                     <InputText labelTitle="Email Id" defaultValue={email} updateType="email" updateFormValue={updateFormValue} />
                     <InputText labelTitle="Contact" defaultValue={contact} updateType="contact" updateFormValue={updateFormValue} />
                     <InputText labelTitle="State" defaultValue={state} updateType="state" updateFormValue={updateFormValue} />

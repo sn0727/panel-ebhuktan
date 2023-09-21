@@ -9,6 +9,8 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
     const [isLoading, setisLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
 
+    console.log(createRoleName, "createRoleName")
+
     // get token object 
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
@@ -28,23 +30,23 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
     const [Id, setId] = useState('');
 
     const submitHandler = async (e) => {
-        setisLoading(true)
         e.preventDefault();
         setErrorMessage("")
 
         if (name.trim() === "") return setErrorMessage("Name is required! (use any value)")
         if (email.trim() === "") return setErrorMessage("Email Id is required! (use any value)")
-        if (contact.trim() === "") return setErrorMessage("Contact is required! (use any value)")
-        if (postCode.trim() === "") return setErrorMessage("Postal is required! (use any value)")
+        if (contact.trim().length !== 10) return setErrorMessage("Please enter correct contact no")
+        if (postCode.trim().length !== 6) return setErrorMessage("Please enter correct Postal Code")
         if (password.trim() === "") return setErrorMessage("Password is required! (use any value)")
-        if (statevalue.trim() == "") return setErrorMessage("Please enter correct Aadhaar No")
-        if (district.trim() === "") return setErrorMessage("State is required! (use any value)")
-        if (addharcard.trim().length !== 12) return setErrorMessage("Aadhar No is required! (use any value)")
-        if (pancard.trim() === "") return setErrorMessage("Pan Card No is required! (use any value)")
+        if (statevalue.trim() == "") return setErrorMessage("State is reqiured (use any value)")
+        if (district.trim() === "") return setErrorMessage("District is required! (use any value)")
+        if (addharcard.trim().length !== 12) return setErrorMessage("Please enter correct aadhar no")
+        if (pancard.trim().length !== 10) return setErrorMessage("Please enter correct pan card no")
         else {
             try {
 
                 const SendRequest = async () => {
+                    setisLoading(true)
                     let config = {
                         url: ApiUrl.createUser,
                         method: 'post',
@@ -72,6 +74,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                         err => {
                             console.log(err);
                             setisLoading(false)
+                            toast.error(err.message)
                         }
                     );
                 }
@@ -122,11 +125,12 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             Contact
                         </label>
                         <input
+                        
                             onChange={(e) => setContact(e.target.value)}
                             value={contact}
                             name="number"
                             required
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="enter number" />
+                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="number" placeholder="enter number" />
                     </div>
 
                     <div className="w-full md:w-1/2 px-3">
@@ -187,11 +191,10 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                         <input
                             onChange={(e) => setAddharCard(e.target.value)}
                             value={addharcard}
-                            min={12}
                             name="number"
                             required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="text" placeholder={"Addhar Card No"} />
+                            type="number" placeholder={"Addhar Card No"} />
                     </div>
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">

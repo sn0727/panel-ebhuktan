@@ -22,33 +22,52 @@ const style = {
   borderRadius: '16px'
 };
 
-export default function EditOperatorModal(props) {
-  const { id = null } = props
-  const { isPercentage = null } = props
-  const { isEnable1 = null } = props
-  const { getCommissionApi = null } = props
+export default function CustomizeCommissionModal({ cluster, retailer, distributor, gst, franchise, type }) {
+  const [commission, setCommission] = useState('')
   const [open, setOpen] = useState(false);
   const [isLoading, setisLoading] = useState(false)
-  const [commission, setCommission] = useState('')
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [isEnable, setIsEnable] = useState(isEnable1);
-  const [isPercentage1, setIsPercentage1] = useState(isPercentage);
 
-  console.log(getCommissionApi, "getCommissionApi pop")
+  let body;
+
+  if (type === "cluster") {
+    body = {
+      cluster: commission
+    }
+    console.log(cluster)
+  } else if (type === "retailer") {
+    body = {
+      retailer: commission
+    }
+    console.log(retailer)
+  } else if (type === "distributor") {
+    body = {
+      distributor: commission
+    }
+    console.log(distributor)
+  } else if (type === "gst") {
+    body = {
+      gst: commission
+    }
+    console.log(gst)
+  } else if (type === "franchise") {
+    body = {
+      franchise: commission
+    }
+    console.log(franchise)
+  }
+
+  console.log(body, "body data")
 
   const Add = () => {
     setisLoading(true)
     setOpen(false)
+
     let config = {
-      url: getCommissionApi,
+      url: ApiUrl.superAdminUpdateConfig,
       method: 'post',
-      body: {
-        id: id,
-        commission: commission,
-        isPercentage: isPercentage1,
-        isEnable: isEnable
-      }
+      body: body
     };
     APIRequest(
       config,
@@ -82,26 +101,9 @@ export default function EditOperatorModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <InputText type="text" placeholder={'Commission Amount'} defaultValue={''} updateType="name" containerStyle="mt-4" labelTitle={isPercentage ? "Enter Commission Percentage Value" : "Enter Commission Amount"} updateFormValue={updateFormValue} />
-          <p className=' mt-2'>Do you want Commission type Percentage?</p>
-          <label class="switch">
-            <input type="checkbox"
-              checked={isPercentage1 === "true"}
-              onClick={() => setIsPercentage1(isPercentage1 !== "true" ? "true" : "false")}
-            />
-            <span class="slider round"></span>
-          </label>
-          <br />
-          <p className=' mt-2'>Do you want Deactivate.</p>
-          <label class="switch">
-            <input type="checkbox"
-              checked={isEnable === "true"}
-              onClick={() => setIsEnable(isEnable !== "true" ? "true" : "false")}
-            />
-            <span class="slider round"></span>
-          </label>
+          <InputText type="text" placeholder={'Commission Amount'} defaultValue={''} updateType="name" containerStyle="mt-4" labelTitle={"Enter Commission Amount"} updateFormValue={updateFormValue} />
           <div className="mt-3 m-auto">
-            <button type="submit" className="btn btn-primary" onClick={() => Add()}>Save</button>
+            <button type="submit" className="btn btn-primary" onClick={() => Add()}>Save dd</button>
           </div>
         </Box>
       </Modal>

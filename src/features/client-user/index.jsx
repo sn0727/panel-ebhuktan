@@ -291,12 +291,12 @@ function ClientUserContent() {
                                     <th>Email Id</th>
                                     <th>Contact No.</th>
                                     <th>Address</th>
-                                    <td>AddharNo</td>
+                                    <td>AadharNo</td>
                                     <td>PanNo</td>
                                     <td>Status</td>
                                     <td>Amount</td>
-                                    {/* {clusterData[0]?.earning && <td>Earning</td>} */}
-                                    {clusterData[0]?.commission && <td>Commission</td>}
+                                    <td>Earning</td>
+                                    <td>Commission</td>
                                     {role === "superAdmin" && <td>Delete</td>}
                                     {role === "superAdmin" && <td>Add Money</td>}
                                 </tr>
@@ -334,7 +334,7 @@ function ClientUserContent() {
                                                     {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
                                                 </td>
                                                 <td>{parseFloat(l.amount).toFixed(2)}</td>
-                                                {/* <td>{parseFloat(l?.earning).toFixed(2)}</td> */}
+                                                <td>{parseFloat(l?.earning).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.commission).toFixed(2)}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >

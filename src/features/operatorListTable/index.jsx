@@ -88,7 +88,7 @@ function OperatorListTable({ pageTitlle, getOperatorList, getCommission, getAddI
                         <div className="description-data">{l.name}</div>
                       </td>
                       <td>{l.category}</td>
-                      <td>{l.isPercentage ? 'Percentage' : 'Fixed'}</td>
+                      <td>{l.isPercentage === "true" ? 'Percentage' : 'Fixed'}</td>
                       <td className="text-center">{l.commission}</td>
                       <td>{l.isEnable}</td>
                       <td>

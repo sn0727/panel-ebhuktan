@@ -8,6 +8,7 @@ import MunicipalityOperator from '../pages/protected/operator/MunicipalityOperat
 import DTHRechargeOperator from '../pages/protected/operator/DTHRechargeOperator'
 import BroadbandBillPaymentOperator from '../pages/protected/operator/BroadbandBillPaymentOperator'
 import WaterBillPaymentOperator from '../pages/protected/operator/WaterBillPaymentOperator'
+import CustomizeCommission from '../pages/protected/CustomizeCommission'
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
 const Page404 = lazy(() => import('../pages/protected/404'))
@@ -114,6 +115,10 @@ const routes = [
   {
     path: "/commission-transaction",
     component: CommissionTransaction
+  },
+  {
+    path: "/customize-commission",
+    component: CustomizeCommission
   },
   {
     path: "/fastag",

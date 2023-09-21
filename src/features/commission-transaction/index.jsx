@@ -9,10 +9,21 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import DashboardTopBar from "../dashboard/components/DashboardTopBar";
+import { useDispatch } from 'react-redux'
+import { showNotification } from '../common/headerSlice'
+import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
+import UserGroupIcon from '@heroicons/react/24/outline/UserGroupIcon'
+import CircleStackIcon from '@heroicons/react/24/outline/CircleStackIcon'
+import CreditCardIcon from '@heroicons/react/24/outline/CreditCardIcon'
+import jwtDecode from 'jwt-decode';
+import DashboardStats from "../dashboard/components/DashboardStats";
+import {FaRupeeSign} from "react-icons/fa"
 
 function CommissionTransactionContent() {
-
+    const dispatch = useDispatch()
     const [users, setUsers] = useState([])
+    const [statsData, setCount] = useState([]);
     const [currentPage, setCurrentPage] = useState(1)
     const [isLoading, setisLoading] = useState(true);
     const [category, setCategory] = useState('');
@@ -20,7 +31,15 @@ function CommissionTransactionContent() {
     const [totalAmount, setTotalAmount] = useState(0)
     const [totalCount, setTotalCount] = useState(0)
     const [Check, setCheck] = useState(false);
-    console.log(totalCount, "total count")
+
+    console.log(statsData, "commission transaction")
+
+    // i am getting authantication role
+    var token = localStorage.getItem("token")
+    const decodedToken = jwtDecode(token);
+    const { role } = decodedToken.user
+
+    console.log(role)
 
     const handleChange = (event) => {
         setCategory(event.target.value);
@@ -45,6 +64,41 @@ function CommissionTransactionContent() {
                 setTotalAmount(res.total)
                 setUsers(res.data)
                 setCheck(false)
+                setisLoading(false)
+            },
+            err => {
+                console.log(err);
+                setisLoading(false)
+            }
+        );
+    }
+
+    // show commision amount table.
+    const SendRequest02 = async () => {
+        setisLoading(true)
+        let config = {
+            url: ApiUrl.TotalCommissionTransaction,
+            method: 'get',
+        };
+        APIRequest(
+            config,
+            res => {
+                // console.log(res.totalCommission.adminCommission, "commission transaction");
+                // let { commission } = res?.totalCommission;
+                if (role === "superAdmin") {
+                    setCount(
+                        [
+                            { title: "Total Commission", value: res?.totalCommission?.totalCommission, icon: <FaRupeeSign className='w-6 h-6' />, description: "" },
+                            { title: "Admin Commission", value: res?.totalCommission?.adminCommission, icon: <FaRupeeSign className='w-6 h-6' />, description: "" },
+                            { title: "Cluster Commission", value: res?.totalCommission?.clusterCommission, icon: <FaRupeeSign className='w-6 h-6' />, description: "" },
+                            { title: "Distributor Commission", value: res?.totalCommission?.distributorCommission, icon: <FaRupeeSign className='w-6 h-6' />, description: "" },
+                            { title: "Franchise Commission", value: res?.totalCommission?.franchiseCommission, icon: <FaRupeeSign className='w-6 h-6' />, description: "" },
+                            { title: "Retailer Commission", value: res?.totalCommission?.retailerCommission, icon: <FaRupeeSign className='w-6 h-6' />, description: "" },
+                        ]
+                    )
+                } 
+
+
                 setisLoading(false)
             },
             err => {
@@ -90,14 +144,32 @@ function CommissionTransactionContent() {
         SendRequest()
     }, [category])
 
+    const updateDashboardPeriod = (newRange) => {
+        // Dashboard range changed, write code to refresh your values
+        dispatch(showNotification({ message: `Period updated to ${newRange.startDate} to ${newRange.endDate}`, status: 1 }))
+    }
+
     useEffect(() => {
         SendRequestGetType()
+        SendRequest02()
     }, []);
 
     return (
         <>
+        {/** ---------------------- Different stats content 1 ------------------------- */}
+        <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6">
+                {
+                    !isLoading ?
+                        statsData.map((d, k) => {
+                            return (
+                                <DashboardStats key={k} {...d} colorIndex={k} />
+                            )
+                        })
+                        : null
+                }
+            </div>
             {/* total amout section */}
-            <div className="total-amount">
+            <div className="total-amount mt-5">
                 <div>total : {`${parseFloat(totalAmount).toFixed(2)}`}</div>
                 <div>count : {`${parseFloat(totalCount)}`}</div>
             </div>
@@ -128,6 +200,7 @@ function CommissionTransactionContent() {
                 {/* Team Member list in table format loaded constant */}
                 <div className="overflow-x-auto w-full">
                     {users.length > 0 ?
+
                         <table className="table w-full">
                             <thead>
                                 <tr>
@@ -137,17 +210,18 @@ function CommissionTransactionContent() {
                                     <th>Operator Id</th>
                                     <th>ConsumeId</th>
                                     <th>Admin Pin Code</th>
-                                    <th>Cluster Amount</th>
-                                    <th>Retailer Amount</th>
-                                    <th>Distributor Amount</th>
-                                    <th>Admin Amount</th>
+                                    {users[0]['clusterAmount']?<th>Cluster Amount</th>:null}
+                                    {users[0]['retailerAmount']? <th>Retailer Amount</th> : null}
+                                    {users[0]['franchiseAmount'] ? <th>Franchise Amount</th> : null}
+                                    {users[0]['distributorAmount'] ? <th>Distributor Amount</th> : null}
+                                    {users[0]['adminAmount']?<th>Admin Amount</th>:null}
                                     <th className="text-center">Type</th>
                                     <th className="text-center">Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    users.map(({ id, transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, modifiedCreatedAt }, k) => {
+                                    users.map(({ id, transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, modifiedCreatedAt, franchiseAmount }, k) => {
                                         return (
                                             <tr key={k}>
                                                 <td className="text-center">{id}</td>
@@ -156,10 +230,11 @@ function CommissionTransactionContent() {
                                                 <td className="text-center">{operatorId}</td>
                                                 <td className="text-center">{consumerId}</td>
                                                 <td className="text-center">{adminPinCode}</td>
-                                                <td className="text-center">{clusterAmount}</td>
-                                                <td className="text-center">{retailerAmount}</td>
-                                                <td className="text-center">{distributorAmount}</td>
-                                                <td className="text-center">{adminAmount}</td>
+                                                {users[0]['clusterAmount']?<td className="text-center">{clusterAmount}</td>:null}
+                                                {users[0]['retailerAmount']?<td className="text-center">{retailerAmount}</td>: null}
+                                                {users[0]['franchiseAmount']?<td className="text-center">{franchiseAmount}</td> : null}
+                                                {users[0]['distributorAmount']?<td className="text-center">{distributorAmount}</td> : null }
+                                                {users[0]['adminAmount']?<td className="text-center">{adminAmount}</td>:null}
                                                 <td className="text-center">{type}</td>
                                                 {/* <td className="text-center">{moment().format(modifiedCreatedAt)}</td> */}
                                                 <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
