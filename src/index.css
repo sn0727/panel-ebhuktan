@@ -406,3 +406,9 @@ ul.commission-customize li {
 ul.commission-customize li div svg {
   margin-left: auto !important;
 }
+html[native-dark-active] .menu :where(li) > :where(:not(ul)) {
+  color: var(--native-dark-font-color) !important;
+}
+html a:visited, html a:visited > * {
+  color: var(--native-dark-font-color) !important;
+}

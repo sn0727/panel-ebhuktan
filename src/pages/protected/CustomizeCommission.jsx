@@ -15,7 +15,7 @@ const CustomizeCommission = () => {
 
   return (
     <div>
-      <CustomizeCommissionTable pageTitlle={"Customize Commission"} GetConfigList={ApiUrl.superAdminGetConfigList} getCommission={ApiUrl.updateMobileRechargeCommission} getAddIcon={ApiUrl.MobileRechargeAddIcon} />
+      <CustomizeCommissionTable pageTitlle={"Customize Commission"} GetConfigList={ApiUrl.superAdminGetConfigList} getAddIcon={ApiUrl.MobileRechargeAddIcon} />
     </div>
   )
 }

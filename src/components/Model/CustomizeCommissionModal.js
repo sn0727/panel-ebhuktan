@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { FaEdit } from 'react-icons/fa';
 import { useState } from 'react';
@@ -35,7 +32,6 @@ export default function CustomizeCommissionModal({ cluster, retailer, distributo
     body = {
       cluster: commission
     }
-    console.log(cluster)
   } else if (type === "retailer") {
     body = {
       retailer: commission
@@ -103,7 +99,7 @@ export default function CustomizeCommissionModal({ cluster, retailer, distributo
         <Box sx={style}>
           <InputText type="text" placeholder={'Commission Amount'} defaultValue={''} updateType="name" containerStyle="mt-4" labelTitle={"Enter Commission Amount"} updateFormValue={updateFormValue} />
           <div className="mt-3 m-auto">
-            <button type="submit" className="btn btn-primary" onClick={() => Add()}>Save dd</button>
+            <button type="submit" className="btn btn-primary" onClick={() => Add()}>Save</button>
           </div>
         </Box>
       </Modal>

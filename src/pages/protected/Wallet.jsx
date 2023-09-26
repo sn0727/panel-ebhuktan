@@ -51,14 +51,14 @@ const Wallet = () => {
   const SendRequest = () => {
     setisLoading(true)
     let config = {
-      url: `${ApiUrl.getByToken}`,
+      url: `${ApiUrl.checkBalance}`,
       method: 'get',
     };
     APIRequest(
       config,
       res => {
         console.log(res);
-        setCurruntAmount(res.user.amount)
+        setCurruntAmount(res)
         setisLoading(false)
       },
       err => {
@@ -115,13 +115,21 @@ const Wallet = () => {
       <DynamicTitle pageTitle={"Wallet"} />
       {/* <WalletContent /> */}
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div className='shadow' style={{ width: '300px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
+        <div className='shadow mb-4' style={{ width: '300px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
+          <h5>API Wallet</h5>
+          <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {parseFloat(CurruntAmount.total).toFixed(2)}</h2>
+        </div>
+        <div className='shadow mb-4' style={{ width: '300px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
           <h5>Total amount</h5>
-          <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {CurruntAmount}</h2>
+          <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {parseFloat(CurruntAmount.remainAmount).toFixed(2)}</h2>
         </div>
-        <div>
+        <div className='shadow mb-4' style={{ width: '300px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
+          <h5>Distributed Amount</h5>
+          <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {parseFloat(CurruntAmount.distributedAmount).toFixed(2)}</h2>
+        </div>
+        {/* <div>
           <button onClick={handleOpen} className="btn px-6 btn-sm normal-case btn-primary"> Send Amount</button>
-        </div>
+        </div> */}
       </div>
       <WalletTransactions />
 

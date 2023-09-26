@@ -18,9 +18,9 @@ function CustomizeCommissionTable({ pageTitlle, GetConfigList }) {
   const [totalUser, setTotalUser] = useState("")
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { cluster, distributor, franchise, gst, id, retailer } = customizeCommission;
+  const { cluster, distributor, franchise, gst, retailer } = customizeCommission;
 
-  console.log(customizeCommission, "getCommission api url")
+  // console.log(customizeCommission, "getCommission api url")
 
   const SendRequest = async () => {
     setisLoading(true)
@@ -56,7 +56,7 @@ function CustomizeCommissionTable({ pageTitlle, GetConfigList }) {
             <thead>
               <tr>
                 <th>Name</th>
-                <th className="text-right">Comission</th>
+                <th className="text-right">Commission</th>
                 <td className="text-right">Action</td>
               </tr>
             </thead>
