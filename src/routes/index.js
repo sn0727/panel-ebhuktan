@@ -9,6 +9,11 @@ import DTHRechargeOperator from '../pages/protected/operator/DTHRechargeOperator
 import BroadbandBillPaymentOperator from '../pages/protected/operator/BroadbandBillPaymentOperator'
 import WaterBillPaymentOperator from '../pages/protected/operator/WaterBillPaymentOperator'
 import CustomizeCommission from '../pages/protected/CustomizeCommission'
+import PostpaidMobileRechargeOperator from '../pages/protected/operator/PostpaidMobileRechargeOperator'
+import LandlineBillPaymentOperator from '../pages/protected/operator/LandlineBillPaymentOperator'
+import CableRechargeOperator from '../pages/protected/operator/CableRechargeOperator'
+import LoanEmiRechargeOperator from '../pages/protected/operator/LoanEmiRechargeOperator'
+import InsuranceEmiRechargeOperator from '../pages/protected/operator/InsuranceEmiRechargeOperator'
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
 const Page404 = lazy(() => import('../pages/protected/404'))
@@ -135,6 +140,10 @@ const routes = [
     component: MobileRechargeOperators
   },
   {
+    path: "/operator/postpaid-mobile-recharge-operator",
+    component: PostpaidMobileRechargeOperator
+  },
+  {
     path: "/operator/fast-tag-operator",
     component: FastTagOperator
   },
@@ -151,12 +160,28 @@ const routes = [
     component: DTHRechargeOperator
   },
   {
+    path: "/operator/cable-Recharge-operator",
+    component: CableRechargeOperator
+  },
+  {
     path: "/operator/broadband-bill-Payment",
     component: BroadbandBillPaymentOperator
   },
   {
+    path: "/operator/landline-bill-Payment",
+    component: LandlineBillPaymentOperator
+  },
+  {
     path: "/operator/watter-bill-Payment",
     component: WaterBillPaymentOperator
+  },
+  {
+    path: "/operator/loan-emi-Payment",
+    component: LoanEmiRechargeOperator
+  },
+  {
+    path: "/operator/insurance-emi-Payment",
+    component: InsuranceEmiRechargeOperator
   },
   {
     path: "/Commission",

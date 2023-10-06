@@ -21,6 +21,8 @@ export const ApiUrl = {
   update: `${APIUser}update`,
   addAmount: `${APIUser}addAmount`,
   walletTransfer: `${APIUser}walletTransfer`,
+  aadhaarWithOTP: `${APIUser}verification/aadhaarWithOTP`,
+  verifyAadhaarOTP: `${APIUser}verification/verifyAadhaarOTP`,
 
 
   forgotPassword: `${APISuperadmin}forgotPassword`,
@@ -36,27 +38,29 @@ export const ApiUrl = {
 
 
   // updateCommission
-  updateMobileRechargeCommission : `${apiBaseUrl}recharge/updateCommission`,
-  electricityUpdateCommission : `${apiBaseUrl}electricity/bill-payment/updateCommission`,
-  fastTagUpdateCommission : `${apiBaseUrl}fastTag/updateCommission`,
-  lpgGasUpdateCommission : `${apiBaseUrl}lpg-gas/updateCommission`,
-  municipalityUpdateCommission : `${apiBaseUrl}municipality/updateCommission`,
-  dthRechargeUpdateCommission : `${apiBaseUrl}dth-recharge/updateCommission`,
-  broadbandBillPaymentUpdateCommission : `${apiBaseUrl}broadband/bill-payment/updateCommission`,
-  waterBillPaymentUpdateCommission : `${apiBaseUrl}water/bill-payment/updateCommission`,
+  updateMobileRechargeCommission: `${apiBaseUrl}recharge/updateCommission`,
+  updatePostpaidMobileRechargeCommission: `${apiBaseUrl}recharge/postpaid/updateCommission`,
+  electricityUpdateCommission: `${apiBaseUrl}electricity/bill-payment/updateCommission`,
+  fastTagUpdateCommission: `${apiBaseUrl}fastTag/updateCommission`,
+  lpgGasUpdateCommission: `${apiBaseUrl}lpg-gas/updateCommission`,
+  municipalityUpdateCommission: `${apiBaseUrl}municipality/updateCommission`,
+  dthRechargeUpdateCommission: `${apiBaseUrl}dth-recharge/updateCommission`,
+  broadbandBillPaymentUpdateCommission: `${apiBaseUrl}broadband/bill-payment/updateCommission`,
+  waterBillPaymentUpdateCommission: `${apiBaseUrl}water/bill-payment/updateCommission`,
 
   // total Commission transaction
-  TotalCommissionTransaction : `${apiBaseUrl}transaction/totalCommission`,
-  superAdminGetConfigList : `${apiBaseUrl}superAdmin/getConfig`,
-  superAdminUpdateConfig : `${apiBaseUrl}superAdmin/updateConfig`,
+  TotalCommissionTransaction: `${apiBaseUrl}transaction/totalCommission`,
+  superAdminGetConfigList: `${apiBaseUrl}superAdmin/getConfig`,
+  superAdminUpdateConfig: `${apiBaseUrl}superAdmin/updateConfig`,
 
 
   // add Icon operator image
-  MobileRechargeAddIcon : `${apiBaseUrl}recharge/addIcon`,
-  electricityOperatorAddIcon : `${apiBaseUrl}electricity/bill-payment/addIcon`,
-  fastTagOperatorAddIcon : `${apiBaseUrl}fastTag/addIcon`,
-  lpgGasOperatorAddIcon : `${apiBaseUrl}lpg-gas/addIcon`,
-  municipalityOperatorAddIcon : `${apiBaseUrl}municipality/addIcon`,
+  MobileRechargeAddIcon: `${apiBaseUrl}recharge/addIcon`,
+  PostpaidMobileRechargeAddIcon: `${apiBaseUrl}recharge/postpaid/addIcon`,
+  electricityOperatorAddIcon: `${apiBaseUrl}electricity/bill-payment/addIcon`,
+  fastTagOperatorAddIcon: `${apiBaseUrl}fastTag/addIcon`,
+  lpgGasOperatorAddIcon: `${apiBaseUrl}lpg-gas/addIcon`,
+  municipalityOperatorAddIcon: `${apiBaseUrl}municipality/addIcon`,
 
 
 
@@ -106,6 +110,7 @@ export const ApiUrl = {
   // this is user api
 
   rechargeGetOperatorList: `${apiBaseUrl}recharge/getOperatorList`,
+  rechargePostpaidGetOperatorList: `${apiBaseUrl}recharge/postpaid/getOperatorList`,
 
   fastTagGetOperatorList: `${apiBaseUrl}fastTag/getOperatorList`,
   fastTagFetchDetails: `${apiBaseUrl}fastTag/fetchDetails`,
@@ -113,7 +118,7 @@ export const ApiUrl = {
   electricityGetOperatorList: `${apiBaseUrl}electricity/bill-payment/getOperaterList`,
   electricityGetState: `${apiBaseUrl}electricity/bill-payment/getState`,
   electricityFetchBill: `${apiBaseUrl}electricity/bill-payment/fetchBill`,
-  
+
 
   waterGetOperaterList: `${apiBaseUrl}water/bill-payment/getOperaterList`,
 
@@ -129,8 +134,24 @@ export const ApiUrl = {
 
   DthGetOperatorList: `${apiBaseUrl}dth-recharge/getOperatorList`,
 
+  CableGetOperatorList: `${apiBaseUrl}dth-recharge/cable/getOperatorList`,
+  CableUpdateCommission: `${apiBaseUrl}dth-recharge/cable/updateCommission`,
+  CableAddIcon: `${apiBaseUrl}dth-recharge/cable/getOperatorList`,
+
   broadbandGetOperatorList: `${apiBaseUrl}broadband/bill-payment/getOperaterList`,
   broadbandFetchBill: `${apiBaseUrl}broadband/bill-payment/fetchBill`,
+
+  LandlineGetOperatorList: `${apiBaseUrl}broadband/bill-payment/landline/getOperatorList`,
+  LandlineUpdateCommission: `${apiBaseUrl}broadband/bill-payment/landline/updateCommission`,
+  LandlineAddIcon: `${apiBaseUrl}broadband/bill-payment/landline/addIcon`,
+
+  LoanGetOperatorList: `${apiBaseUrl}loan/EMI/payment/getOperatorList`,
+  LoanUpdateCommission: `${apiBaseUrl}loan/EMI/payment/updateCommission`,
+  LoanAddIcon: `${apiBaseUrl}loan/EMI/payment/addIcon`,
+
+  InsuranceGetOperatorList: `${apiBaseUrl}insurance/EMI/payment/fetchInsuranceDetails`,
+  InsuranceUpdateCommission: `${apiBaseUrl}insurance/EMI/payment/updateCommission`,
+  InsuranceAddIcon: `${apiBaseUrl}insurance/EMI/payment/addIcon`,
 
 };
 
@@ -169,12 +190,12 @@ export const APIRequest = async (config = {}, onSuccess, onError, noAuth = null)
     axios(data)
       .then(res => {
         if (res.status == 200 || res.status == 201) {
-          onSuccess(res.data);
+          onSuccess(res?.data);
         }
       })
       .catch(err => {
         console.log(err);
-        onError(err?.response.data);
+        onError(err?.response?.data);
       });
   } catch (error) {
     console.log("error", error);

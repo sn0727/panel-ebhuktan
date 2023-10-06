@@ -412,3 +412,11 @@ html[native-dark-active] .menu :where(li) > :where(:not(ul)) {
 html a:visited, html a:visited > * {
   color: var(--native-dark-font-color) !important;
 }
+p.verify {
+  position: absolute;
+  bottom: 10px;
+  left: 42%;
+}
+.relative{
+  position: relative;
+}

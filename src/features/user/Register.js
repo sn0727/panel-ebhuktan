@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
-import { ApiUrl } from '../../utils/commanApiUrl'
+import { APIRequest, ApiUrl } from '../../utils/commanApiUrl'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
@@ -16,7 +16,9 @@ function Register() {
         contact: '',
         state: '',
         aadharNo: '',
-        panNo: '',
+        panOtp: '',
+        aadharOtp: '',
+        panOtp: '',
         role: '',
         adminId: '',
         district: '',
@@ -28,6 +30,10 @@ function Register() {
     const [errorMessage, setErrorMessage] = useState("")
     const [registerObj, setRegisterObj] = useState(INITIAL_REGISTER_OBJ);
     const [role, setRole] = useState('');
+    const [aadharOTP, setaadharOTP] = useState('')
+    const [aadharclient_id, setaadharclient_id] = useState('')
+
+
     const Authuser = async () => {
         // var formData = new FormData();
         // formData.append('name', registerObj.name)
@@ -81,7 +87,7 @@ function Register() {
     }
 
     const submitForm = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         setErrorMessage("")
 
         if (registerObj.name.trim() === "") return setErrorMessage("Name is required! (use any value)")
@@ -95,7 +101,8 @@ function Register() {
         if (registerObj.postalCode.trim().length !== 6) return setErrorMessage("Please enter correct Postal Code")
         if (role.trim() === "") return setErrorMessage("Role is required! (use any value)")
         if (registerObj.password.trim() === "") return setErrorMessage("Password is required! (use any value)")
-        if (registerObj.password.trim().length >  7) return setErrorMessage("Password must be 8 characters!")
+        if (registerObj.password.trim().length > 7) return setErrorMessage("Password must be 8 characters!")
+        if (aadharOTP==='verify') return setErrorMessage("Please enter valid Aadhaar no.!")
         else {
             console.log(registerObj);
             Authuser()
@@ -115,6 +122,68 @@ function Register() {
         setRole(event.target.value)
     }
 
+    const AadhaarWithOTP = (aadharNo) => {
+        setLoading(true)
+        let config = {
+            url: `${ApiUrl.aadhaarWithOTP}`,
+            method: 'post',
+            body: {
+                id_number: aadharNo
+            }
+        };
+        APIRequest(
+            config,
+            res => {
+                console.log(res);
+                setaadharOTP('show')
+                setaadharclient_id(res?.data?.data?.client_id)
+                toast.success(res?.message)
+                setLoading(false)
+            },
+            err => {
+                toast.error(err?.message)
+                setLoading(false)
+            }
+        );
+    }
+
+    const VerifyAadhaarOTP = () => {
+        setLoading(true)
+        let config = {
+            url: `${ApiUrl.verifyAadhaarOTP}`,
+            method: 'post',
+            body: {
+                otp: registerObj.aadharOtp,
+                client_id: aadharclient_id
+            }
+        };
+        APIRequest(
+            config,
+            res => {
+                console.log(res);
+                setaadharOTP('verify')
+                toast.success(res?.message)
+                setLoading(false)
+            },
+            err => {
+                toast.error(err?.message)
+                setLoading(false)
+            }
+        );
+    }
+
+    useEffect(() => {
+        if (registerObj.aadharNo.length===12) {
+            AadhaarWithOTP(registerObj.aadharNo)
+        }
+    }, [registerObj.aadharNo])
+    useEffect(() => {
+        if (registerObj.aadharOtp?.length===6) {
+            VerifyAadhaarOTP()
+        }
+    }, [registerObj.aadharOtp,])
+
+
     return (
         <div className="min-h-screen bg-base-200 flex items-center">
             <div className="card mx-auto w-full max-w-5xl  shadow-xl">
@@ -124,44 +193,53 @@ function Register() {
                     </div>
                     <div className='py-24 px-10'>
                         <h2 className='text-2xl font-semibold mb-2 text-center'>Register</h2>
-                        <form onSubmit={(e) => submitForm(e)}>
-                            <div className="mb-4">
-                                <div className='inputRow'>
-                                    <InputText defaultValue={registerObj.name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
-                                    <InputText type="number" defaultValue={registerObj.contact} updateType="contact" containerStyle="mt-4" labelTitle="Contact No." updateFormValue={updateFormValue} />
-                                </div>
-                                <InputText defaultValue={registerObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue} />
-                                <div className='inputRow'>
-                                    <InputText type="number" defaultValue={registerObj.aadharNo} updateType="aadharNo" containerStyle="mt-4" labelTitle="Aadhaar No." updateFormValue={updateFormValue} />
-                                    <InputText defaultValue={registerObj.panNo} updateType="panNo" containerStyle="mt-4" labelTitle="Pan No" updateFormValue={updateFormValue} />
-                                </div>
-                                <div className='inputRow'>
-                                    <InputText defaultValue={registerObj.state} updateType="state" containerStyle="mt-4" labelTitle="State" updateFormValue={updateFormValue} />
-                                    <InputText defaultValue={registerObj.district} updateType="district" containerStyle="mt-4" labelTitle="District" updateFormValue={updateFormValue} />
-                                </div>
-                                <div className='inputRow'>
-                                    <InputText type="number" defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-4" labelTitle="Admin Id" updateFormValue={updateFormValue} />
-                                    <InputText type="number" defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-4" labelTitle="Postal Code" updateFormValue={updateFormValue} />
-                                </div>
-                                <div className='inputRow'>
-                                    <select name="role" defaultValue={role} id="role" onChange={selectHandler} className='select-style'>
-                                        <option value="select">select</option>
-                                        <option value="cluster">Cluster</option>
-                                        <option value="distributor">Distributor</option>
-                                        <option value="retailer">Retailer</option>
-                                    </select>
-                                </div>
-                                <div className='inputRow'>
-                                    {/* <InputText defaultValue={registerObj.role} updateType="role" containerStyle="mt-4" labelTitle="Role" updateFormValue={updateFormValue} /> */}
-                                    <InputText defaultValue={registerObj.password} type="password" updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
-                                </div>
+                        {/* <form onSubmit={(e) => submitForm(e)}> */}
+                        <div className="mb-4">
+                            <div className='inputRow'>
+                                <InputText defaultValue={registerObj.name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
+                                <InputText type="number" defaultValue={registerObj.contact} updateType="contact" containerStyle="mt-4" labelTitle="Contact No." updateFormValue={updateFormValue} />
                             </div>
+                            <InputText defaultValue={registerObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue} />
+                            <div className='inputRow relative'>
+                                {aadharOTP==='verify'?<p className='verify'>✅</p>:null}
+                                <InputText type="number" defaultValue={registerObj.aadharNo} updateType="aadharNo" containerStyle="mt-4" labelTitle="Aadhaar No." updateFormValue={updateFormValue} />
+                                <InputText defaultValue={registerObj.panNo} updateType="panNo" containerStyle="mt-4" labelTitle="Pan No" updateFormValue={updateFormValue} />
+                            </div>
+                            <div className='inputRow'>
+                                {aadharOTP === 'show' ? <InputText type="number"
+                                    defaultValue={registerObj.aadharOtp}
+                                    updateType="aadharOtp"
+                                    containerStyle="mt-4" labelTitle="Aadhaar OTP"
+                                    updateFormValue={updateFormValue}
+                                /> : null}
+                            </div>
+                            <div className='inputRow'>
+                                <InputText defaultValue={registerObj.state} updateType="state" containerStyle="mt-4" labelTitle="State" updateFormValue={updateFormValue} />
+                                <InputText defaultValue={registerObj.district} updateType="district" containerStyle="mt-4" labelTitle="District" updateFormValue={updateFormValue} />
+                            </div>
+                            <div className='inputRow'>
+                                <InputText type="number" defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-4" labelTitle="Admin Id" updateFormValue={updateFormValue} />
+                                <InputText type="number" defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-4" labelTitle="Postal Code" updateFormValue={updateFormValue} />
+                            </div>
+                            <div className='inputRow'>
+                                <select name="role" defaultValue={role} id="role" onChange={selectHandler} className='select-style'>
+                                    <option value="select">select</option>
+                                    <option value="cluster">Cluster</option>
+                                    <option value="distributor">Distributor</option>
+                                    <option value="retailer">Retailer</option>
+                                </select>
+                            </div>
+                            <div className='inputRow'>
+                                {/* <InputText defaultValue={registerObj.role} updateType="role" containerStyle="mt-4" labelTitle="Role" updateFormValue={updateFormValue} /> */}
+                                <InputText defaultValue={registerObj.password} type="password" updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
+                            </div>
+                        </div>
 
-                            <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
-                            <button type="submit" className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Register</button>
+                        <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
+                        <button type="submit" onClick={() => submitForm()} className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Register</button>
 
-                            <div className='text-center mt-4'>Already have an account? <Link to="/login"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Login</span></Link></div>
-                        </form>
+                        <div className='text-center mt-4'>Already have an account? <Link to="/login"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Login</span></Link></div>
+                        {/* </form>  */}
                     </div>
                 </div>
             </div>

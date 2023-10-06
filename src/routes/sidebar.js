@@ -37,6 +37,8 @@ import { BiUserCheck } from 'react-icons/bi';
 import { BiUserPin } from 'react-icons/bi';
 import { BiUserPlus } from 'react-icons/bi';
 import { BiUserVoice } from 'react-icons/bi';
+import { FaMobileAlt } from "react-icons/fa";
+
 // import { Jwt } from 'jsonwebtoken'
 import jwtDecode from 'jwt-decode';
 
@@ -143,23 +145,29 @@ if (role === "cluster") {
   userSubMenu1.push(
     {
       path: '/app/operator/mobile-recharge-operator',
-      icon: <BiUserCheck className={submenuIconClasses} />,
+      icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'Mobile Recharge',
 
     },
     {
+      path: '/app/operator/postpaid-mobile-recharge-operator',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'Postpaid Mobile Recharge',
+
+    },
+    {
       path: '/app/operator/electricity',
-      icon: <BiUserPin className={submenuIconClasses} />,
+      icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'Electricity Bill Payment',
     },
     {
       path: '/app/operator/fast-tag-operator',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'Fast Tag',
     },
     {
       path: '/app/operator/lpg-gag-operator',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'Gas Bill Payment',
     },
     {
@@ -173,14 +181,34 @@ if (role === "cluster") {
       name: 'DTH Recharge',
     },
     {
+      path: '/app/operator/cable-Recharge-operator',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'Cable Tv Recharge',
+    },
+    {
       path: '/app/operator/broadband-bill-Payment',
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'Broadband Bill Payment',
     },
     {
+      path: '/app/operator/landline-bill-Payment',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'Landline Bill Payment',
+    },
+    {
       path: '/app/operator/watter-bill-Payment',
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'Water Bill Payment',
+    },
+    {
+      path: '/app/operator/loan-emi-Payment',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'Loan EMI Payment',
+    },
+    {
+      path: '/app/operator/insurance-emi-Payment',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'Insurance EMI Payment',
     },
   );
 }
