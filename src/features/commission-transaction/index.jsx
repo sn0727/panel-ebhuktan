@@ -226,7 +226,7 @@ function CommissionTransactionContent() {
                                             <tr key={k}>
                                                 <td className="text-center">{id}</td>
                                                 <td className="text-center">{transactionId}</td>
-                                                <td className="text-center">{amount}</td>
+                                                <td className="text-center">{parseFloat(amount).toFixed(2)}</td>
                                                 <td className="text-center">{operatorId}</td>
                                                 <td className="text-center">{consumerId}</td>
                                                 <td className="text-center">{adminPinCode}</td>

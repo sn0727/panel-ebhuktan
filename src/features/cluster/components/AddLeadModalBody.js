@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ApiUrl, APIRequest } from '../../../utils/commanApiUrl';
 import ErrorText from '../../../components/Typography/ErrorText'
 import jwtDecode from 'jwt-decode';
@@ -28,6 +28,10 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
     const [addharcard, setAddharCard] = useState("")
     const [pancard, setPanCard] = useState("")
     const [Id, setId] = useState('');
+    const [addharcardOtp, setaddharcardOtp] = useState('')
+    const [aadharOTP, setaadharOTP] = useState('')
+    const [aadharclient_id, setaadharclient_id] = useState('')
+
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -42,6 +46,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
         if (district.trim() === "") return setErrorMessage("District is required! (use any value)")
         if (addharcard.trim().length !== 12) return setErrorMessage("Please enter correct aadhar no")
         if (pancard.trim().length !== 10) return setErrorMessage("Please enter correct pan card no")
+        if (aadharOTP!=='verify') return setErrorMessage("Please enter valid Aadhaar no.!")
         else {
             try {
 
@@ -88,6 +93,68 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
         closeModal()
     }
 
+    const AadhaarWithOTP = (aadharNo) => {
+        setisLoading(true)
+        let config = {
+            url: `${ApiUrl.aadhaarWithOTP}`,
+            method: 'post',
+            body: {
+                id_number: aadharNo
+            }
+        };
+        APIRequest(
+            config,
+            res => {
+                console.log(res);
+                setaadharOTP('show')
+                setaadharclient_id(res?.data?.data?.client_id)
+                toast.success(res?.message)
+                setisLoading(false)
+            },
+            err => {
+                toast.error(err?.message)
+                setisLoading(false)
+            }
+        );
+    }
+
+    const VerifyAadhaarOTP = () => {
+        setisLoading(true)
+        let config = {
+            url: `${ApiUrl.verifyAadhaarOTP}`,
+            method: 'post',
+            body: {
+                otp: addharcardOtp,
+                client_id: aadharclient_id
+            }
+        };
+        APIRequest(
+            config,
+            res => {
+                console.log(res);
+                setaadharOTP('verify')
+                toast.success(res?.message)
+                setisLoading(false)
+            },
+            err => {
+                toast.error(err?.message)
+                setisLoading(false)
+            }
+        );
+    }
+
+    useEffect(() => {
+        if (addharcard.length === 12) {
+            AadhaarWithOTP(addharcard)
+        }
+        console.log('123456');
+    }, [addharcard])
+    useEffect(() => {
+        if (addharcardOtp?.length === 6) {
+            VerifyAadhaarOTP()
+        }
+    }, [addharcardOtp])
+
 
     return (
         <>
@@ -125,7 +192,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             Contact
                         </label>
                         <input
-                        
+
                             onChange={(e) => setContact(e.target.value)}
                             value={contact}
                             name="number"
@@ -186,18 +253,6 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                     </div>
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Addhar Card No
-                        </label>
-                        <input
-                            onChange={(e) => setAddharCard(e.target.value)}
-                            value={addharcard}
-                            name="number"
-                            required
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="number" placeholder={"Addhar Card No"} />
-                    </div>
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
                             Pan Card No
                         </label>
                         <input
@@ -207,6 +262,19 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="text" placeholder={"Pan Card No"} />
+                    </div>
+                    <div className="w-full md:w-1/2 px-3 relative">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                            Addhar Card No
+                        </label>
+                        {aadharOTP === 'verify' ? <p className='verify add-form'>✅</p> : null}
+                        <input
+                            onChange={(e) => setAddharCard(e.target.value)}
+                            value={addharcard}
+                            name="number"
+                            required
+                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                            type="number" placeholder={"Addhar Card No"} />
                     </div>
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
@@ -220,6 +288,18 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="number" placeholder={"Parent Id"} />
                     </div>
+                    {aadharOTP === 'show' ? <div className="w-full md:w-1/2 px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                            Aadhaar OTP
+                        </label>
+                        <input
+                            onChange={(e) => setaddharcardOtp(e.target.value)}
+                            value={addharcardOtp}
+                            name="number"
+                            required
+                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                            type="number" placeholder={"Aadhaar OTP"} />
+                    </div> : null}
                     <div className="w-full px-3">
                         <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
                     </div>

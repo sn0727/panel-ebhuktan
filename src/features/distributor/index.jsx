@@ -195,7 +195,11 @@ function DistributorContent() {
         }
     }
     // statushandler funcation 
-    const statusHandler = async (statusId, status) => {
+    const statusHandler = async (statusId, status, adminId) => {
+        if(!adminId){
+            toast.error('Please map user with correct cluster id!')
+            return(true)
+        } 
         const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
         if (choice) {
             try {
@@ -309,8 +313,8 @@ function DistributorContent() {
                                                 <td>{l.aadharNo}</td>
                                                 <td>{l.panNo}</td>
                                                 <td>
-                                                    <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
-                                                    {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "reject" ? "approved" : "Reject"}</div>}
+                                                    <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved", l?.adminId)}>{l.status === "approved" ? "approved" : "approve"}</div>
+                                                    {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject",'1')}>{l.status === "reject" ? "approved" : "Reject"}</div>}
                                                 </td>
                                                 <td>{parseFloat(l.amount).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.earning).toFixed(2)}</td>

@@ -13,6 +13,9 @@ import Modal from '@mui/material/Modal';
 import ErrorText from '../../components/Typography/ErrorText';
 import { toast } from 'react-toastify';
 import WalletTransactions from '../../features/wallet-transactions';
+import CreditCardIcon from '@heroicons/react/24/outline/CreditCardIcon';
+import UserGroupIcon from '@heroicons/react/24/outline/UserGroupIcon';
+import DashboardStats from '../../features/dashboard/components/DashboardStats';
 
 
 const style = {
@@ -28,6 +31,7 @@ const style = {
   borderRadius: '20px'
 };
 
+
 const Wallet = () => {
   const dispatch = useDispatch()
   const [isLoading, setisLoading] = useState(false);
@@ -35,7 +39,8 @@ const Wallet = () => {
   const [CurruntAmount, setCurruntAmount] = useState('');
   const [errorMessage, setErrorMessage] = useState("")
   const [open, setOpen] = React.useState(false);
-  const [contactNumber, setcontactNumber] = useState('')
+  const [contactNumber, setcontactNumber] = useState('');
+  const [userAmount, setuserAmount] = useState('')
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -45,9 +50,14 @@ const Wallet = () => {
 
   useEffect(() => {
     dispatch(setPageTitle({ title: "Wallet" }))
-    SendRequest()
+    if (role === 'superAdmin') {
+      SendRequest()
+    }
   }, [])
 
+  function kFormatter(num) {
+    return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'k' : Math.sign(num) * Math.abs(num)
+  }
   const SendRequest = () => {
     setisLoading(true)
     let config = {
@@ -71,6 +81,26 @@ const Wallet = () => {
     );
   }
 
+  const GetUserDataByToken = async () => {
+    setisLoading(true)
+    let config = {
+      url: `${ApiUrl.getByToken}`,
+      method: 'get',
+    };
+    APIRequest(
+      config,
+      res => {
+        console.log(res);
+        setuserAmount(kFormatter(res?.user?.amount))
+        setisLoading(false)
+      },
+      err => {
+        console.log(err);
+        setisLoading(false)
+      }
+    );
+  }
+
   const Add = () => {
     handleClose()
     setisLoading(true)
@@ -88,7 +118,9 @@ const Wallet = () => {
       res => {
         console.log(res);
         setisLoading(false)
-        SendRequest()
+        if (role === 'superAdmin') {
+          SendRequest()
+        }
         toast.success(res?.message)
       },
       err => {
@@ -108,28 +140,37 @@ const Wallet = () => {
   }
   useEffect(() => {
     setErrorMessage('')
+    GetUserDataByToken()
   }, [])
 
   return (
     <>
       <DynamicTitle pageTitle={"Wallet"} />
       {/* <WalletContent /> */}
+
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div className='shadow mb-4' style={{ width: '300px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
-          <h5>API Wallet</h5>
-          <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {parseFloat(CurruntAmount.total).toFixed(2)}</h2>
-        </div>
-        <div className='shadow mb-4' style={{ width: '300px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
+        {role === 'superAdmin' ?
+          <>
+            <div className='shadow mb-4' style={{ width: '200px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
+              <h5>API Wallet</h5>
+              <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {parseFloat(CurruntAmount.total).toFixed(2)}</h2>
+            </div>
+            <div className='shadow mb-4' style={{ width: '200px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
+              <h5>Total amount</h5>
+              <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {parseFloat(CurruntAmount.remainAmount).toFixed(2)}</h2>
+            </div>
+            <div className='shadow mb-4' style={{ width: '200px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
+              <h5>Distributed Amount</h5>
+              <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {parseFloat(CurruntAmount.distributedAmount).toFixed(2)}</h2>
+            </div>
+          </> : null}
+        {role !== 'superAdmin' ? <div className='shadow mb-4' style={{ width: '300px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
           <h5>Total amount</h5>
-          <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {parseFloat(CurruntAmount.remainAmount).toFixed(2)}</h2>
-        </div>
-        <div className='shadow mb-4' style={{ width: '300px', padding: '20px', backgroundColor: '#fff', borderRadius: '16px' }}>
-          <h5>Distributed Amount</h5>
-          <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {parseFloat(CurruntAmount.distributedAmount).toFixed(2)}</h2>
-        </div>
-        {/* <div>
+          <h2 style={{ fontSize: '30px', fontWeight: 700 }}> {userAmount}</h2>
+        </div> : null}
+        <div>
           <button onClick={handleOpen} className="btn px-6 btn-sm normal-case btn-primary"> Send Amount</button>
-        </div> */}
+        </div>
       </div>
       <WalletTransactions />
 

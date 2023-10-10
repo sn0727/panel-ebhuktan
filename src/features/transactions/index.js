@@ -160,7 +160,7 @@ function Transactions() {
                                             <tr key={k}>
                                                 <td className="text-center">{id}</td>
                                                 <td className="text-center">{consumerId}</td>
-                                                <td className="text-center">{amount}</td>
+                                                <td className="text-center">{parseFloat(amount).toFixed(2)}</td>
                                                 <td className="text-center">{type}</td>
                                                 <td className="text-center">
                                                     <div className="avatar">

@@ -35,20 +35,6 @@ function Register() {
 
 
     const Authuser = async () => {
-        // var formData = new FormData();
-        // formData.append('name', registerObj.name)
-        // formData.append('password', registerObj.password)
-        // formData.append('email', registerObj.email)
-        // formData.append('contact', registerObj.contact)
-        // formData.append('state', registerObj.state)
-        // formData.append('aadharNo', registerObj.aadharNo)
-        // formData.append('panNo', registerObj.panNo)
-        // formData.append('role', role)
-        // formData.append('adminId', registerObj.adminId)
-        // formData.append('district', registerObj.district)
-        // formData.append('postalCode', registerObj.postalCode)
-
-
         try {
             const result = await axios.post(ApiUrl.createUser,
                 {
@@ -86,6 +72,11 @@ function Register() {
 
     }
 
+    const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+    function validateEmail(email) {
+        return emailRegex.test(email);
+    }
+
     const submitForm = (e) => {
         // e.preventDefault()
         setErrorMessage("")
@@ -93,16 +84,17 @@ function Register() {
         if (registerObj.name.trim() === "") return setErrorMessage("Name is required! (use any value)")
         if (registerObj.contact.trim().length !== 10) return setErrorMessage("Please enter correct Contact No")
         if (registerObj.email.trim() === "") return setErrorMessage("Email Id is required! (use any value)")
+        if (!validateEmail(registerObj.email)) return setErrorMessage("Please enter valid email!")
         if (registerObj.aadharNo.trim().length !== 12) return setErrorMessage("Please enter correct Aadhaar No")
         if (registerObj.panNo.trim().length !== 10) return setErrorMessage("Please enter correct Pan Card No")
         if (registerObj.state.trim() === "") return setErrorMessage("State is required! (use any value)")
         if (registerObj.district.trim() === "") return setErrorMessage("District is required! (use any value)")
-        if (registerObj.adminId.trim() === "") return setErrorMessage("Admin Id is required! (use any value)")
+        // if (registerObj.adminId.trim() === "") return setErrorMessage("Admin Id is required! (use any value)")
         if (registerObj.postalCode.trim().length !== 6) return setErrorMessage("Please enter correct Postal Code")
         if (role.trim() === "") return setErrorMessage("Role is required! (use any value)")
         if (registerObj.password.trim() === "") return setErrorMessage("Password is required! (use any value)")
         if (registerObj.password.trim().length > 7) return setErrorMessage("Password must be 8 characters!")
-        if (aadharOTP==='verify') return setErrorMessage("Please enter valid Aadhaar no.!")
+        if (aadharOTP !== 'verify') return setErrorMessage("Please enter valid Aadhaar no.!")
         else {
             console.log(registerObj);
             Authuser()
@@ -173,15 +165,15 @@ function Register() {
     }
 
     useEffect(() => {
-        if (registerObj.aadharNo.length===12) {
+        if (registerObj.aadharNo.length === 12) {
             AadhaarWithOTP(registerObj.aadharNo)
         }
     }, [registerObj.aadharNo])
     useEffect(() => {
-        if (registerObj.aadharOtp?.length===6) {
+        if (registerObj.aadharOtp?.length === 6) {
             VerifyAadhaarOTP()
         }
-    }, [registerObj.aadharOtp,])
+    }, [registerObj.aadharOtp])
 
 
     return (
@@ -199,9 +191,8 @@ function Register() {
                                 <InputText defaultValue={registerObj.name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
                                 <InputText type="number" defaultValue={registerObj.contact} updateType="contact" containerStyle="mt-4" labelTitle="Contact No." updateFormValue={updateFormValue} />
                             </div>
-                            <InputText defaultValue={registerObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue} />
                             <div className='inputRow relative'>
-                                {aadharOTP==='verify'?<p className='verify'>✅</p>:null}
+                                {aadharOTP === 'verify' ? <p className='verify'>✅</p> : null}
                                 <InputText type="number" defaultValue={registerObj.aadharNo} updateType="aadharNo" containerStyle="mt-4" labelTitle="Aadhaar No." updateFormValue={updateFormValue} />
                                 <InputText defaultValue={registerObj.panNo} updateType="panNo" containerStyle="mt-4" labelTitle="Pan No" updateFormValue={updateFormValue} />
                             </div>
@@ -214,23 +205,26 @@ function Register() {
                                 /> : null}
                             </div>
                             <div className='inputRow'>
+                                <select name="role" defaultValue={role} id="role" onChange={selectHandler} className='select-style'>
+                                    <option value="">Select role</option>
+                                    <option value="cluster">Cluster</option>
+                                    <option value="distributor">Distributor</option>
+                                    <option value="retailer">Retailer</option>
+                                    <option value="franchise">Franchise</option>
+                                </select>
+                            </div>
+                            <div className='inputRow'>
                                 <InputText defaultValue={registerObj.state} updateType="state" containerStyle="mt-4" labelTitle="State" updateFormValue={updateFormValue} />
                                 <InputText defaultValue={registerObj.district} updateType="district" containerStyle="mt-4" labelTitle="District" updateFormValue={updateFormValue} />
                             </div>
                             <div className='inputRow'>
-                                <InputText type="number" defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-4" labelTitle="Admin Id" updateFormValue={updateFormValue} />
+                                {role !== 'cluster' ?
+                                    <InputText type="number" defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-4" labelTitle={role === 'distributor' ?"Cluster Id" : role === 'retailer' || role ==='franchise'? 'Distributor': 'Referral Id'} updateFormValue={updateFormValue} />
+                                    : null}
                                 <InputText type="number" defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-4" labelTitle="Postal Code" updateFormValue={updateFormValue} />
                             </div>
                             <div className='inputRow'>
-                                <select name="role" defaultValue={role} id="role" onChange={selectHandler} className='select-style'>
-                                    <option value="select">select</option>
-                                    <option value="cluster">Cluster</option>
-                                    <option value="distributor">Distributor</option>
-                                    <option value="retailer">Retailer</option>
-                                </select>
-                            </div>
-                            <div className='inputRow'>
-                                {/* <InputText defaultValue={registerObj.role} updateType="role" containerStyle="mt-4" labelTitle="Role" updateFormValue={updateFormValue} /> */}
+                                <InputText defaultValue={registerObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue} />
                                 <InputText defaultValue={registerObj.password} type="password" updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
                             </div>
                         </div>
@@ -243,6 +237,7 @@ function Register() {
                     </div>
                 </div>
             </div>
+            {loading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
         </div>
     )
 }

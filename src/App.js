@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { themeChange } from 'theme-change'
 import checkAuth from './app/auth';
 import initializeApp from './app/init';
+import Test from './components/Test';
 
 // Importing pages
 const Layout = lazy(() => import('./containers/Layout'))
@@ -39,6 +40,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/register" element={<Register />} />
           <Route path="/documentation" element={<Documentation />} />
+          <Route path="/test" element={<Test />} />
           
           {/* Place new routes over this */}
           <Route path="/app/*" element={<Layout />} />

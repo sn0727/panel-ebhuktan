@@ -417,6 +417,11 @@ p.verify {
   bottom: 10px;
   left: 42%;
 }
+p.verify.add-form {
+  position: absolute;
+  bottom: 23px;
+  left: 85%;
+}
 .relative{
   position: relative;
 }
