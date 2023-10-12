@@ -93,7 +93,7 @@ function Register() {
         if (registerObj.postalCode.trim().length !== 6) return setErrorMessage("Please enter correct Postal Code")
         if (role.trim() === "") return setErrorMessage("Role is required! (use any value)")
         if (registerObj.password.trim() === "") return setErrorMessage("Password is required! (use any value)")
-        if (registerObj.password.trim().length > 7) return setErrorMessage("Password must be 8 characters!")
+        if (registerObj.password.trim().length < 8 && registerObj.password.trim().length > 20) return setErrorMessage("Password must be 8 characters!")
         if (aadharOTP !== 'verify') return setErrorMessage("Please enter valid Aadhaar no.!")
         else {
             console.log(registerObj);

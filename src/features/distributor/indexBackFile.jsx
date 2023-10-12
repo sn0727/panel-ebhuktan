@@ -6,6 +6,7 @@ import { openModal } from "../common/modalSlice"
 // import { getLeadsContent } from "./leadSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
+import Pagination from "../../components/pagination/Pagination"
 import jwtDecode from 'jwt-decode';
 
 // select box code 
@@ -14,15 +15,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Pagination from "../../components/pagination/Pagination"
 import { AiTwotoneDelete } from "react-icons/ai"
 import { toast } from "react-toastify"
 import AddMoneyModal from "../../components/Model/AddMoneyModal"
-import { useNavigate } from "react-router-dom"
-import { FaArrowCircleRight } from "react-icons/fa"
-import EditAdminIdModal from "../../components/Model/EditAdminIdModal"
 import EditProfileModal from "../../components/Model/EditProfileModal"
+import { FaArrowCircleRight } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
+import EditAdminModal from "../../components/Model/EditAdminIdModal"
 // select box code 
+
 
 const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCategory }) => {
 
@@ -32,12 +33,10 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCate
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
 
-    console.log(decodedToken)
+    // alert(role)
 
     // select box funtion
     const [roleStatus, setRoleStatus] = React.useState('aproved');
-
-    console.log(createRoleName)
 
     const handleChange = (event) => {
         setRoleStatus(event.target.value);
@@ -49,13 +48,21 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCate
         roleStatus ? Aprovehandler() : Pandinghandler()
     }, [])
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName }))
+        dispatch(openModal({ title: "Add New Lead", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName }))
     }
 
     return (
 
         <>
             <div className="select-with-ps">
+
+                {
+                    role === "cluster" && (
+                        <div className="inline-block float-right">
+                            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                        </div>
+                    )
+                }
                 {
                     role === "superAdmin" && (
                         <>
@@ -79,18 +86,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCate
                                 </FormControl>
                             </Box>
                         </>
-                    )
-                }
-                {
-                    role === "cluster" && (
-                        ''
-                    )
-                }
-                {
-                    role === "distributor" && (
-                        <div className="inline-block float-right">
-                            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
-                        </div>
+
                     )
                 }
 
@@ -100,8 +96,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCate
     )
 }
 
-
-function FranchiseContent() {
+function DistributorContent() {
     const navigate = useNavigate();
     const [clusterData, setClusterData] = React.useState([]);
     const [currentPage, setCurrentPage] = useState(1)
@@ -109,24 +104,29 @@ function FranchiseContent() {
     const [totalCount, setTotalCount] = useState(0)
     const [Category, setCategory] = useState('Aproved');
     const [Check, setCheck] = useState(false);
+    const [open, setOpen] = useState(false);
+
+
+    // pending data ge
+
+    const pendingData = clusterData.map((items) => {
+        return items;
+    });
+
+
 
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
 
-      // pending data get
-      const pendingData = clusterData.map((items) => {
-        return items;
-    });
-
     // i am calling aprove funtion on the click
     const Aprovehandler = () => {
         const getCusterData = async () => {
+            setisLoading(true)
             try {
-                setisLoading(true)
                 const SendRequest = async () => {
                     let config = {
-                        url: `${ApiUrl.getFranchiseAll}/${1}`,
+                        url: `${ApiUrl.getDistributorAll}/${currentPage}`,
                         method: 'get',
                     };
                     APIRequest(
@@ -153,11 +153,12 @@ function FranchiseContent() {
     // set condition accordding role
     const Pandinghandler = () => {
         const getCusterDatapandding = async () => {
+            // let token = localStorage.getItem("token")
             try {
                 setisLoading(true)
                 const SendRequest = async () => {
                     let config = {
-                        url: `${ApiUrl.getPendingFranchise}/${1}`,
+                        url: `${ApiUrl.getPendingDistributor}/${currentPage}`,
                         method: 'get',
                     };
                     APIRequest(
@@ -182,7 +183,6 @@ function FranchiseContent() {
         }
         getCusterDatapandding()
     }
-
     const Delete = (id) => {
         const choice = window.confirm(`Are you sure you want to delete user ?`)
         if (choice) {
@@ -206,50 +206,51 @@ function FranchiseContent() {
             );
         }
     }
-
     // statushandler funcation 
-    // const statusHandler = async (statusId, status, adminId) => {
-    //     if(!adminId){
-    //         toast.error('Please map user with correct cluster id!')
-    //         return(true)
-    //     } 
-    //     const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
-    //     if (choice) {
-    //         try {
-    //             setisLoading(true)
-    //             const SendRequest = async () => {
-    //                 let config = {
-    //                     url: ApiUrl.updateStatus,
-    //                     method: 'post',
-    //                     body: {
-    //                         userId: statusId,
-    //                         status: status
-    //                     }
-    //                 };
-    //                 APIRequest(
-    //                     config,
-    //                     res => {
-    //                         console.log(res, "status check");
-    //                         toast.success(res.message)
-    //                         Pandinghandler()
-    //                         setisLoading(false)
-    //                     },
-    //                     err => {
-    //                         console.log(err);
-    //                         toast.error(err.message)
-    //                         setisLoading(false)
+    const statusHandler = async (statusId, status, adminId) => {
+        setOpen(true)
+        if (!adminId) {
+            toast.error('Please map user with correct cluster id!')
+            return (true)
+        }
+        const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
+        
+        if (choice) {
+            try {
+                setisLoading(true)
+                const SendRequest = async () => {
+                    let config = {
+                        url: ApiUrl.updateStatus,
+                        method: 'post',
+                        body: {
+                            userId: statusId,
+                            status: status
+                        }
+                    };
+                    APIRequest(
+                        config,
+                        res => {
+                            console.log(res);
+                            toast.success(res.message)
+                            Pandinghandler()
+                            setisLoading(false)
+                        },
+                        err => {
+                            console.log(err);
+                            setisLoading(false)
+                        }
+                    );
+                }
+                SendRequest();
+            } catch (error) {
 
-    //                     }
-    //                 );
-    //             }
-    //             SendRequest();
-    //         } catch (error) {
+            }
+        }
+    }
 
-    //         }
-    //     }
-    // }
-
-
+    useEffect(() => {
+        Aprovehandler()
+    }, [currentPage])
     useEffect(() => {
         if (Category === 'Aproved') {
             Aprovehandler()
@@ -271,10 +272,9 @@ function FranchiseContent() {
         }
     }, [Category]);
 
-
     return (
         <>
-            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} createRoleName={'franchise'} />}>
+            <TitleCard title="Current Distributor" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} createRoleName={'distributor'} Pandinghandler={Pandinghandler} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
@@ -291,7 +291,7 @@ function FranchiseContent() {
                                     <td>PanNo</td>
                                     <td>Status</td>
                                     <td>Amount</td>
-                                    {clusterData[0]?.earning && <td>Earning</td>}
+                                    <td>Earning</td>
                                     <td>Commission</td>
                                     {role === "superAdmin" && <td>Delete</td>}
                                     {role === "superAdmin" && <td>Add Money</td>}
@@ -300,7 +300,6 @@ function FranchiseContent() {
                                             role === "superAdmin" && <td>Edit Profile</td>
                                     }
                                     <td>View Details</td>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -326,20 +325,15 @@ function FranchiseContent() {
                                                 <td>{l.contact}</td>
                                                 <td>
                                                     <div>
-                                                        <address> {l.address}, {l.district}, {l.state}, <br></br> {l.postalCode} </address>
+                                                        <address> Noida sector, {l.district}, {l.state}, <br></br> {l.postalCode} </address>
                                                     </div>
                                                 </td>
                                                 <td>{l.aadharNo}</td>
                                                 <td>{l.panNo}</td>
                                                 <td>
-                                                    {/* <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved", l?.adminId)}>{l.status === "approved" ? <EditAdminIdModal id={l.id} /> : "approve"}</div> */}
-                                                    <div className="badge badge-primary"><EditAdminIdModal id={l.id} adminId={l?.adminId} status={l?.status} Pandinghandler={Pandinghandler} /></div>
-                                                    {/* {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject", '1')}>{l.status === "reject" ? "approved" : "Reject"}</div>} */}
+                                                    <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved", l?.adminId)}>{l.status === "approved" ? "approved" : "approve"}</div>
+                                                    {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject", '1')}>{l.status === "reject" ? "approved" : "Reject"}</div>}
                                                 </td>
-                                                {/* <td>
-                                                    <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved",l?.adminId)}>{l.status === "approved" ? "approved" : "approve"}</div>
-                                                    {l.status !== "approved" && <div className="badge badge-red" onClick={() => statusHandler(l.id, "reject", '1')}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
-                                                </td> */}
                                                 <td>{parseFloat(l.amount).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.earning).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.commission).toFixed(2)}</td>
@@ -348,15 +342,18 @@ function FranchiseContent() {
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
                                                     </div>
                                                 </td>}
-                                                {role === "superAdmin" && <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <AddMoneyModal id={l.id} />
-                                                    </div>
-                                                </td>}
+                                                {
+                                                    role === "superAdmin" && <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <AddMoneyModal id={l.id} />
+                                                        </div>
+                                                    </td>
+
+                                                }
                                                 {
                                                     l.status === "pending" ? null : role === "superAdmin" && <td>
                                                         <div className="mx-3 cursor-pointer" >
-                                                            <EditProfileModal id={l.id} profileData={l} Aprovehandler={Aprovehandler} />
+                                                            <EditProfileModal id={l.id} />
                                                         </div>
                                                     </td>
                                                 }
@@ -388,10 +385,11 @@ function FranchiseContent() {
                     />}
                 </nav>
             </TitleCard>
+            <EditAdminModal setOpen={setOpen} open={open} pendingData={pendingData} />
             {isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
         </>
     )
 }
 
 
-export default FranchiseContent
+export default DistributorContent

@@ -119,7 +119,7 @@ function Commission() {
                                                 </td>
                                                 <td>{l.aadharNo}</td>
                                                 <td>{l.panNo}</td>
-                                                <td>{l.amount}</td>
+                                                <td>{parseFloat(l?.amount).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.earning).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.commission).toFixed(2)}</td>
                                                 <td>

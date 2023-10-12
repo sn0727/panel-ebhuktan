@@ -36,6 +36,11 @@ export const ApiUrl = {
   superadminDeleteUser: `${APISuperadmin}deleteUser`,
   superadminGetNestedCommission: `${APISuperadmin}getNestedCommission`,
 
+  // profile update api
+  editUserProfile: `${APISuperadmin}editUser`,
+  editProfile: `${APIUser}updateProfile`,
+
+
 
   // updateCommission
   updateMobileRechargeCommission: `${apiBaseUrl}recharge/updateCommission`,

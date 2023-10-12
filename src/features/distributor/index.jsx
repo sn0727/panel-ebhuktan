@@ -18,8 +18,10 @@ import Select from '@mui/material/Select';
 import { AiTwotoneDelete } from "react-icons/ai"
 import { toast } from "react-toastify"
 import AddMoneyModal from "../../components/Model/AddMoneyModal"
+import EditProfileModal from "../../components/Model/EditProfileModal"
 import { FaArrowCircleRight } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
+import EditAdminIdModal from "../../components/Model/EditAdminIdModal"
 // select box code 
 
 
@@ -102,6 +104,14 @@ function DistributorContent() {
     const [totalCount, setTotalCount] = useState(0)
     const [Category, setCategory] = useState('Aproved');
     const [Check, setCheck] = useState(false);
+    const [open, setOpen] = useState(false);
+
+    // pending data get
+    const pendingData = clusterData.map((items) => {
+        return items;
+    });
+
+
 
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
@@ -195,44 +205,47 @@ function DistributorContent() {
         }
     }
     // statushandler funcation 
-    const statusHandler = async (statusId, status, adminId) => {
-        if(!adminId){
-            toast.error('Please map user with correct cluster id!')
-            return(true)
-        } 
-        const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
-        if (choice) {
-            try {
-                setisLoading(true)
-                const SendRequest = async () => {
-                    let config = {
-                        url: ApiUrl.updateStatus,
-                        method: 'post',
-                        body: {
-                            userId: statusId,
-                            status: status
-                        }
-                    };
-                    APIRequest(
-                        config,
-                        res => {
-                            console.log(res);
-                            toast.success(res.message)
-                            Pandinghandler()
-                            setisLoading(false)
-                        },
-                        err => {
-                            console.log(err);
-                            setisLoading(false)
-                        }
-                    );
-                }
-                SendRequest();
-            } catch (error) {
+    // const statusHandler = async (statusId, status, adminId) => {
 
-            }
-        }
-    }
+    //     setOpen(true)
+    //     if (!adminId) {
+    //         toast.error('Please map user with correct cluster id!')
+    //         return (true)
+    //     }
+    //     const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
+        
+    //     if (choice) {
+    //         try {
+    //             setisLoading(true)
+    //             const SendRequest = async () => {
+    //                 let config = {
+    //                     url: ApiUrl.updateStatus,
+    //                     method: 'post',
+    //                     body: {
+    //                         userId: statusId,
+    //                         status: status
+    //                     }
+    //                 };
+    //                 APIRequest(
+    //                     config,
+    //                     res => {
+    //                         console.log(res);
+    //                         toast.success(res.message)
+    //                         Pandinghandler()
+    //                         setisLoading(false)
+    //                     },
+    //                     err => {
+    //                         console.log(err);
+    //                         setisLoading(false)
+    //                     }
+    //                 );
+    //             }
+    //             SendRequest();
+    //         } catch (error) {
+
+    //         }
+    //     }
+    // }
 
     useEffect(() => {
         Aprovehandler()
@@ -281,6 +294,10 @@ function DistributorContent() {
                                     <td>Commission</td>
                                     {role === "superAdmin" && <td>Delete</td>}
                                     {role === "superAdmin" && <td>Add Money</td>}
+                                    {
+                                        pendingData[0]?.status === "pending" ? null :
+                                            role === "superAdmin" && <td>Edit Profile</td>
+                                    }
                                     <td>View Details</td>
                                 </tr>
                             </thead>
@@ -307,14 +324,15 @@ function DistributorContent() {
                                                 <td>{l.contact}</td>
                                                 <td>
                                                     <div>
-                                                        <address> Noida sector, {l.district}, {l.state}, <br></br> {l.postalCode} </address>
+                                                        <address> {l.address}, {l.district}, {l.state}, <br></br> {l.postalCode} </address>
                                                     </div>
                                                 </td>
                                                 <td>{l.aadharNo}</td>
                                                 <td>{l.panNo}</td>
                                                 <td>
-                                                    <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved", l?.adminId)}>{l.status === "approved" ? "approved" : "approve"}</div>
-                                                    {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject",'1')}>{l.status === "reject" ? "approved" : "Reject"}</div>}
+                                                    {/* <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved", l?.adminId)}>{l.status === "approved" ? <EditAdminIdModal id={l.id} /> : "approve"}</div> */}
+                                                    <div className="badge badge-primary"><EditAdminIdModal id={l.id} adminId={l?.adminId} status={l?.status} Pandinghandler={Pandinghandler} /></div>
+                                                    {/* {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject", '1')}>{l.status === "reject" ? "approved" : "Reject"}</div>} */}
                                                 </td>
                                                 <td>{parseFloat(l.amount).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.earning).toFixed(2)}</td>
@@ -324,11 +342,21 @@ function DistributorContent() {
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
                                                     </div>
                                                 </td>}
-                                                {role === "superAdmin" && <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <AddMoneyModal id={l.id} />
-                                                    </div>
-                                                </td>}
+                                                {
+                                                    role === "superAdmin" && <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <AddMoneyModal id={l.id} />
+                                                        </div>
+                                                    </td>
+
+                                                }
+                                                {
+                                                    l.status === "pending" ? null : role === "superAdmin" && <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <EditProfileModal id={l.id} profileData={l} Aprovehandler={Aprovehandler} />
+                                                        </div>
+                                                    </td>
+                                                }
                                                 <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <FaArrowCircleRight fontSize={28} id={l.id} onClick={() => navigate('/app/commission', { state: { id: l.id } })} />
