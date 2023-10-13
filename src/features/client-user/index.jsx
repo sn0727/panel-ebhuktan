@@ -335,7 +335,7 @@ function ClientUserContent() {
                                                 </td>
                                                 <td>{parseFloat(l.amount).toFixed(2)}</td>
                                                 <td>{parseFloat(l?.earning).toFixed(2)}</td>
-                                                <td>{parseFloat(l?.commission).toFixed(2)}</td>
+                                                <td className="text-center">{l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />

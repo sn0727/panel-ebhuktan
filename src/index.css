@@ -187,12 +187,13 @@ li.active a {
 
 .navigation.example {
   text-align: right;
-  margin-top: 40px;
+  margin-top: 10px;
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
 }
+
 .inputRow select {
   width: 100%;
   border: 1px solid #d1d1d1;
@@ -201,35 +202,48 @@ li.active a {
   border-radius: 10px;
   outline: none;
 }
+
 .inputRow select option {
   padding: 10px 10px;
 }
+
 .select-with-ps {
   display: flex;
   font-style: italic;
   gap: 10px;
 }
-.badge.badge-primary, .badge.badge-red {
+
+.badge.badge-primary,
+.badge.badge-red {
   cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
 }
 
+div.avatar+div>div {
+  font-size: 14px;
+}
 
 /* pegination css code  */
-.pagination-perent ul{
+.pagination-perent ul {
   display: flex;
   width: 100%;
   gap: 20px;
   justify-content: end;
 }
+
 .pagination-perent ul li {
   font-weight: 600;
   color: #000;
   display: flex;
   align-items: center;
 }
+
 .pagination-perent ul li a svg {
   font-size: 30px;
 }
+
 .pagination-perent ul li.selected {
   background-color: rgba(0, 0, 0, 0.08);
   width: 30px;
@@ -239,11 +253,14 @@ li.active a {
   border-radius: 50px;
   align-items: center;
 }
+
 .pagination-perent ul li.next a {
   font-weight: 600;
   color: #000;
 }
-.previous.disabled, .next.disabled {
+
+.previous.disabled,
+.next.disabled {
   opacity: 0.38;
 }
 
@@ -255,6 +272,7 @@ li.active a {
   min-height: 96px;
   position: relative;
 }
+
 img.profileUpdate-dfd {
   position: absolute;
   max-width: 38px;
@@ -265,6 +283,7 @@ img.profileUpdate-dfd {
   border-radius: 10px;
   box-shadow: 0px 7px 18px #00000036;
 }
+
 input.fileProfile {
   display: flex;
   align-items: center;
@@ -274,6 +293,7 @@ input.fileProfile {
   position: relative;
   /* border: 1px solid #000; */
 }
+
 /* total transaction css code */
 .total-amount {
   display: flex;
@@ -281,7 +301,7 @@ input.fileProfile {
   gap: 10px;
 }
 
-.total-amount > div {
+.total-amount>div {
   background-color: #fff;
   padding: 10px 20px;
   border-radius: 10px;
@@ -289,7 +309,7 @@ input.fileProfile {
   font-weight: 600;
 }
 
-.remove-background:active{
+.remove-background:active {
   background-color: #fff;
 }
 
@@ -300,18 +320,22 @@ svg.eye-icon {
   font-size: 25px;
   cursor: pointer;
 }
+
 .add-style-sdf {
   cursor: pointer;
 }
+
 .description-data {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 200px;
+  width: 100px;
 }
-.avatar > .mask {
+
+.avatar>.mask {
   position: relative;
 }
+
 .overlaybtn {
   position: absolute;
   top: 0;
@@ -325,13 +349,15 @@ svg.eye-icon {
   font-weight: 700;
   cursor: pointer;
 }
+
 input.file-input-operator {
   width: 100%;
   border: 1px solid #0000002e;
   padding: 10px 15px;
   border-radius: 5px;
-  
+
 }
+
 /* =============== switch css code ============= */
 /* .switch {
   position: relative;
@@ -348,7 +374,7 @@ input.file-input-operator {
   margin-top: 5px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -377,15 +403,15 @@ input.file-input-operator {
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #2c427d;
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px #2c427d;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(17px);
   -ms-transform: translateX(17px);
   transform: translateX(17px);
@@ -399,14 +425,17 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
 /* =============== switch css code ============= */
 
 .stat-title {
   font-size: 13px !important;
 }
+
 .stat-value {
   font-size: 28px !important;
 }
+
 ul.commission-customize li {
   text-transform: capitalize;
   margin: 8px 3px;
@@ -415,25 +444,50 @@ ul.commission-customize li {
   border-radius: 5px;
   font-size: 13px;
 }
+
 ul.commission-customize li div svg {
   margin-left: auto !important;
 }
-html[native-dark-active] .menu :where(li) > :where(:not(ul)) {
+
+html[native-dark-active] .menu :where(li)> :where(:not(ul)) {
   color: var(--native-dark-font-color) !important;
 }
-html a:visited, html a:visited > * {
+
+html a:visited,
+html a:visited>* {
   color: var(--native-dark-font-color) !important;
 }
+
 p.verify {
   position: absolute;
   bottom: 10px;
   left: 42%;
 }
+
 p.verify.add-form {
   position: absolute;
   bottom: 23px;
   left: 85%;
 }
-.relative{
+
+.relative {
   position: relative;
 }
+.text-white-sdfdskbj {
+  color: #fff !important;
+}
+/* 
+.operator_table tbody {
+  display: block;
+  max-height: 270px;
+  overflow-y: scroll;
+}
+
+ .operator_table tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+} */
+/* .operator_table tbody tr td, .operator_table thead tr th {
+  width: 50px;
+} */

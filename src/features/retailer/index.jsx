@@ -337,9 +337,9 @@ function RetailerContent() {
                                                     <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved",l?.adminId)}>{l.status === "approved" ? "approved" : "approve"}</div>
                                                     {l.status !== "approved" && <div className="badge badge-red" onClick={() => statusHandler(l.id, "reject", '1')}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
                                                 </td> */}
-                                                <td>{parseFloat(l.amount).toFixed(2)}</td>
-                                                <td>{parseFloat(l?.earning).toFixed(2)}</td>
-                                                <td>{parseFloat(l?.commission).toFixed(2)}</td>
+                                                <td className="text-center">{parseFloat(l.amount).toFixed(2)}</td>
+                                                <td className="text-center">{parseFloat(l?.earning).toFixed(2)}</td>
+                                                <td className="text-center">{l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />

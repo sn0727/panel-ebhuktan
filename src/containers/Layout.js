@@ -9,6 +9,7 @@ import 'react-notifications/lib/notifications.css';
 import ModalLayout from "./ModalLayout"
 
 function Layout(){
+  // Check for login and initialize axios
   const dispatch = useDispatch()
   const {newNotificationMessage, newNotificationStatus} = useSelector(state => state.header)
 

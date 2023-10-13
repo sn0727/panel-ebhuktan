@@ -16,10 +16,11 @@ function ProfileSettings() {
     
     const [file, setFile] = useState(null);
     const [isLoading, setisLoading] = useState(false);
+
     // get profile information from the api
     var token = localStorage.getItem("token")
-
     const decodedToken = jwtDecode(token);
+
     const {
         id,
         name,
@@ -94,11 +95,11 @@ function ProfileSettings() {
     return (
         <>
 
-            <TitleCard title="Profile Settings" topMargin="mt-2">
-                <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
+            <TitleCard title={`Profile Settings | ${role} | user id : ${id}`} topMargin="mt-2">
+                {/* <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
                     <h3>User Id</h3>
                     <h3>{id}</h3>
-                </div>
+                </div> */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <InputText labelTitle="Name" defaultValue={name} updateType="name" value={profileUpdateData.name} updateFormValue={updateFormValue} />
@@ -110,8 +111,6 @@ function ProfileSettings() {
                     <InputText labelTitle="Pan Card No" defaultValue={panNo} updateType="panNo" updateFormValue={updateFormValue} disabled="disabled" />
                     <InputText labelTitle="Postal Code" defaultValue={postalCode} updateType="postalCode" updateFormValue={updateFormValue} disabled="disabled" />
                     <InputText labelTitle="Address" defaultValue={address} updateType="address" value={profileUpdateData.address} updateFormValue={updateFormValue} />
-                    <InputText labelTitle="Password" defaultValue={'12222'} updateType="password" updateFormValue={updateFormValue} disabled="disabled" />
-                    <InputText labelTitle="role" defaultValue={role} updateType="role" updateFormValue={updateFormValue} disabled="disabled" />
                     <div className="sdfhsd-sdfkdsj">
                         <input type="file" accept="*" onChange={handleFileChange} className="fileProfile" />
                         <img src={image === "" ? "/logo02.png" : image} alt="profile-image" className="profileUpdate-dfd"/>

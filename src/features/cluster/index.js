@@ -282,7 +282,6 @@ function Cluster() {
                                                     <div className="flex items-center space-x-3">
                                                         <div className="avatar">
                                                             <div className="mask mask-squircle w-12 h-12">
-
                                                                 <img src={l.image ? l.image : "https://e-bhuktan.s3.eu-north-1.amazonaws.com/image/1692695219537_image.png"} alt="Avatar" />
                                                             </div>
                                                         </div>
@@ -306,7 +305,7 @@ function Cluster() {
                                                 </td>
                                                 <td>{l.amount}</td>
                                                 <td>{parseFloat(l?.earning).toFixed(2)}</td>
-                                                <td>{parseFloat(l?.commission).toFixed(2)}</td>
+                                                <td className="text-center">{l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />

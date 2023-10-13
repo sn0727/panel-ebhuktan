@@ -1,21 +1,22 @@
 import { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
-import { APIRequest, ApiUrl } from '../../utils/commanApiUrl'
+import { APIRequest, APIRequestWithFile, ApiUrl } from '../../utils/commanApiUrl'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { Button, Stack } from '@chakra-ui/react'
 
-function Register() {
-
+function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
+    const navigation = useNavigate();
     const INITIAL_REGISTER_OBJ = {
         name: "",
         password: "",
         email: "",
-        contact: '',
+        contact: mobileNoSave,
         state: '',
-        aadharNo: '',
+        aadharNo: aadhaarObj,
         panOtp: '',
         aadharOtp: '',
         panOtp: '',
@@ -30,16 +31,43 @@ function Register() {
     const [errorMessage, setErrorMessage] = useState("")
     const [registerObj, setRegisterObj] = useState(INITIAL_REGISTER_OBJ);
     const [role, setRole] = useState('');
+    const [isLoading, setisLoading] = useState(false)
     const [aadharOTP, setaadharOTP] = useState('')
     const [aadharclient_id, setaadharclient_id] = useState('')
+    const [file, setFile] = useState(null);
 
+
+
+    // get file path.
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+    };
+
+    // add profile image
+    const userProfieleUpdate = () => {
+        // create formdata 
+        let formdata = new FormData();
+        formdata.append('image', file);
+
+        let config = {
+            url: ApiUrl.editProfile,
+            method: 'post',
+            body: formdata
+        }
+        APIRequestWithFile(
+            config,
+            res => { console.log(res) },
+            err => { console.log(err) }
+        )
+    }
 
     const Authuser = async () => {
+        setisLoading(true)
         try {
             const result = await axios.post(ApiUrl.createUser,
                 {
                     name: registerObj.name,
-                    password: registerObj.password,
                     email: registerObj.email,
                     contact: registerObj.contact,
                     state: registerObj.state,
@@ -56,13 +84,14 @@ function Register() {
                     }
                 }
             )
-            const { error, message } = result.data
-
+            const { error, message } = result?.data
             if (error) {
                 toast.error(message)
             } else {
                 toast.success(message)
-                window.location.href = '/login'
+                // window.location.href = '/login'
+                setisLoading(false)
+                navigation("/login")
             }
 
         } catch (error) {
@@ -80,7 +109,6 @@ function Register() {
     const submitForm = (e) => {
         // e.preventDefault()
         setErrorMessage("")
-
         if (registerObj.name.trim() === "") return setErrorMessage("Name is required! (use any value)")
         if (registerObj.contact.trim().length !== 10) return setErrorMessage("Please enter correct Contact No")
         if (registerObj.email.trim() === "") return setErrorMessage("Email Id is required! (use any value)")
@@ -89,18 +117,15 @@ function Register() {
         if (registerObj.panNo.trim().length !== 10) return setErrorMessage("Please enter correct Pan Card No")
         if (registerObj.state.trim() === "") return setErrorMessage("State is required! (use any value)")
         if (registerObj.district.trim() === "") return setErrorMessage("District is required! (use any value)")
-        // if (registerObj.adminId.trim() === "") return setErrorMessage("Admin Id is required! (use any value)")
         if (registerObj.postalCode.trim().length !== 6) return setErrorMessage("Please enter correct Postal Code")
         if (role.trim() === "") return setErrorMessage("Role is required! (use any value)")
-        if (registerObj.password.trim() === "") return setErrorMessage("Password is required! (use any value)")
-        if (registerObj.password.trim().length < 8 && registerObj.password.trim().length > 20) return setErrorMessage("Password must be 8 characters!")
-        if (aadharOTP !== 'verify') return setErrorMessage("Please enter valid Aadhaar no.!")
+        // if (registerObj.password.trim() === "") return setErrorMessage("Password is required! (use any value)")
+        // if (registerObj.password.length < 8 || registerObj.password.length > 20) return setErrorMessage("Password must be 8 characters and maximum characters length 20!")
         else {
             console.log(registerObj);
             Authuser()
+            userProfieleUpdate()
             setLoading(true)
-            // Call API to check user credentials and save token in localstorage
-            // localStorage.setItem("token", "DumyTokenHere")
             setLoading(false)
         }
     }
@@ -114,95 +139,99 @@ function Register() {
         setRole(event.target.value)
     }
 
-    const AadhaarWithOTP = (aadharNo) => {
-        setLoading(true)
-        let config = {
-            url: `${ApiUrl.aadhaarWithOTP}`,
-            method: 'post',
-            body: {
-                id_number: aadharNo
-            }
-        };
-        APIRequest(
-            config,
-            res => {
-                console.log(res);
-                setaadharOTP('show')
-                setaadharclient_id(res?.data?.data?.client_id)
-                toast.success(res?.message)
-                setLoading(false)
-            },
-            err => {
-                toast.error(err?.message)
-                setLoading(false)
-            }
-        );
+    // const AadhaarWithOTP = (aadharNo) => {
+    //     setLoading(true)
+    //     let config = {
+    //         url: `${ApiUrl.aadhaarWithOTP}`,
+    //         method: 'post',
+    //         body: {
+    //             id_number: aadharNo
+    //         }
+    //     };
+    //     APIRequest(
+    //         config,
+    //         res => {
+    //             console.log(res);
+    //             setaadharOTP('show')
+    //             setaadharclient_id(res?.data?.data?.client_id)
+    //             toast.success(res?.message)
+    //             setLoading(false)
+    //         },
+    //         err => {
+    //             toast.error(err?.message)
+    //             setLoading(false)
+    //         }
+    //     );
+    // }
+
+    // const VerifyAadhaarOTP = () => {
+    //     setLoading(true)
+    //     let config = {
+    //         url: `${ApiUrl.verifyAadhaarOTP}`,
+    //         method: 'post',
+    //         body: {
+    //             otp: registerObj.aadharOtp,
+    //             client_id: aadharclient_id
+    //         }
+    //     };
+    //     APIRequest(
+    //         config,
+    //         res => {
+    //             console.log(res);
+    //             setaadharOTP('verify')
+    //             toast.success(res?.message)
+    //             setLoading(false)
+    //         },
+    //         err => {
+    //             toast.error(err?.message)
+    //             setLoading(false)
+    //         }
+    //     );
+    // }
+
+    const handlePrevious = () => {
+        revicedIdRegister(2)
     }
 
-    const VerifyAadhaarOTP = () => {
-        setLoading(true)
-        let config = {
-            url: `${ApiUrl.verifyAadhaarOTP}`,
-            method: 'post',
-            body: {
-                otp: registerObj.aadharOtp,
-                client_id: aadharclient_id
-            }
-        };
-        APIRequest(
-            config,
-            res => {
-                console.log(res);
-                setaadharOTP('verify')
-                toast.success(res?.message)
-                setLoading(false)
-            },
-            err => {
-                toast.error(err?.message)
-                setLoading(false)
-            }
-        );
-    }
-
-    useEffect(() => {
-        if (registerObj.aadharNo.length === 12) {
-            AadhaarWithOTP(registerObj.aadharNo)
-        }
-    }, [registerObj.aadharNo])
-    useEffect(() => {
-        if (registerObj.aadharOtp?.length === 6) {
-            VerifyAadhaarOTP()
-        }
-    }, [registerObj.aadharOtp])
+    // useEffect(() => {
+    //     if (registerObj.aadharNo.length === 12) {
+    //         AadhaarWithOTP(registerObj.aadharNo)
+    //     }
+    // }, [registerObj.aadharNo])
+    // useEffect(() => {
+    //     if (registerObj.aadharOtp?.length === 6) {
+    //         VerifyAadhaarOTP()
+    //     }
+    // }, [registerObj.aadharOtp])
 
 
     return (
-        <div className="min-h-screen bg-base-200 flex items-center">
-            <div className="card mx-auto w-full max-w-5xl  shadow-xl">
+        <div className="bg-base-200 flex items-center">
+            <div className="card mx-auto w-full max-w-5xl  shadow-xl mt-4">
                 <div className="grid  md:grid-cols-2 grid-cols-1  bg-base-100 rounded-xl">
                     <div className=''>
                         <LandingIntro />
                     </div>
-                    <div className='py-24 px-10'>
-                        <h2 className='text-2xl font-semibold mb-2 text-center'>Register</h2>
+                    <div className='py-10 px-10'>
+                        <h2 className='text-2xl font-semibold mb-2 text-center'>Contact Information</h2>
                         {/* <form onSubmit={(e) => submitForm(e)}> */}
                         <div className="mb-4">
                             <div className='inputRow'>
-                                <InputText defaultValue={registerObj.name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue} />
-                                <InputText type="number" defaultValue={registerObj.contact} updateType="contact" containerStyle="mt-4" labelTitle="Contact No." updateFormValue={updateFormValue} />
+                                <InputText defaultValue={registerObj.name} updateType="name" containerStyle="mt-1" labelTitle="Name" updateFormValue={updateFormValue} />
+                                <InputText type="number" defaultValue={registerObj.contact} updateType="contact" containerStyle="mt-1" labelTitle="Contact No." updateFormValue={updateFormValue} disabled={'disabled'} />
+                            </div>
+
+                            <div className='inputRow'>
+                                <InputText defaultValue={registerObj.email} updateType="email" containerStyle="mt-1" labelTitle="Email Id" updateFormValue={updateFormValue} />
+                            </div>
+
+                            <div className='inputRow'>
+                                <InputText defaultValue={registerObj.state} updateType="state" containerStyle="mt-1" labelTitle="State" updateFormValue={updateFormValue} />
+                                <InputText defaultValue={registerObj.district} updateType="district" containerStyle="mt-1" labelTitle="District" updateFormValue={updateFormValue} />
                             </div>
                             <div className='inputRow relative'>
-                                {aadharOTP === 'verify' ? <p className='verify'>✅</p> : null}
-                                <InputText type="number" defaultValue={registerObj.aadharNo} updateType="aadharNo" containerStyle="mt-4" labelTitle="Aadhaar No." updateFormValue={updateFormValue} />
-                                <InputText defaultValue={registerObj.panNo} updateType="panNo" containerStyle="mt-4" labelTitle="Pan No" updateFormValue={updateFormValue} />
-                            </div>
-                            <div className='inputRow'>
-                                {aadharOTP === 'show' ? <InputText type="number"
-                                    defaultValue={registerObj.aadharOtp}
-                                    updateType="aadharOtp"
-                                    containerStyle="mt-4" labelTitle="Aadhaar OTP"
-                                    updateFormValue={updateFormValue}
-                                /> : null}
+                                <InputText defaultValue={registerObj.aadharNo} updateType="aadharNo" containerStyle="mt-1" labelTitle="Aadhaar No" updateFormValue={updateFormValue} disabled={'disabled'} />
+                                <InputText defaultValue={registerObj.panNo} updateType="panNo" containerStyle="mt-1" labelTitle="Pan No" updateFormValue={updateFormValue} />
                             </div>
                             <div className='inputRow'>
                                 <select name="role" defaultValue={role} id="role" onChange={selectHandler} className='select-style'>
@@ -214,24 +243,24 @@ function Register() {
                                 </select>
                             </div>
                             <div className='inputRow'>
-                                <InputText defaultValue={registerObj.state} updateType="state" containerStyle="mt-4" labelTitle="State" updateFormValue={updateFormValue} />
-                                <InputText defaultValue={registerObj.district} updateType="district" containerStyle="mt-4" labelTitle="District" updateFormValue={updateFormValue} />
-                            </div>
-                            <div className='inputRow'>
                                 {role !== 'cluster' ?
-                                    <InputText type="number" defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-4" labelTitle={role === 'distributor' ?"Cluster Id" : role === 'retailer' || role ==='franchise'? 'Distributor': 'Referral Id'} updateFormValue={updateFormValue} />
+                                    <InputText type="number" defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-1" labelTitle={role === 'distributor' ? "Cluster Id" : role === 'retailer' || role === 'franchise' ? 'Distributor Id' : 'Referral Id'} updateFormValue={updateFormValue} />
                                     : null}
-                                <InputText type="number" defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-4" labelTitle="Postal Code" updateFormValue={updateFormValue} />
+                                <InputText type="number" defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-1" labelTitle="Postal Code" updateFormValue={updateFormValue} />
                             </div>
-                            <div className='inputRow'>
-                                <InputText defaultValue={registerObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue} />
-                                <InputText defaultValue={registerObj.password} type="password" updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
+
+                            <div className='inputRow mt-3'>
+                                <div className="sdfhsd-sdfkdsj-res">
+                                    <input type="file" accept="*" onChange={handleFileChange} className="fileProfile-res" />
+                                </div>
                             </div>
                         </div>
-
-                        <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
-                        <button type="submit" onClick={() => submitForm()} className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Register</button>
-
+                        {errorMessage ? <ErrorText styleClass="mt-0">{errorMessage}</ErrorText> : null}
+                        {/* <button type="submit" onClick={() => submitForm()} className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Register</button> */}
+                        <Stack direction='colunm' align='center' spacing={4}>
+                            <Button type='submit' colorScheme='blue' spacing={2} onClick={handlePrevious}>Previous</Button>
+                            <Button colorScheme='blue' spacing={2} isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' onClick={() => submitForm()}>Submit</Button>
+                        </Stack>
                         <div className='text-center mt-4'>Already have an account? <Link to="/login"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Login</span></Link></div>
                         {/* </form>  */}
                     </div>

@@ -24,6 +24,12 @@ export const ApiUrl = {
   aadhaarWithOTP: `${APIUser}verification/aadhaarWithOTP`,
   verifyAadhaarOTP: `${APIUser}verification/verifyAadhaarOTP`,
 
+  // verify api mobile no and aadhaar no.
+  sendOTPMobileNo: `${APIUser}sendOTP`,
+  contactVerification: `${APIUser}contactVerification`,
+  aadhaarWithOTP: `${APIUser}verification/aadhaarWithOTP`,
+  verifyAadhaarOTP: `${APIUser}verification/verifyAadhaarOTP`,
+
 
   forgotPassword: `${APISuperadmin}forgotPassword`,
   resetPassword: `${APISuperadmin}resetPassword`,
@@ -194,7 +200,7 @@ export const APIRequest = async (config = {}, onSuccess, onError, noAuth = null)
     console.log(data);
     axios(data)
       .then(res => {
-        if (res.status == 200 || res.status == 201) {
+        if (res.status == 200 || res.status == 201 || res.status == 203) {
           onSuccess(res?.data);
         }
       })

@@ -53,11 +53,9 @@ function Dashboard() {
     const [totalCount, setTotalCount] = useState(0)
 
     // i am getting authantication role
-    var token = localStorage.getItem("token")
+    var token = localStorage?.getItem("token")
     const decodedToken = jwtDecode(token);
-    const { role } = decodedToken.user
-
-    console.log(role)
+    const { role } = decodedToken?.user
 
     const updateDashboardPeriod = (newRange) => {
         // Dashboard range changed, write code to refresh your values

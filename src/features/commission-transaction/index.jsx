@@ -32,14 +32,10 @@ function CommissionTransactionContent() {
     const [totalCount, setTotalCount] = useState(0)
     const [Check, setCheck] = useState(false);
 
-    console.log(statsData, "commission transaction")
-
     // i am getting authantication role
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
-
-    console.log(role)
 
     const handleChange = (event) => {
         setCategory(event.target.value);
@@ -83,8 +79,6 @@ function CommissionTransactionContent() {
         APIRequest(
             config,
             res => {
-                // console.log(res.totalCommission.adminCommission, "commission transaction");
-                // let { commission } = res?.totalCommission;
                 if (role === "superAdmin") {
                     setCount(
                         [
@@ -128,11 +122,6 @@ function CommissionTransactionContent() {
         );
     }
 
-    // useEffect(() => {
-    //     SendRequest()
-    //     SendRequestGetType()
-    // }, [currentPage, category, totalCount])
-
     useEffect(() => {
         SendRequest()
     }, [currentPage])
@@ -175,7 +164,7 @@ function CommissionTransactionContent() {
             </div>
 
             {/* Team Member list in table format loaded constant */}
-            <TitleCard title="All Commission Transactions" topMargin="mt-2">
+            <TitleCard title="Commission Transactions" topMargin="mt-2">
                 <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
                     <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
                     <Select
@@ -185,10 +174,6 @@ function CommissionTransactionContent() {
                         label="Choice Category"
                         onChange={handleChange}
                     >
-                        {/* <MenuItem value="None">
-                            <em>None</em>
-                        </MenuItem> */}
-
                         {
                             categoryType.map(({ type }) => (
                                 <MenuItem value={type}>{type}</MenuItem>
@@ -208,15 +193,15 @@ function CommissionTransactionContent() {
                                     <th>Transaction Id</th>
                                     <th>Amount</th>
                                     <th>Operator Id</th>
-                                    <th>ConsumeId</th>
-                                    <th>Admin Pin Code</th>
+                                    <th>User Id</th>
+                                    <th>Pin Code</th>
                                     {users[0]['clusterAmount']?<th>Cluster Amount</th>:null}
                                     {users[0]['retailerAmount']? <th>Retailer Amount</th> : null}
                                     {users[0]['franchiseAmount'] ? <th>Franchise Amount</th> : null}
                                     {users[0]['distributorAmount'] ? <th>Distributor Amount</th> : null}
                                     {users[0]['adminAmount']?<th>Admin Amount</th>:null}
                                     <th className="text-center">Type</th>
-                                    <th className="text-center">Date</th>
+                                    <th className="text-center">Date and time</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -236,8 +221,7 @@ function CommissionTransactionContent() {
                                                 {users[0]['distributorAmount']?<td className="text-center">{distributorAmount}</td> : null }
                                                 {users[0]['adminAmount']?<td className="text-center">{adminAmount}</td>:null}
                                                 <td className="text-center">{type}</td>
-                                                {/* <td className="text-center">{moment().format(modifiedCreatedAt)}</td> */}
-                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
+                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm a")}</td>
                                             </tr>
                                         )
                                     })

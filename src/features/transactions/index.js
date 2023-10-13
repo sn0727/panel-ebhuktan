@@ -115,7 +115,7 @@ function Transactions() {
             </div>
 
 
-            <TitleCard title="All Recent Transactions" topMargin="mt-2">
+            <TitleCard title="Recent Transactions" topMargin="mt-2">
                 <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
                     <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
                     <Select
@@ -144,13 +144,13 @@ function Transactions() {
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Consumer Id</th>
+                                    <th>User Id</th>
                                     <th>Amount</th>
-                                    <th>Type</th>
+                                    <th className="text-center">Type</th>
                                     <th>Image</th>
                                     <th>Invoice No</th>
-                                    <th>Admin Pin Code</th>
-                                    <th className="text-center">Date</th>
+                                    <th>Pin Code</th>
+                                    <th className="text-center">Date and time</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -172,7 +172,7 @@ function Transactions() {
                                                 </td>
                                                 <td className="text-center">{invoiceNo}</td>
                                                 <td className="text-center">{adminPinCode}</td>
-                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
+                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm a")}</td>
                                             </tr>
                                         )
                                     })

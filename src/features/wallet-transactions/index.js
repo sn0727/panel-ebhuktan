@@ -114,7 +114,7 @@ function WalletTransactions() {
             </div>
 
 
-            <TitleCard title="All Recent Transactions" topMargin="mt-2">
+            <TitleCard title="Recent Transactions" topMargin="mt-2">
                 {/* <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
                     <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
                     <Select
@@ -151,7 +151,7 @@ function WalletTransactions() {
                                     <th>Receiver Name</th>
                                     <th>Status</th>
                                     <th>Amount</th>
-                                    <th>Date</th>
+                                    <th className="text-center">Date and time</th>
 
                                 </tr>
                             </thead>
@@ -169,7 +169,7 @@ function WalletTransactions() {
                                                 <td className="text-center">{item.receiverName}</td>
                                                 <td className="text-center">{userId === parseInt(item.senderId) ? "Send" : "Received"}</td>
                                                 <td className="text-center">{item.amount}</td>
-                                                <td className="text-center">{moment(item.modifiedCreatedAt).utc().format("MM/DD/YYYY hh:mm a")}</td>
+                                                <td className="text-center">{moment(item.modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm a")}</td>
                                             </tr>
                                         )
                                     })

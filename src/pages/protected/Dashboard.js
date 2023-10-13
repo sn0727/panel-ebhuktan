@@ -13,9 +13,6 @@ function InternalPage() {
         dispatch(setPageTitle({ title: "Dashboard" }))
     }, [])
 
-    // const notify = () => toast.error("Wow so easy !");
-
-
     return (
         <>
             <ToastContainer

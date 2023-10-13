@@ -56,8 +56,6 @@ function ElectricityContent() {
                         </thead>
                         <tbody>
                             {
-
-
                                 transaction.map((l, k) => {
                                     return (
                                         <tr key={k}>

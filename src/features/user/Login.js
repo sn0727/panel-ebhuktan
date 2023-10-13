@@ -3,49 +3,54 @@ import { Link, useNavigate } from 'react-router-dom'
 import LandingIntro from './LandingIntro'
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText';
-import { ApiUrl } from '../../utils/commanApiUrl';
+import { APIRequest, ApiUrl } from '../../utils/commanApiUrl';
 import { toast } from 'react-toastify';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 function Login() {
     const navigation = useNavigate();
-    const INITIAL_LOGIN_OBJ = {
-        email: "",
-        password: "",
-    }
-
     const [isLoading, setisLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
-    const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ)
     const [showPass, setShowPass] = useState('password')
+    const [loginObj, setLoginObj] = useState({
+        email: "",
+        password: "",
+    })
 
-    let email = loginObj.email;
-    let password = loginObj.password
+    const updateFormValue = ({ updateType, value }) => {
+        setErrorMessage("")
+        setLoginObj({ ...loginObj, [updateType]: value })
+    }
 
-    const Authuser = async () => {
+    const Authuser = () => {
         setisLoading(true)
-        let result = await fetch(ApiUrl.login, {
-            method: "post",
-            body: JSON.stringify({ data: email, password }),
-            headers: {
-                'Content-Type': 'application/json'
+        let config = {
+            url: ApiUrl.login,
+            method: 'post',
+            body: {
+                data: loginObj.email,
+                password: loginObj.password
             }
-
-        })
-
-        let response = await result.json();
-        console.log(response)
-        if (!response.error) {
-            toast.success(response.message)
-            // // Call API to check user credentials and save token in localstorage
-            localStorage.setItem("token", response.token)
-            setisLoading(false)
-            navigation('/app/dashboard')
-        } else {
-            toast.error(response.message)
-            setisLoading(false)
         }
-        setisLoading(false)
+        APIRequest(
+            config,
+            res => {
+                if (!res?.error) {
+                    toast.success(res?.message)
+                    localStorage.setItem("token", res?.token)
+                    setisLoading(false)
+                    navigation('/app/dashboard')
+                }else {
+                    toast.error(res?.message)
+                }
+
+            },
+            err => {
+                console.log(err, "err ==============")
+                toast.error(err?.message)
+                setisLoading(false)
+            }
+        )
     }
 
     const submitForm = (e) => {
@@ -59,11 +64,6 @@ function Login() {
         }
     }
 
-    const updateFormValue = ({ updateType, value }) => {
-        setErrorMessage("")
-        setLoginObj({ ...loginObj, [updateType]: value })
-    }
-
     const showPassword = () => {
         showPass === "password" ? setShowPass("text") : setShowPass("password")
     }
@@ -74,27 +74,23 @@ function Login() {
                     <div className=''>
                         <LandingIntro />
                     </div>
-                    <div className='py-24 px-10'>
+                    <div className='py-10 px-10'>
                         <h2 className='text-2xl font-semibold mb-2 text-center'>Login</h2>
                         <form onSubmit={(e) => submitForm(e)}>
-
-                            <div className="mb-4">
-
-                                <InputText type="email" defaultValue={loginObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue} />
+                            <div className="mb-2">
+                                <InputText type="email" defaultValue={loginObj.email} updateType="email" containerStyle="mt-4" placeholder={'Email id'} labelTitle="Email Id" updateFormValue={updateFormValue} />
                                 <div className='relative'>
-                                    <InputText defaultValue={loginObj.password} type={showPass} updateType="password" containerStyle="mt-4" labelTitle="Password" updateFormValue={updateFormValue} />
+                                    <InputText defaultValue={loginObj.password} type={showPass} updateType="password" placeholder={'Password'} containerStyle="mt-2" labelTitle="Password" updateFormValue={updateFormValue} />
                                     {showPass === "password" ? <AiOutlineEye onClick={showPassword} className='eye-icon' /> : <AiOutlineEyeInvisible onClick={showPassword} className='eye-icon' />}
                                 </div>
-
                             </div>
 
                             <div className='text-right text-primary'><Link to="/forgot-password"><span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Forgot Password?</span></Link>
                             </div>
-
-                            <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
-                            <button type="submit" className={"btn mt-2 w-full btn-primary" + (isLoading ? " loading" : "")}>Login</button>
-
-                            <div className='text-center mt-4'>Don't have an account yet? <Link to="/register"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Register</span></Link></div>
+                            {errorMessage ? <ErrorText styleClass="mt-1">{errorMessage}</ErrorText> : null}
+                            <button type="submit" isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' className={"btn mt-2 w-full btn-primary" + (isLoading ? " loading" : "")}>Login</button>
+                            {/* <button type="submit" className={"btn mt-2 w-full btn-primary"}>Login</button> */}
+                            <div className='text-center mt-4'>Don't have an account yet? <Link to="/registration"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Register</span></Link></div>
                         </form>
                     </div>
                 </div>

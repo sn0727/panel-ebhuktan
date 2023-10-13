@@ -53,7 +53,7 @@ function OperatorListTable({ pageTitlle, getOperatorList, getCommission, getAddI
     <>
       <TitleCard title={pageTitlle} topMargin="mt-2">
         {/* Team Member list in table format loaded constant */}
-        <div className="overflow-x-auto w-full">
+        <div className="overflow-x-auto w-full operator_table">
           {transaction.length > 0 ?
             <table className="table w-full">
               <thead>
@@ -89,7 +89,7 @@ function OperatorListTable({ pageTitlle, getOperatorList, getCommission, getAddI
                           <div className="description-data">{l.name}</div>
                         </td>
                         <td>{l.category}</td>
-                        <td>{l.isPercentage === "true" ? 'Percentage' : 'Fixed'}</td>
+                        <td className="text-center">{l.isPercentage === "true" ? 'Percentage' : 'Fixed'}</td>
                         <td className="text-center">{l.commission}</td>
                         <td>{l.isEnable}</td>
                         <td>

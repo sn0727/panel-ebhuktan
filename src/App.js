@@ -4,7 +4,9 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { themeChange } from 'theme-change'
 import checkAuth from './app/auth';
 import initializeApp from './app/init';
-import Test from './components/Test';
+import SteperInformation from './pages/SteperInformation';
+import { ChakraProvider } from '@chakra-ui/react'
+
 
 // Importing pages
 const Layout = lazy(() => import('./containers/Layout'))
@@ -22,6 +24,7 @@ initializeApp()
 // Check for login and initialize axios
 const token = checkAuth()
 
+// const token = localStorage.getItem('token')
 
 function App() {
 
@@ -35,17 +38,17 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/login/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/register" element={<Register />} />
           <Route path="/documentation" element={<Documentation />} />
-          <Route path="/test" element={<Test />} />
-          
+          <Route path="/registration" element={<ChakraProvider ><SteperInformation /> <ChakraProvider /></ChakraProvider>} />
+
           {/* Place new routes over this */}
           <Route path="/app/*" element={<Layout />} />
 
-          <Route path="*" element={<Navigate to={token ? "/app/dashboard" : "/login"} replace />}/>
+          <Route path="*" element={<Navigate to={token ? "/app/dashboard" : "/login"} replace />} />
 
         </Routes>
       </Router>
