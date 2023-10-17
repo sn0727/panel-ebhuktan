@@ -12,7 +12,7 @@ const ClientUser = () => {
 
   return (
     <>
-    <DynamicTitle pageTitle={"Client User"} />
+    <DynamicTitle pageTitle={"User"} />
         <ClientUserContent />
     </>
   )

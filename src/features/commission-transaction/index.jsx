@@ -18,56 +18,29 @@ import CircleStackIcon from '@heroicons/react/24/outline/CircleStackIcon'
 import CreditCardIcon from '@heroicons/react/24/outline/CreditCardIcon'
 import jwtDecode from 'jwt-decode';
 import DashboardStats from "../dashboard/components/DashboardStats";
-import {FaRupeeSign} from "react-icons/fa"
+import { FaRupeeSign } from "react-icons/fa"
+import TablePagination from '@mui/material/TablePagination';
+import { Button } from "@mui/material";
+import { DateByFilter } from "../../components/DateByFilter/DateByFilter";
 
 function CommissionTransactionContent() {
     const dispatch = useDispatch()
-    const [users, setUsers] = useState([])
     const [statsData, setCount] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1)
+    const [users, setUsers] = useState([])
     const [isLoading, setisLoading] = useState(true);
     const [category, setCategory] = useState('');
     const [categoryType, setCategoryType] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0)
     const [totalCount, setTotalCount] = useState(0)
     const [Check, setCheck] = useState(false);
+    const [pageLimit, setPageLimit] = useState([])
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     // i am getting authantication role
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
-
-    const handleChange = (event) => {
-        setCategory(event.target.value);
-    };
-
-    // get data from the api
-    const SendRequest = async () => {
-        setisLoading(true)
-        let config = {
-            url: `${ApiUrl.transaction_commission_getAll}`,
-            method: 'post',
-            body: {
-                page: currentPage,
-                type: category
-            }
-        };
-        APIRequest(
-            config,
-            res => {
-                console.log(res, "this is cate api");
-                setTotalCount(res.count)
-                setTotalAmount(res.total)
-                setUsers(res.data)
-                setCheck(false)
-                setisLoading(false)
-            },
-            err => {
-                console.log(err);
-                setisLoading(false)
-            }
-        );
-    }
 
     // show commision amount table.
     const SendRequest02 = async () => {
@@ -90,7 +63,7 @@ function CommissionTransactionContent() {
                             { title: "Retailer Commission", value: res?.totalCommission?.retailerCommission, icon: <FaRupeeSign className='w-6 h-6' />, description: "" },
                         ]
                     )
-                } 
+                }
 
 
                 setisLoading(false)
@@ -101,6 +74,44 @@ function CommissionTransactionContent() {
             }
         );
     }
+
+    const [selectionRange, setSelectionRange] = useState({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: 'selection',
+    });
+
+    // set category in the select box
+    const handleChange = (event) => {
+        setCategory(event.target.value);
+    };
+
+    // get page per page record
+    const getPageLimitFun = () => {
+        let config = {
+            url: ApiUrl.getPageLimit,
+            method: 'get'
+        }
+        APIRequest(
+            config,
+            res => {
+                setPageLimit(res?.limit)
+            },
+            err => {
+                console.log(err)
+            }
+        )
+    }
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(1);
+    };
+
     // get type from the api
     const SendRequestGetType = async () => {
         setisLoading(true)
@@ -112,7 +123,7 @@ function CommissionTransactionContent() {
             config,
             res => {
                 console.log(res);
-                setCategoryType(res.data)
+                setCategoryType(res?.data)
                 setisLoading(false)
             },
             err => {
@@ -122,31 +133,84 @@ function CommissionTransactionContent() {
         );
     }
 
-    useEffect(() => {
-        SendRequest()
-    }, [currentPage])
-    useEffect(() => {
-        if (currentPage !== '1') {
-            setCurrentPage(1)
+    // filter data 
+    const filterTransaction = () => {
+        setisLoading(true)
+        let body;
+        if (Check) {
+            body = {
+                page: page + 1,
+                limit: rowsPerPage,
+                type: category ? category : 'All',
+                startDate: moment(selectionRange.startDate).format('YYYY-MM-DD'),
+                endDate: moment(selectionRange.endDate).format('YYYY-MM-DD'),
+
+            }
+        } else {
+            body = {
+                page: page + 1,
+                limit: rowsPerPage,
+                type: category ? category : 'All',
+                startDate: null,
+                endDate: null,
+
+            }
         }
-        setCheck(true)
-        SendRequest()
-    }, [category])
+        const config = {
+            url: ApiUrl.getFilterCommissionTranc,
+            method: 'post',
+            body: body
+        };
+
+        APIRequest(
+            config,
+            (res) => {
+                console.log(res, "res =================== ddd");
+                setUsers(res?.data)
+                setTotalAmount(res?.total)
+                setTotalCount(res?.count)
+                setisLoading(false)
+            },
+            (err) => {
+                console.log(err, "================== erro");
+                setisLoading(false)
+            }
+        );
+
+    };
+
+    // CLEAR filter funcation
+    const clearFun = () => {
+        setSelectionRange({
+            startDate: new Date(),
+            endDate: new Date(),
+            key: 'selection',
+        })
+        // setCategoryType([])
+        setCategory('')
+        setCheck(false)
+    }
+
+    useEffect(() => {
+        SendRequestGetType()
+        SendRequest02()
+        getPageLimitFun()
+    }, [])
+
+    useEffect(() => {
+        filterTransaction();
+    }, [selectionRange, category, rowsPerPage, page])
+
 
     const updateDashboardPeriod = (newRange) => {
         // Dashboard range changed, write code to refresh your values
         dispatch(showNotification({ message: `Period updated to ${newRange.startDate} to ${newRange.endDate}`, status: 1 }))
     }
 
-    useEffect(() => {
-        SendRequestGetType()
-        SendRequest02()
-    }, []);
-
     return (
         <>
-        {/** ---------------------- Different stats content 1 ------------------------- */}
-        <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6">
+            {/** ---------------------- Different stats content 1 ------------------------- */}
+            <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6">
                 {
                     !isLoading ?
                         statsData.map((d, k) => {
@@ -165,23 +229,27 @@ function CommissionTransactionContent() {
 
             {/* Team Member list in table format loaded constant */}
             <TitleCard title="Commission Transactions" topMargin="mt-2">
-                <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
-                    <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
-                    <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        value={category}
-                        label="Choice Category"
-                        onChange={handleChange}
-                    >
-                        {
-                            categoryType.map(({ type }) => (
-                                <MenuItem value={type}>{type}</MenuItem>
-                            ))
-                        }
+                <div className="date-by-filter">
+                    <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
+                        <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
+                        <Select
+                            labelId="demo-select-small-label"
+                            id="demo-select-small"
+                            value={category}
+                            label="Choice Category"
+                            onChange={handleChange}
+                        >
+                            {
+                                categoryType.map(({ type }) => (
+                                    <MenuItem value={type}>{type}</MenuItem>
+                                ))
+                            }
 
-                    </Select>
-                </FormControl>
+                        </Select>
+                    </FormControl>
+                    <DateByFilter selectionRange={selectionRange} setSelectionRange={setSelectionRange} setCheck={setCheck} />
+                    <Button onClick={clearFun} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Clear</Button>
+                </div>
                 {/* Team Member list in table format loaded constant */}
                 <div className="overflow-x-auto w-full">
                     {users.length > 0 ?
@@ -189,37 +257,38 @@ function CommissionTransactionContent() {
                         <table className="table w-full">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    {/* <th>Sr.No</th> */}
+                                    <th>Sr.No</th>
                                     <th>Transaction Id</th>
                                     <th>Amount</th>
                                     <th>Operator Id</th>
-                                    <th>User Id</th>
+                                    <th>Partner Id</th>
                                     <th>Pin Code</th>
-                                    {users[0]['clusterAmount']?<th>Cluster Amount</th>:null}
-                                    {users[0]['retailerAmount']? <th>Retailer Amount</th> : null}
+                                    {users[0]['clusterAmount'] ? <th>Cluster Amount</th> : null}
+                                    {users[0]['retailerAmount'] ? <th>Retailer Amount</th> : null}
                                     {users[0]['franchiseAmount'] ? <th>Franchise Amount</th> : null}
                                     {users[0]['distributorAmount'] ? <th>Distributor Amount</th> : null}
-                                    {users[0]['adminAmount']?<th>Admin Amount</th>:null}
+                                    {users[0]['adminAmount'] ? <th>Admin Amount</th> : null}
                                     <th className="text-center">Type</th>
                                     <th className="text-center">Date and time</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    users.map(({ id, transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, modifiedCreatedAt, franchiseAmount }, k) => {
+                                    users.map(({transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, modifiedCreatedAt, franchiseAmount }, k) => {
                                         return (
                                             <tr key={k}>
-                                                <td className="text-center">{id}</td>
+                                                <td className="text-center">{(parseInt(page) * parseInt(rowsPerPage) + k) + 1}</td>
                                                 <td className="text-center">{transactionId}</td>
-                                                <td className="text-center">{parseFloat(amount).toFixed(2)}</td>
+                                                <td className="text-center"> &#8377; {parseFloat(amount).toFixed(2)}</td>
                                                 <td className="text-center">{operatorId}</td>
                                                 <td className="text-center">{consumerId}</td>
                                                 <td className="text-center">{adminPinCode}</td>
-                                                {users[0]['clusterAmount']?<td className="text-center">{clusterAmount}</td>:null}
-                                                {users[0]['retailerAmount']?<td className="text-center">{retailerAmount}</td>: null}
-                                                {users[0]['franchiseAmount']?<td className="text-center">{franchiseAmount}</td> : null}
-                                                {users[0]['distributorAmount']?<td className="text-center">{distributorAmount}</td> : null }
-                                                {users[0]['adminAmount']?<td className="text-center">{adminAmount}</td>:null}
+                                                {users[0]['clusterAmount'] ? <td className="text-center">{clusterAmount}</td> : null}
+                                                {users[0]['retailerAmount'] ? <td className="text-center">{retailerAmount}</td> : null}
+                                                {users[0]['franchiseAmount'] ? <td className="text-center">{franchiseAmount}</td> : null}
+                                                {users[0]['distributorAmount'] ? <td className="text-center">{distributorAmount}</td> : null}
+                                                {users[0]['adminAmount'] ? <td className="text-center">{adminAmount}</td> : null}
                                                 <td className="text-center">{type}</td>
                                                 <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm a")}</td>
                                             </tr>
@@ -235,18 +304,15 @@ function CommissionTransactionContent() {
                     }
                 </div>
 
-                <nav aria-label="Page navigation example text-right" className="navigation example">
-                    <nav aria-label="Page navigation example text-right" className="navigation example">
-                        {Check ? null : <Pagination
-                            apiRoute={ApiUrl.transaction_commission_getAll}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                            totalCount={totalCount}
-                            setTotalCount={setTotalCount}
-                            category={category}
-                        />}
-                    </nav>
-                </nav>
+                <TablePagination
+                    rowsPerPageOptions={pageLimit.map((item) => item.limit)}
+                    component="div"
+                    count={totalCount}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
             </TitleCard>
             {isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
 

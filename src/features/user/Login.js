@@ -42,6 +42,7 @@ function Login() {
                     navigation('/app/dashboard')
                 }else {
                     toast.error(res?.message)
+                    setisLoading(false)
                 }
 
             },

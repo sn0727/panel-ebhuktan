@@ -45,8 +45,12 @@ export const ApiUrl = {
   // profile update api
   editUserProfile: `${APISuperadmin}editUser`,
   editProfile: `${APIUser}updateProfile`,
+  editProfileRes: `${APIUser}userCreate`,
 
-
+  // filter api data url
+  getFilterTransaction: `${apiBaseUrl}transaction/getTransaction`,
+  getPageLimit: `${apiBaseUrl}transaction/getPageLimit`,
+  getFilterCommissionTranc: `${apiBaseUrl}transaction/getCommissionTransaction`,
 
   // updateCommission
   updateMobileRechargeCommission: `${apiBaseUrl}recharge/updateCommission`,
@@ -76,7 +80,7 @@ export const ApiUrl = {
 
 
   // transaction api
-  transaction_commission_getAll: `${apiBaseUrl}transaction/commission/getAll`,
+  // transaction_commission_getAll: `${apiBaseUrl}transaction/commission/getAll`,
   transaction_getType: `${apiBaseUrl}transaction/getType`,
   transactionAll: `${apiBaseUrl}transaction/getAllTransaction`,
   // transactionAll: `${apiBaseUrl}transaction/getAll`,

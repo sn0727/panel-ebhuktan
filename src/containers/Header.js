@@ -10,23 +10,50 @@ import { RIGHT_DRAWER_TYPES } from '../utils/globalConstantUtil'
 
 import { NavLink, Routes, Link, useLocation } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
+import { APIRequest, ApiUrl } from '../utils/commanApiUrl'
 
 
 function Header() {
 
-    // get profile information from the api
-    var token = localStorage.getItem("token")
-    const decodedToken = jwtDecode(token);
+    const [useData, setUserData] = useState([])
 
-    const image = decodedToken?.user?.image;
-    console.log(image, "/logo02.png")
+    // console.log(useData, '========= useData')
+
+    // get profile information from the api
+    // var token = localStorage.getItem("token")
+    // const decodedToken = jwtDecode(token);
+
+    // const image = decodedToken?.user?.image;
+    // const image = '';
+    // console.log(image, "/logo02.png")
 
     const dispatch = useDispatch()
     const { noOfNotifications, pageTitle } = useSelector(state => state.header)
     const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"))
 
+    const GetUserDataByToken = async () => {
+        // setisLoading(true)
+        let config = {
+          url: `${ApiUrl.getByToken}`,
+          method: 'get',
+        };
+        APIRequest(
+          config,
+          res => {
+            console.log(res);
+            setUserData(res?.user)
+            // setisLoading(false)
+          },
+          err => {
+            console.log(err);
+            // setisLoading(false)
+          }
+        );
+      }
+
     useEffect(() => {
         themeChange(false)
+        GetUserDataByToken()
         if (currentTheme === null) {
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 setCurrentTheme("dark")
@@ -98,7 +125,7 @@ function Header() {
                     <div className="dropdown dropdown-end ml-4">
                         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
-                                <img src={image ? image : '/logo02.png'} alt="profile" />
+                                <img src={useData?.image ? useData?.image : '/logo02.png'} alt="profile" />
                             </div>
                         </label>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">

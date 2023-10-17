@@ -8,6 +8,8 @@ import { Provider } from 'react-redux'
 import SuspenseContent from './containers/SuspenseContent';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -274,7 +274,7 @@ function DistributorContent() {
 
     return (
         <>
-            <TitleCard title="Current Distributor" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} createRoleName={'distributor'} Pandinghandler={Pandinghandler} />}>
+            <TitleCard title="Distributor" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} createRoleName={'distributor'} Pandinghandler={Pandinghandler} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">

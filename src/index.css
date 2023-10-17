@@ -491,3 +491,27 @@ p.verify.add-form {
 /* .operator_table tbody tr td, .operator_table thead tr th {
   width: 50px;
 } */
+
+.setPosition-fd {
+  position: relative;
+}
+.rdrDateRangePickerWrapper {
+  display: inline-flex;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  position: absolute;
+  top: inherit;
+  right: 60px;
+  z-index: 999;
+}
+.not-allowed-cr {
+  cursor: default !important;
+}
+
+.date-by-filter {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+}

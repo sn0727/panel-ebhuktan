@@ -205,49 +205,6 @@ function RetailerContent() {
         }
     }
 
-    // statushandler funcation 
-    // const statusHandler = async (statusId, status, adminId) => {
-    //     if(!adminId){
-    //         toast.error('Please map user with correct cluster id!')
-    //         return(true)
-    //     } 
-    //     const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
-    //     if (choice) {
-    //         try {
-    //             setisLoading(true)
-    //             const SendRequest = async () => {
-    //                 let config = {
-    //                     url: ApiUrl.updateStatus,
-    //                     method: 'post',
-    //                     body: {
-    //                         userId: statusId,
-    //                         status: status
-    //                     }
-    //                 };
-    //                 APIRequest(
-    //                     config,
-    //                     res => {
-    //                         console.log(res, "status check");
-    //                         toast.success(res.message)
-    //                         Pandinghandler()
-    //                         setisLoading(false)
-    //                     },
-    //                     err => {
-    //                         console.log(err);
-    //                         toast.error(err.message)
-    //                         setisLoading(false)
-
-    //                     }
-    //                 );
-    //             }
-    //             SendRequest();
-    //         } catch (error) {
-
-    //         }
-    //     }
-    // }
-
-
     useEffect(() => {
         if (Category === 'Aproved') {
             Aprovehandler()
@@ -272,7 +229,7 @@ function RetailerContent() {
 
     return (
         <>
-            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} createRoleName={'retailer'} />}>
+            <TitleCard title="Retailer" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} createRoleName={'retailer'} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
@@ -287,17 +244,18 @@ function RetailerContent() {
                                     <th>Address</th>
                                     <td>AddharNo</td>
                                     <td>PanNo</td>
+                                    <td>Partner Id</td>
                                     <td>Status</td>
-                                    <td>Amount</td>
-                                    <td>Earning</td>
-                                    <td>Commission</td>
+                                    {pendingData[0]?.status === "pending" ? null : <td>Amount</td>}
+                                    {pendingData[0]?.status === "pending" ? null : <td>Earning</td>}
+                                    {pendingData[0]?.status === "pending" ? null : <td>Commission</td>}
                                     {role === "superAdmin" && <td>Delete</td>}
-                                    {role === "superAdmin" && <td>Add Money</td>}
+                                    {role === "superAdmin" && pendingData[0]?.status === "pending" ? null : <td>Add Money</td>}
                                     {
                                         pendingData[0]?.status === "pending" ? null :
                                             role === "superAdmin" && <td>Edit Profile</td>
                                     }
-                                    <td>View Details</td>
+                                    {pendingData[0]?.status === "pending" ? null : <td>View Details</td>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -328,28 +286,31 @@ function RetailerContent() {
                                                 </td>
                                                 <td>{l.aadharNo}</td>
                                                 <td>{l.panNo}</td>
+                                                <td>{l?.partnerId}</td>
                                                 <td>
-                                                    {/* <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved", l?.adminId)}>{l.status === "approved" ? <EditAdminIdModal id={l.id} /> : "approve"}</div> */}
-                                                    <div className="badge badge-primary"><EditAdminIdModal id={l.id} adminId={l?.adminId} status={l?.status} Pandinghandler={Pandinghandler} /></div>
-                                                    {/* {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject", '1')}>{l.status === "reject" ? "approved" : "Reject"}</div>} */}
+                                                    {pendingData[0]?.status === "pending" ?
+                                                        <div className="badge badge-primary">
+                                                            <EditAdminIdModal id={l.id} adminId={l?.adminId} status={l?.status} Pandinghandler={Pandinghandler} />
+                                                        </div> : <div className="badge badge-primary not-allowed-cr">approved</div>}
+
                                                 </td>
-                                                {/* <td>
-                                                    <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved",l?.adminId)}>{l.status === "approved" ? "approved" : "approve"}</div>
-                                                    {l.status !== "approved" && <div className="badge badge-red" onClick={() => statusHandler(l.id, "reject", '1')}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
-                                                </td> */}
-                                                <td className="text-center">{parseFloat(l.amount).toFixed(2)}</td>
-                                                <td className="text-center">{parseFloat(l?.earning).toFixed(2)}</td>
-                                                <td className="text-center">{l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>
-                                                {role === "superAdmin" && <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
-                                                    </div>
-                                                </td>}
-                                                {role === "superAdmin" && <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <AddMoneyModal id={l.id} />
-                                                    </div>
-                                                </td>}
+                                                {pendingData[0]?.status === "pending" ? null : <td> &#8377; {parseFloat(l?.amount).toFixed(2)}</td>}
+                                                {pendingData[0]?.status === "pending" ? null : <td> &#8377; {parseFloat(l?.earning).toFixed(2)}</td>}
+                                                {pendingData[0]?.status === "pending" ? null : <td className="text-center"> {l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>}
+                                                {role === "superAdmin" &&
+                                                    <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
+                                                        </div>
+                                                    </td>}
+
+                                                {role === "superAdmin" &&
+                                                    pendingData[0]?.status === "pending" ? null :
+                                                    <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <AddMoneyModal id={l.id} />
+                                                        </div>
+                                                    </td>}
                                                 {
                                                     l.status === "pending" ? null : role === "superAdmin" && <td>
                                                         <div className="mx-3 cursor-pointer" >
@@ -357,11 +318,13 @@ function RetailerContent() {
                                                         </div>
                                                     </td>
                                                 }
-                                                <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <FaArrowCircleRight fontSize={28} id={l.id} onClick={() => navigate('/app/commission', { state: { id: l.id } })} />
-                                                    </div>
-                                                </td>
+                                                {pendingData[0]?.status === "pending" ? null :
+                                                    <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <FaArrowCircleRight fontSize={28} id={l.id} onClick={() => navigate('/app/commission', { state: { id: l.id } })} />
+                                                        </div>
+                                                    </td>
+                                                }
                                             </tr>
                                         )
                                     })

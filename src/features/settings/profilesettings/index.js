@@ -22,7 +22,7 @@ function ProfileSettings() {
     const decodedToken = jwtDecode(token);
 
     const {
-        id,
+        partnerId,
         name,
         email,
         contact,
@@ -77,6 +77,10 @@ function ProfileSettings() {
                 toast.success(res?.message)
                 localStorage.setItem("token", res?.token)
                 setisLoading(false)
+                setTimeout(()=>{
+                    window.location.reload(true);
+                },1500)
+                
             },
             err => {
                 console.log(err, "err====================== dd")
@@ -89,13 +93,14 @@ function ProfileSettings() {
     // Call API to update profile settings changes
     const updateProfileUser = (e) => {
         e.preventDefault();
-        userProfieleUpdate();
+        userProfieleUpdate()
+        
     }
 
     return (
         <>
 
-            <TitleCard title={`Profile Settings | ${role} | user id : ${id}`} topMargin="mt-2">
+            <TitleCard title={`Profile Settings | ${role} | Partner Id : ${partnerId}`} topMargin="mt-2">
                 {/* <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
                     <h3>User Id</h3>
                     <h3>{id}</h3>

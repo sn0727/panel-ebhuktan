@@ -20,6 +20,7 @@ import AlertDialog from "../../components/Alert"
 import { toast } from "react-toastify"
 import BasicModal from "../../components/Model/AddMoneyModal"
 import AddMoneyModal from "../../components/Model/AddMoneyModal"
+import EditAdminIdModal from "../../components/Model/EditAdminIdModal"
 // select box code 
 
 const TopSideButtons = ({ Aprovehandler, Pandinghandler, currentPage, setCategory }) => {
@@ -124,7 +125,12 @@ function ClientUserContent() {
 
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
-    const { role } = decodedToken.user
+    const { role } = decodedToken.user;
+
+    // pending data get
+    const pendingData = clusterData.map((items) => {
+        return items;
+    });
 
     // i am calling aprove funtion on the click
     const Aprovehandler = () => {
@@ -191,6 +197,8 @@ function ClientUserContent() {
         }
         getCusterDatapandding()
     }
+
+    // delete record
     const Delete = (id) => {
         const choice = window.confirm(`Are you sure you want to delete user ?`)
         if (choice) {
@@ -217,41 +225,41 @@ function ClientUserContent() {
     }
 
     // statushandler funcation 
-    const statusHandler = async (statusId, status) => {
-        const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
-        setisLoading(true)
-        if (choice) {
-            try {
-                const SendRequest = async () => {
-                    let config = {
-                        url: ApiUrl.updateStatus,
-                        method: 'post',
-                        body: {
-                            userId: statusId,
-                            status: status
-                        }
-                    };
-                    APIRequest(
-                        config,
-                        res => {
-                            console.log(res);
-                            toast.success(res.message)
-                            Pandinghandler()
-                            setisLoading(false)
-                        },
-                        err => {
-                            console.log(err);
-                            setisLoading(false)
-                        }
-                    );
-                }
+    // const statusHandler = async (statusId, status) => {
+    //     const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
+    //     setisLoading(true)
+    //     if (choice) {
+    //         try {
+    //             const SendRequest = async () => {
+    //                 let config = {
+    //                     url: ApiUrl.updateStatus,
+    //                     method: 'post',
+    //                     body: {
+    //                         userId: statusId,
+    //                         status: status
+    //                     }
+    //                 };
+    //                 APIRequest(
+    //                     config,
+    //                     res => {
+    //                         console.log(res);
+    //                         toast.success(res.message)
+    //                         Pandinghandler()
+    //                         setisLoading(false)
+    //                     },
+    //                     err => {
+    //                         console.log(err);
+    //                         setisLoading(false)
+    //                     }
+    //                 );
+    //             }
 
-                SendRequest();
-            } catch (error) {
-            }
+    //             SendRequest();
+    //         } catch (error) {
+    //         }
 
-        }
-    }
+    //     }
+    // }
 
 
     useEffect(() => {
@@ -261,7 +269,6 @@ function ClientUserContent() {
             Pandinghandler()
         }
     }, [currentPage])
-
 
     useEffect(() => {
         if (currentPage !== '1') {
@@ -278,7 +285,7 @@ function ClientUserContent() {
 
     return (
         <>
-            <TitleCard title="Current User" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} currentPage={currentPage} />}>
+            <TitleCard title="User" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} currentPage={currentPage} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
@@ -293,12 +300,13 @@ function ClientUserContent() {
                                     <th>Address</th>
                                     <td>AadharNo</td>
                                     <td>PanNo</td>
+                                    <td>Partner Id</td>
                                     <td>Status</td>
-                                    <td>Amount</td>
-                                    <td>Earning</td>
-                                    <td>Commission</td>
+                                    {pendingData[0]?.status === "pending" ? null : <td>Amount</td>}
+                                    {pendingData[0]?.status === "pending" ? null : <td>Earning</td>}
+                                    {pendingData[0]?.status === "pending" ? null : <td>Commission</td>}
                                     {role === "superAdmin" && <td>Delete</td>}
-                                    {role === "superAdmin" && <td>Add Money</td>}
+                                    {role === "superAdmin" && pendingData[0]?.status === "pending" ? null : <td>Add Money</td>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -324,28 +332,34 @@ function ClientUserContent() {
                                                 <td>{l.contact}</td>
                                                 <td>
                                                     <div>
-                                                        <address> Noida sector, {l.district}, {l.state}, <br></br> {l.postalCode} </address>
+                                                        <address>{l.district}, {l.state}, <br></br> {l.postalCode} </address>
                                                     </div>
                                                 </td>
                                                 <td>{l.aadharNo}</td>
                                                 <td>{l.panNo}</td>
+                                                <td>{l?.partnerId}</td>
                                                 <td>
-                                                    <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved")}>{l.status === "approved" ? "approved" : "approve"}</div>
-                                                    {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject")}>{l.status === "Reject" ? "approved" : "Reject"}</div>}
+                                                    {pendingData[0]?.status === "pending" ?
+                                                        <div className="badge badge-primary">
+                                                            <EditAdminIdModal id={l.id} adminId={l?.adminId} status={l?.status} useDetails={l} Pandinghandler={Pandinghandler} />
+                                                        </div> : <div className="badge badge-primary not-allowed-cr">approved</div>}
+
                                                 </td>
-                                                <td>{parseFloat(l.amount).toFixed(2)}</td>
-                                                <td>{parseFloat(l?.earning).toFixed(2)}</td>
-                                                <td className="text-center">{l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>
+                                                {pendingData[0]?.status === "pending" ? null : <td> &#8377; {parseFloat(l?.amount).toFixed(2)}</td>}
+                                                {pendingData[0]?.status === "pending" ? null : <td> &#8377; {parseFloat(l?.earning).toFixed(2)}</td>}
+                                                {pendingData[0]?.status === "pending" ? null : <td className="text-center"> {l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>}
                                                 {role === "superAdmin" && <td>
                                                     <div className="mx-3 cursor-pointer" >
                                                         <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
                                                     </div>
                                                 </td>}
-                                                {role === "superAdmin" && <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <AddMoneyModal id={l.id} />
-                                                    </div>
-                                                </td>}
+                                                {role === "superAdmin" &&
+                                                    pendingData[0]?.status === "pending" ? null :
+                                                    <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <AddMoneyModal id={l.id} />
+                                                        </div>
+                                                    </td>}
                                             </tr>
                                         )
                                     })

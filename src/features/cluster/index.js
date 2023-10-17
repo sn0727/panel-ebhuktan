@@ -19,6 +19,8 @@ import { AiTwotoneDelete } from "react-icons/ai"
 import { FaArrowCircleRight } from "react-icons/fa";
 import { toast } from "react-toastify"
 import { Link, useNavigate } from "react-router-dom"
+import EditAdminIdModal from "../../components/Model/EditAdminIdModal"
+import EditProfileModal from "../../components/Model/EditProfileModal"
 // select box code 
 
 const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCategory }) => {
@@ -92,6 +94,13 @@ function Cluster() {
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
     const dispatch = useDispatch()
+
+    // pending data get
+    const pendingData = clusterData.map((items) => {
+        return items;
+    });
+
+    console.log(pendingData, "-pendingData =======================")
 
     // i am calling aprove funtion on the click
     const Aprovehandler = () => {
@@ -182,46 +191,6 @@ function Cluster() {
         }
     }
 
-    // statushandler funcation 
-    const statusHandler = async (statusId, status, adminId) => {
-        if(!adminId){
-            toast.error('Please map user with correct cluster id!')
-            return(true)
-        } 
-        const choice = window.confirm(`Are you sure you want to ${status === "approved" ? "aprove" : "Reject"} everything?`)
-        setisLoading(true)
-        if (choice) {
-            try {
-                const SendRequest = async () => {
-                    let config = {
-                        url: ApiUrl.updateStatus,
-                        method: 'post',
-                        body: {
-                            userId: statusId,
-                            status: status
-                        }
-                    };
-                    APIRequest(
-                        config,
-                        res => {
-                            console.log(res);
-                            toast.success(res.message)
-                            Pandinghandler()
-                            setisLoading(false)
-                        },
-                        err => {
-                            console.log(err);
-                            setisLoading(false)
-                        }
-                    );
-                }
-                SendRequest();
-            } catch (error) {
-
-            }
-        }
-    }
-
     useEffect(() => {
         if (Category === 'Aproved') {
             Aprovehandler()
@@ -246,7 +215,7 @@ function Cluster() {
     return (
         <>
 
-            <TitleCard title="Current Cluster" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} createRoleName={'cluster'} />}>
+            <TitleCard title="Cluster" topMargin="mt-2" TopSideButtons={<TopSideButtons setCategory={setCategory} clusterData={clusterData} Aprovehandler={Aprovehandler} Pandinghandler={Pandinghandler} createRoleName={'cluster'} />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
@@ -261,14 +230,18 @@ function Cluster() {
                                     <th>Address</th>
                                     <td>AddharNo</td>
                                     <td>PanNo</td>
+                                    <td>Partner Id</td>
                                     <td>Status</td>
-                                    <td>Amount</td>
-                                    <td>Earning</td>
-                                    {/* {clusterData[0]?.commission ? <td>Commission</td> : null} */}
-                                    <td>Commission</td>
+                                    {pendingData[0]?.status === "pending" ? null : <td>Amount</td>}
+                                    {pendingData[0]?.status === "pending" ? null : <td>Earning</td>}
+                                    {pendingData[0]?.status === "pending" ? null : <td>Commission</td>}
                                     {role === "superAdmin" && <td>Delete</td>}
-                                    {role === "superAdmin" && <td>Add Money</td>}
-                                    <td>View Details</td>
+                                    {role === "superAdmin" && pendingData[0]?.status === "pending" ? null : <td>Add Money</td>}
+                                    {
+                                        pendingData[0]?.status === "pending" ? null :
+                                            role === "superAdmin" && <td>Edit Profile</td>
+                                    }
+                                    {pendingData[0]?.status === "pending" ? null : <td>View Details</td>}
 
                                 </tr>
                             </thead>
@@ -299,28 +272,45 @@ function Cluster() {
                                                 </td>
                                                 <td>{l.aadharNo}</td>
                                                 <td>{l.panNo}</td>
+                                                <td>{l?.partnerId}</td>
                                                 <td>
-                                                    <div className="badge badge-primary" onClick={() => l.status === "approved" ? '' : statusHandler(l.id, "approved", l?.adminId)}>{l.status === "approved" ? "approved" : "approve"}</div>
-                                                    {l.status !== "approved" && <div className="badge badge-red ml-3" onClick={() => statusHandler(l.id, "reject",'1')}>{l.status === "reject" ? "approved" : "Reject"}</div>}
+                                                    {pendingData[0]?.status === "pending" ?
+                                                        <div className="badge badge-primary">
+                                                            <EditAdminIdModal id={l.id} adminId={l?.adminId} status={l?.status} Pandinghandler={Pandinghandler} />
+                                                        </div> : <div className="badge badge-primary">approved</div>}
+
                                                 </td>
-                                                <td>{l.amount}</td>
-                                                <td>{parseFloat(l?.earning).toFixed(2)}</td>
-                                                <td className="text-center">{l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>
-                                                {role === "superAdmin" && <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
-                                                    </div>
-                                                </td>}
-                                                {role === "superAdmin" && <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <AddMoneyModal id={l.id} />
-                                                    </div>
-                                                </td>}
-                                                <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <FaArrowCircleRight fontSize={28} id={l.id} onClick={() => navigate('/app/commission', { state: { id: l.id } })} />
-                                                    </div>
-                                                </td>
+                                                {pendingData[0]?.status === "pending" ? null : <td> &#8377; {l.amount}</td>}
+                                                {pendingData[0]?.status === "pending" ? null : <td> &#8377; {parseFloat(l?.earning).toFixed(2)}</td>}
+                                                {pendingData[0]?.status === "pending" ? null : <td className="text-center"> {l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>}
+                                                {role === "superAdmin" &&
+                                                    <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
+                                                        </div>
+                                                    </td>}
+
+                                                {role === "superAdmin" &&
+                                                    pendingData[0]?.status === "pending" ? null :
+                                                    <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <AddMoneyModal id={l.id} />
+                                                        </div>
+                                                    </td>}
+                                                {
+                                                    l.status === "pending" ? null : role === "superAdmin" && <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <EditProfileModal id={l.id} profileData={l} Aprovehandler={Aprovehandler} />
+                                                        </div>
+                                                    </td>
+                                                }
+                                                {pendingData[0]?.status === "pending" ? null :
+                                                    <td>
+                                                        <div className="mx-3 cursor-pointer" >
+                                                            <FaArrowCircleRight fontSize={28} id={l.id} onClick={() => navigate('/app/commission', { state: { id: l.id } })} />
+                                                        </div>
+                                                    </td>
+                                                }
                                             </tr>
                                         )
                                     })

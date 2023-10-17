@@ -22,7 +22,7 @@ const style = {
     borderRadius: '16px'
 };
 
-export default function EditProfileModal({id = null, profileData, Aprovehandler}) {
+export default function EditProfileModal({id = null, profileData = null, Aprovehandler}) {
     const token = jwtDecode(localStorage.getItem('token'));
     let role = token?.user.role;
     // const { id = null } = props
@@ -31,7 +31,7 @@ export default function EditProfileModal({id = null, profileData, Aprovehandler}
     const [isLoading, setisLoading] = useState(false)
 
 
-    console.log(id, "========================= id")
+    console.log(profileData.adminId, "========================= id")
 
     const [editProfile, setEditProfile] = useState({
         name: profileData.name,
@@ -105,7 +105,7 @@ export default function EditProfileModal({id = null, profileData, Aprovehandler}
                         <InputText type="text" placeholder={'State'} value={editProfile.state} defaultValue={editProfile.state} updateType="state" containerStyle="mt-0" labelTitle="Enter State" updateFormValue={updateFormValue} />
                         <InputText type="text" placeholder={'District'} value={editProfile.district} defaultValue={editProfile.district} updateType="district" containerStyle="mt-0" labelTitle="Enter District" updateFormValue={updateFormValue} />
                         <InputText type="number" placeholder={'Pin Code'} value={editProfile.pincode} defaultValue={editProfile.pincode} updateType="pincode" containerStyle="mt-0" labelTitle="Enter Pin Code" updateFormValue={updateFormValue} />
-                        <InputText type="number" placeholder={role === 'distributor' ? "Cluster Id" : role === 'retailer' || role ==='franchise'? 'Distributor': 'Referral Id'} value={editProfile.adminid} defaultValue={editProfile.adminid} updateType="adminid" containerStyle="mt-0" labelTitle={role === 'distributor' ? "Cluster Id" : role === 'retailer' || role ==='franchise'? 'Distributor': 'Referral Id'} updateFormValue={updateFormValue} />
+                        <InputText type="text" placeholder={role === 'distributor' ? "Cluster Id" : role === 'retailer' || role ==='franchise'? 'Distributor': 'Referral Id'} value={editProfile.adminid} defaultValue={editProfile.adminid} updateType="adminid" containerStyle="mt-0" labelTitle={role === 'distributor' ? "Cluster Id" : role === 'retailer' || role ==='franchise'? 'Distributor': 'Referral Id'} updateFormValue={updateFormValue} />
                     </div>
                     <div className="mt-3 m-auto">
                         <button type="submit" className="btn btn-primary" onClick={() => handleEditProfile()}>Save</button>

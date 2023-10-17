@@ -26,17 +26,18 @@ const style = {
     borderRadius: '16px'
 };
 
-export default function EditAdminModal({ id = null, adminId, status, Pandinghandler }) {
+export default function EditAdminModal({ id = null, adminId = null, status, Pandinghandler, useDetails }) {
     const token = jwtDecode(localStorage.getItem('token'));
     let role = token?.user.role;
 
-    console.log(id, "==================== alam")
     const [open, setOpen] = useState(false);
     const [isLoading, setisLoading] = useState(false)
     const [changeStatus, setChangeStatus] = React.useState('');
     const [editProfile, setEditProfile] = useState({
-        adminid: adminId,
+        adminId: adminId,
     })
+
+    console.log(editProfile, "==================== alam")
 
     const handleChange = (event) => {
         setChangeStatus(event.target.value);
@@ -57,7 +58,7 @@ export default function EditAdminModal({ id = null, adminId, status, Pandinghand
             body: {
                 userId: id,
                 status: changeStatus,
-                adminId: editProfile.adminid
+                adminId: editProfile.adminId
             }
         };
         APIRequest(
@@ -106,8 +107,21 @@ export default function EditAdminModal({ id = null, adminId, status, Pandinghand
                                 <MenuItem value={'rejected'}>Rejected</MenuItem>
                             </Select>
                         </FormControl>
-                        {changeStatus === "rejected" ? null :
-                            < InputText type="text" placeholder="Referral Id" value={editProfile.adminid} defaultValue={editProfile.adminid} updateType="adminid" containerStyle="mt-0" labelTitle={role === 'distributor' ? "Cluster Id" : role === 'retailer' || role === 'franchise' ? 'Distributor' : 'Referral Id'} updateFormValue={updateFormValue} />
+                        {  
+                            useDetails?.role === "user" ? null :
+                            changeStatus === "rejected" ? null :
+                                < InputText
+                                    type="text"
+                                    placeholder="Referral Id"
+                                    value={editProfile.adminId}
+                                    defaultValue={editProfile.adminId}
+                                    updateType="adminid"
+                                    containerStyle="mt-0"
+                                    labelTitle={
+                                        role === 'distributor' ? "Cluster Id" : role === 'retailer' || role === 'franchise' ? 'Distributor' : 'Referral Id'
+                                    }
+                                    updateFormValue={updateFormValue}
+                                />
                         }
                     </div>
                     <div className="mt-3 m-auto">

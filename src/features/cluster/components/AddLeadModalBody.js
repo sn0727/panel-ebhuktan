@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { ApiUrl, APIRequest } from '../../../utils/commanApiUrl';
+import { ApiUrl, APIRequest, APIRequestWithFile } from '../../../utils/commanApiUrl';
 import ErrorText from '../../../components/Typography/ErrorText'
 import jwtDecode from 'jwt-decode';
 import { toast } from "react-toastify";
@@ -22,7 +22,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
     const [email, setEmail] = useState("")
     const [contact, setContact] = useState("")
     const [postCode, setPostCode] = useState("")
-    const [password, setPassword] = useState("")
+    // const [password, setPassword] = useState("")
     const [statevalue, setStateValue] = useState("")
     const [district, setDistrict] = useState("")
     const [addharcard, setAddharCard] = useState("")
@@ -41,52 +41,59 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
         if (email.trim() === "") return setErrorMessage("Email Id is required! (use any value)")
         if (contact.trim().length !== 10) return setErrorMessage("Please enter correct contact no")
         if (postCode.trim().length !== 6) return setErrorMessage("Please enter correct Postal Code")
-        if (password.trim() === "") return setErrorMessage("Password is required! (use any value)")
+        // if (password.trim() === "") return setErrorMessage("Password is required! (use any value)")
         if (statevalue.trim() == "") return setErrorMessage("State is reqiured (use any value)")
         if (district.trim() === "") return setErrorMessage("District is required! (use any value)")
         if (addharcard.trim().length !== 12) return setErrorMessage("Please enter correct aadhar no")
         if (pancard.trim().length !== 10) return setErrorMessage("Please enter correct pan card no")
-        if (aadharOTP!=='verify') return setErrorMessage("Please enter valid Aadhaar no.!")
+        if (aadharOTP !== 'verify') return setErrorMessage("Please enter valid Aadhaar no.!")
         else {
             try {
 
                 const SendRequest = async () => {
+                    // create formdata 
+                    let formdata = new FormData();
+                    formdata.append('name', name);
+                    formdata.append('contact', contact);
+                    formdata.append('email', email);
+                    formdata.append('state', statevalue);
+                    formdata.append('aadharNo', addharcard);
+                    formdata.append('panNo', pancard);
+                    formdata.append('role', createRoleName);
+                    formdata.append('district', district);
+                    formdata.append('postalCode', postCode);
+                    formdata.append('adminId', Id);
                     setisLoading(true)
                     let config = {
-                        url: ApiUrl.createUser,
+                        url: ApiUrl.editProfileRes,
                         method: 'post',
-                        body: {
-                            name: name,
-                            email: email,
-                            contact: contact,
-                            postalCode: postCode,
-                            state: statevalue,
-                            district: district,
-                            aadharNo: addharcard,
-                            panNo: pancard,
-                            adminId: Id,
-                            role: createRoleName,
-                            password: password
-                        }
+                        body: formdata
                     };
-                    APIRequest(
+                    APIRequestWithFile(
                         config,
                         res => {
                             console.log(res, "add modle");
-                            toast.success(res.message)
-                            setisLoading(false)
+                            if (!res.error) {
+                                toast.success(res?.message)
+                                setisLoading(false)
+                            } else {
+                                toast.error(res?.message)
+                                setisLoading(false)
+                            }
                         },
                         err => {
-                            console.log(err);
+                            console.log(err, "================= alm")
+                            if (err?.data?.error) {
+                                toast.error(err?.data?.message)
+                            }
                             setisLoading(false)
-                            toast.error(err.message)
                         }
                     );
                 }
                 SendRequest();
 
             } catch (error) {
-                console.log(error.response.data)
+                console.log(error?.response?.data)
             }
         }
 
@@ -213,7 +220,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             type="number" placeholder={90210} />
                     </div>
 
-                    <div className="w-full md:w-1/2 px-3">
+                    {/* <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
                             Password
                         </label>
@@ -224,7 +231,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                             type="text" placeholder={'Enter Valid Password'} />
-                    </div>
+                    </div> */}
 
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
@@ -278,7 +285,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                     </div>
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Parent Id
+                            Referral Id
                         </label>
                         <input
                             onChange={(e) => setId(e.target.value)}
@@ -286,7 +293,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
                             name="number"
                             required
                             className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="number" placeholder={"Parent Id"} />
+                            type="text" placeholder={"Referral Id"} />
                     </div>
                     {aadharOTP === 'show' ? <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
