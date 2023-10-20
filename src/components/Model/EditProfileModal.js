@@ -22,7 +22,7 @@ const style = {
     borderRadius: '16px'
 };
 
-export default function EditProfileModal({id = null, profileData = null, Aprovehandler}) {
+export default function EditProfileModal({id = null, profileData = null, filterTransaction}) {
     const token = jwtDecode(localStorage.getItem('token'));
     let role = token?.user.role;
     // const { id = null } = props
@@ -67,7 +67,7 @@ export default function EditProfileModal({id = null, profileData = null, Aproveh
             res => {
                 console.log(res);
                 toast.success(res?.message)
-                Aprovehandler();
+                filterTransaction();
                 setOpen(false)
                 setisLoading(false)
 

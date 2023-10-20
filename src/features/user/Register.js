@@ -174,7 +174,8 @@ function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
                                 <InputText type="number" defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-1" labelTitle="Postal Code (Optional)" updateFormValue={updateFormValue} />
                             </div>
 
-                            <div className='inputRow mt-3'>
+                            <div className='inputRow1  mt-3'>
+                                <label className='please-choice'>Please choice profile image</label>
                                 <div className="sdfhsd-sdfkdsj-res">
                                     <input type="file" accept="*" onChange={handleFileChange} className="fileProfile-res" />
                                 </div>

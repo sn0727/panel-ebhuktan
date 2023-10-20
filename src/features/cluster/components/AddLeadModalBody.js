@@ -5,117 +5,180 @@ import jwtDecode from 'jwt-decode';
 import { toast } from "react-toastify";
 
 
-function AddLeadModalBody({ closeModal, createRoleName }) {
-    const [isLoading, setisLoading] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
 
-    console.log(createRoleName, "createRoleName")
-
-    // get token object 
+// Mobile No Verification component
+const MobileNumberVerifyCompent = ({ setStepId, mobileSendAnthorComponent }) => {
+    // get token object
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { id } = decodedToken.user
 
-    console.log(id)
-    console.log(decodedToken)
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [contact, setContact] = useState("")
-    const [postCode, setPostCode] = useState("")
-    // const [password, setPassword] = useState("")
-    const [statevalue, setStateValue] = useState("")
-    const [district, setDistrict] = useState("")
-    const [addharcard, setAddharCard] = useState("")
-    const [pancard, setPanCard] = useState("")
-    const [Id, setId] = useState('');
-    const [addharcardOtp, setaddharcardOtp] = useState('')
-    const [aadharOTP, setaadharOTP] = useState('')
-    const [aadharclient_id, setaadharclient_id] = useState('')
+    const [mobileNo, setMobileNo] = useState("")
+    const [mobileNoOtp, setMobileNoOtp] = useState("")
+    const [isLoading, setisLoading] = useState(false)
+    const [hiddeOtpFeild, setHiddeOtpFeild] = useState(false)
 
-
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        setErrorMessage("")
-
-        if (name.trim() === "") return setErrorMessage("Name is required! (use any value)")
-        if (email.trim() === "") return setErrorMessage("Email Id is required! (use any value)")
-        if (contact.trim().length !== 10) return setErrorMessage("Please enter correct contact no")
-        if (postCode.trim().length !== 6) return setErrorMessage("Please enter correct Postal Code")
-        // if (password.trim() === "") return setErrorMessage("Password is required! (use any value)")
-        if (statevalue.trim() == "") return setErrorMessage("State is reqiured (use any value)")
-        if (district.trim() === "") return setErrorMessage("District is required! (use any value)")
-        if (addharcard.trim().length !== 12) return setErrorMessage("Please enter correct aadhar no")
-        if (pancard.trim().length !== 10) return setErrorMessage("Please enter correct pan card no")
-        if (aadharOTP !== 'verify') return setErrorMessage("Please enter valid Aadhaar no.!")
-        else {
-            try {
-
-                const SendRequest = async () => {
-                    // create formdata 
-                    let formdata = new FormData();
-                    formdata.append('name', name);
-                    formdata.append('contact', contact);
-                    formdata.append('email', email);
-                    formdata.append('state', statevalue);
-                    formdata.append('aadharNo', addharcard);
-                    formdata.append('panNo', pancard);
-                    formdata.append('role', createRoleName);
-                    formdata.append('district', district);
-                    formdata.append('postalCode', postCode);
-                    formdata.append('adminId', Id);
-                    setisLoading(true)
-                    let config = {
-                        url: ApiUrl.editProfileRes,
-                        method: 'post',
-                        body: formdata
-                    };
-                    APIRequestWithFile(
-                        config,
-                        res => {
-                            console.log(res, "add modle");
-                            if (!res.error) {
-                                toast.success(res?.message)
-                                setisLoading(false)
-                            } else {
-                                toast.error(res?.message)
-                                setisLoading(false)
-                            }
-                        },
-                        err => {
-                            console.log(err, "================= alm")
-                            if (err?.data?.error) {
-                                toast.error(err?.data?.message)
-                            }
-                            setisLoading(false)
-                        }
-                    );
-                }
-                SendRequest();
-
-            } catch (error) {
-                console.log(error?.response?.data)
+    // final registration func
+    const mobileNoVerifyFun = (e) => {
+        e.stopPropagation();
+        setisLoading(true)
+        let config = {
+            url: ApiUrl.sendOTPMobileNo,
+            method: 'post',
+            body: {
+                contact: mobileNo,
             }
         }
+        APIRequest(
+            config,
+            res => {
+                if (!res?.error) {
+                    toast.success(res?.message)
+                    setHiddeOtpFeild(true)
+                    setisLoading(false)
+                } else {
+                    toast.error(res?.message)
+                }
 
-        closeModal()
+            },
+            err => {
+                console.log(err, "err ==============")
+                toast.error(err?.message)
+                setisLoading(false)
+            }
+        )
     }
 
-    const AadhaarWithOTP = (aadharNo) => {
+    const OtpVerify = (e) => {
+        e.stopPropagation();
+        setisLoading(true)
+        let config = {
+            url: ApiUrl.contactVerification,
+            method: 'post',
+            body: {
+                contact: mobileNo,
+                OTP: mobileNoOtp
+            }
+        }
+        APIRequest(
+            config,
+            res => {
+                if (!res?.error) {
+                    toast.success(res?.message)
+                    setisLoading(false)
+                    setStepId(2)
+                } else {
+                    toast.error(res?.message)
+                    setisLoading(false)
+                }
+
+            },
+            err => {
+                console.log(err, "err ==============")
+                toast.error(err?.message)
+                setisLoading(false)
+            }
+        )
+    }
+
+    mobileSendAnthorComponent('9354940727')
+
+    return (
+        <div className="w-full max-w-lg">
+            <div className="flex flex-wrap -mx-3 mb-2">
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                        Enter mobile number.
+                    </label>
+                    <input
+
+                        onChange={(e) => setMobileNo(e.target.value)}
+                        value={mobileNo}
+                        defaultValue={mobileNo}
+                        name="mobileNo"
+                        required
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        type="number"
+                        placeholder="Enter mobile number." />
+                </div>
+                {hiddeOtpFeild ?
+                    <div className="w-full md:w-1/2 px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                            Enter Vaild (OTP)
+                        </label>
+                        <input
+
+                            onChange={(e) => setMobileNoOtp(e.target.value)}
+                            value={mobileNoOtp}
+                            name="number"
+                            required
+                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name"
+                            type="mobileNoOtp"
+                            placeholder="Enter Mobile OTP." />
+
+                        {hiddeOtpFeild ? <div className='text-right text-primary'><div><span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200" onClick={(e) => mobileNoVerifyFun(e)}><b>Resend OTP</b></span></div>
+                        </div> : null}
+                    </div>
+                    : null}
+
+            </div>
+            {
+                !hiddeOtpFeild ? <button
+                    onClick={(e) => mobileNoVerifyFun(e)}
+                    type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                    {isLoading ? <div>
+                        <svg aria-hidden="false" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
+                        </svg>
+                        Loading...
+                    </div> : 'Get (OTP)'}
+                </button> : <button
+                    onClick={(e) => OtpVerify(e)}
+                    type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                    {isLoading ? <div>
+                        <svg aria-hidden="false" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
+                        </svg>
+                        Loading...
+                    </div> : 'Verify (OTP)'}
+                </button>
+            }
+        </div>
+    )
+}
+
+// Aadhaar Verification component
+const AddharCardCompent = ({ setStepId, AadhaarNoSn }) => {
+    const [aadhaarOtp, setAadhaarOtp] = useState("")
+    const [aadhaarNo, setAadhaarNo] = useState("")
+    const [aadharclient_id, setaadharclient_id] = useState('')
+    const [isLoading, setisLoading] = useState(false)
+    const [hiddeOtpFeild, setHiddeOtpFeild] = useState(false)
+
+    // send aadhaar no to registrotion component
+    AadhaarNoSn(aadhaarNo)
+
+    const AadhaarWithOTP = (e) => {
+        e.stopPropagation()
         setisLoading(true)
         let config = {
             url: `${ApiUrl.aadhaarWithOTP}`,
             method: 'post',
             body: {
-                id_number: aadharNo
+                id_number: aadhaarNo
             }
         };
         APIRequest(
             config,
             res => {
                 console.log(res);
-                setaadharOTP('show')
                 setaadharclient_id(res?.data?.data?.client_id)
                 toast.success(res?.message)
+                setHiddeOtpFeild(true)
                 setisLoading(false)
             },
             err => {
@@ -125,13 +188,14 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
         );
     }
 
-    const VerifyAadhaarOTP = () => {
+    const VerifyAadhaarOTP = (e) => {
+        e.stopPropagation()
         setisLoading(true)
         let config = {
             url: `${ApiUrl.verifyAadhaarOTP}`,
             method: 'post',
             body: {
-                otp: addharcardOtp,
+                otp: aadhaarOtp,
                 client_id: aadharclient_id
             }
         };
@@ -139,8 +203,8 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
             config,
             res => {
                 console.log(res);
-                setaadharOTP('verify')
                 toast.success(res?.message)
+                setStepId(3)
                 setisLoading(false)
             },
             err => {
@@ -150,177 +214,326 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
         );
     }
 
-    useEffect(() => {
-        if (addharcard.length === 12) {
-            AadhaarWithOTP(addharcard)
-        }
-        console.log('123456');
-    }, [addharcard])
-    useEffect(() => {
-        if (addharcardOtp?.length === 6) {
-            VerifyAadhaarOTP()
-        }
-    }, [addharcardOtp])
-
-
     return (
-        <>
-            <form className="w-full max-w-lg" method="post" onSubmit={submitHandler}>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
-                            Name
-                        </label>
-                        <input
+        <div className="w-full max-w-lg">
+            <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                        Aadhaar No.
+                    </label>
+                    <input
 
-                            onChange={(e) => setName(e.target.value)}
-                            value={name}
-                            name="name"
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                            id="grid-first-name"
-                            type="text" placeholder="Jane"
-                            required />
-                    </div>
-
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                            Email
-                        </label>
-                        <input
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                            name="email"
-                            required
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Email" />
-                    </div>
-
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                            Contact
-                        </label>
-                        <input
-
-                            onChange={(e) => setContact(e.target.value)}
-                            value={contact}
-                            name="number"
-                            required
-                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="number" placeholder="enter number" />
-                    </div>
-
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Post Code
-                        </label>
-                        <input
-                            onChange={(e) => setPostCode(e.target.value)}
-                            value={postCode}
-                            name="number"
-                            required
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="number" placeholder={90210} />
-                    </div>
-
-                    {/* <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Password
-                        </label>
-                        <input
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                            name="text"
-                            required
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="text" placeholder={'Enter Valid Password'} />
-                    </div> */}
-
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            State
-                        </label>
-                        <input
-                            onChange={(e) => setStateValue(e.target.value)}
-                            value={statevalue}
-                            name="text"
-                            required
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="text" placeholder={"state"} />
-                    </div>
-
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            District
-                        </label>
-                        <input
-                            onChange={(e) => setDistrict(e.target.value)}
-                            value={district}
-                            name="text"
-                            required
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="text" placeholder={"District"} />
-                    </div>
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Pan Card No
-                        </label>
-                        <input
-                            onChange={(e) => setPanCard(e.target.value)}
-                            value={pancard}
-                            name="number"
-                            required
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="text" placeholder={"Pan Card No"} />
-                    </div>
-                    <div className="w-full md:w-1/2 px-3 relative">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Addhar Card No
-                        </label>
-                        {aadharOTP === 'verify' ? <p className='verify add-form'>✅</p> : null}
-                        <input
-                            onChange={(e) => setAddharCard(e.target.value)}
-                            value={addharcard}
-                            name="number"
-                            required
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="number" placeholder={"Addhar Card No"} />
-                    </div>
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Referral Id
-                        </label>
-                        <input
-                            onChange={(e) => setId(e.target.value)}
-                            value={Id}
-                            name="number"
-                            required
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="text" placeholder={"Referral Id"} />
-                    </div>
-                    {aadharOTP === 'show' ? <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                            Aadhaar OTP
-                        </label>
-                        <input
-                            onChange={(e) => setaddharcardOtp(e.target.value)}
-                            value={addharcardOtp}
-                            name="number"
-                            required
-                            className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                            type="number" placeholder={"Aadhaar OTP"} />
-                    </div> : null}
-                    <div className="w-full px-3">
-                        <ErrorText styleClass="mt-8">{errorMessage}</ErrorText>
-                    </div>
-
-                    <button type="submit" class="my-4  mx-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Add
-                    </button>
+                        onChange={(e) => setAadhaarNo(e.target.value)}
+                        value={aadhaarNo}
+                        name="number"
+                        required
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name"
+                        type="aahaarNo"
+                        placeholder="Enter aadhaar no." />
                 </div>
-            </form>
+                {hiddeOtpFeild ?
+                    <div className="w-full md:w-1/2 px-3">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                            Enter Vaild (OTP)
+                        </label>
+                        <input
 
-            {isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
-
-        </>
+                            onChange={(e) => setAadhaarOtp(e.target.value)}
+                            value={aadhaarOtp}
+                            name="number"
+                            required
+                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name"
+                            type="aadhaarOtp"
+                            placeholder="Enter Aadhaar OTP." />
+                        {hiddeOtpFeild ? <div className='text-right text-primary'><div><span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200" onClick={(e) => AadhaarWithOTP(e)}><b>Resend OTP</b></span></div>
+                        </div> : null}
+                    </div> : null}
+            </div>
+            {
+                !hiddeOtpFeild ? <button
+                    onClick={(e) => AadhaarWithOTP(e)}
+                    type="submit"
+                    isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading'
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                    {isLoading ? <div>
+                        <svg aria-hidden="false" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
+                        </svg>
+                        Loading...
+                    </div> : 'Get (OTP)'}
+                </button> : <button
+                    onClick={(e) => VerifyAadhaarOTP(e)}
+                    type="submit"
+                    isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading'
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                    {isLoading ? <div>
+                        <svg aria-hidden="false" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
+                        </svg>
+                        Loading...
+                    </div> : 'Verify (OTP)'}
+                </button>
+            }
+        </div>
     )
 }
 
-export default AddLeadModalBody
+// final Ristration component
+const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, closeModal }) => {
+    const [isLoading, setisLoading] = useState(false)
+    const [name, setName] = useState("")
+    const [mobileNo, setMobileNo] = useState(saveMobileNo)
+    const [email, setEmail] = useState("")
+    const [postalCode, setPostalCode] = useState("")
+    const [stateValue, setStateValue] = useState("")
+    const [district, setDistrict] = useState("")
+    const [panNo, setPanNo] = useState("")
+    const [aadhaarNo, setAadhaarNo] = useState(saveAadharNo)
+    const [referralId, setReferralId] = useState('');
+    const [file, setFileProfile] = useState(null);
+
+    // console.log(file, "================ file")
+
+    console.log(saveAadharNo, "=================== saveAadharNo")
+    console.log(saveMobileNo, "=================== saveMobileNo")
+
+    // final registration func
+    const AddFinalRisHandler = (e) => {
+        e.stopPropagation();
+        // create formdata 
+        let formdata = new FormData();
+        formdata.append('name', name);
+        formdata.append('contact', mobileNo);
+        formdata.append('email', email);
+        formdata.append('state', stateValue);
+        formdata.append('aadharNo', aadhaarNo);
+        formdata.append('panNo', panNo);
+        formdata.append('role', createRoleName);
+        formdata.append('district', district);
+        formdata.append('postalCode', postalCode);
+        formdata.append('adminId', referralId);
+        formdata.append('image', file);
+        setisLoading(true)
+        let config = {
+            url: ApiUrl.editProfileRes,
+            method: 'post',
+            body: formdata
+        };
+        APIRequestWithFile(
+            config,
+            res => {
+                console.log(res, "add modle");
+                if (!res.error) {
+                    toast.success(res?.message)
+                    setisLoading(false)
+                    closeModal();
+                } else {
+                    toast.error(res?.message)
+                    setisLoading(false)
+                }
+            },
+            err => {
+                console.log(err, "================= alm")
+                if (err?.data?.error) {
+                    toast.error(err?.data?.message)
+                }
+                setisLoading(false)
+            }
+        );
+    }
+
+    return (
+        <div className="w-full max-w-lg">
+            <div className="flex flex-wrap -mx-3 mb-6">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
+                        Name
+                    </label>
+                    <input
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                        name="name"
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name"
+                        type="text" placeholder="Enter name."
+                        required />
+                </div>
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                        Enter mobile number.
+                    </label>
+                    <input
+                        defaultValue={mobileNo}
+                        name="mobileNo"
+                        required
+                        disabled
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        type="number"
+                        placeholder="Enter mobile number." />
+                </div>
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                        Email
+                    </label>
+                    <input
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                        name="email"
+                        required
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name"
+                        type="email"
+                        placeholder="Enter Email." />
+                </div>
+
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                        Postal Code
+                    </label>
+                    <input
+                        onChange={(e) => setPostalCode(e.target.value)}
+                        value={postalCode}
+                        name="postalCode"
+                        required
+                        className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                        type="number" placeholder='Enter postal code.' />
+                </div>
+
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                        State
+                    </label>
+                    <input
+                        onChange={(e) => setStateValue(e.target.value)}
+                        value={stateValue}
+                        name="text"
+                        required
+                        className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                        type="text" placeholder={"Use current state"} />
+                </div>
+
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                        District
+                    </label>
+                    <input
+                        onChange={(e) => setDistrict(e.target.value)}
+                        value={district}
+                        name="district"
+                        required
+                        className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                        type="text" placeholder={"Enter district name."} />
+                </div>
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                        Aadhaar No.
+                    </label>
+                    <input
+                        defaultValue={aadhaarNo}
+                        name="number"
+                        required
+                        disabled
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name"
+                        type="aahaarNo"
+                        placeholder="Enter aadhaar no." />
+                </div>
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                        Enter PAN
+                    </label>
+                    <input
+                        onChange={(e) => setPanNo(e.target.value)}
+                        value={panNo}
+                        name="panNo"
+                        required
+                        className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                        type="text" placeholder={"Enter PAN"} />
+                </div>
+
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                        Referral Id
+                        {/* {role === 'distributor' ? "Cluster Id (Optional)" : role === 'retailer' || role === 'franchise' ? 'Distributor Id (Optional)' : 'Referral Id (Optional)'} */}
+                    </label>
+                    <input
+                        onChange={(e) => setReferralId(e.target.value)}
+                        value={referralId}
+                        name="number"
+                        required
+                        className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                        type="text" placeholder={"Referral Id"} />
+                </div>
+
+                <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                        select Profile Image
+                    </label>
+                    <input
+                        onChange={(e) => setFileProfile(e.target.files[0])}
+                        name="number"
+                        className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                        type="file" />
+                </div>
+                <div className="w-full px-3">
+                    {/* <ErrorText styleClass="mt-8">{errorMessage}</ErrorText> */}
+                </div>
+            </div>
+            <button
+                onClick={(e) => AddFinalRisHandler(e)}
+                type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                {isLoading ? <div>
+                    <svg aria-hidden="false" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
+                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor" />
+                    </svg>
+                    Loading...
+                </div> : 'Add'}
+            </button>
+        </div>
+    )
+}
+
+function ConfirmationModalBody({ closeModal, createRoleName }) {
+    const [saveMobileNo, setSaveMobileNo] = useState('')
+    const [saveAadharNo, setSaveAadhaarNo] = useState('')
+    const [stepId, setStepId] = useState(1)
+
+    const mobileSendAnthorComponent = (mobileNo) => {
+        setSaveMobileNo(mobileNo)
+    }
+
+    const AadhaarNoSn = (aadhaarNo) => {
+        setSaveAadhaarNo(aadhaarNo)
+    }
+
+    if (stepId === 1) {
+        return (
+            <>
+                <MobileNumberVerifyCompent setStepId={setStepId} mobileSendAnthorComponent={mobileSendAnthorComponent} />
+            </>
+        )
+    } else if (stepId === 2) {
+        return (
+            <>
+                <AddharCardCompent setStepId={setStepId} AadhaarNoSn={AadhaarNoSn} />
+            </>
+        )
+    } else if (stepId === 3) {
+        return (
+            <>
+                <FinalRistrationComponent
+                    saveMobileNo={saveMobileNo}
+                    saveAadharNo={saveAadharNo}
+                    createRoleName={createRoleName}
+                    closeModal={closeModal}
+                />
+            </>
+        )
+    }
+
+
+}
+
+export default ConfirmationModalBody

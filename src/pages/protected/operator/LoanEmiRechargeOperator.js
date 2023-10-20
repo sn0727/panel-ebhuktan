@@ -15,7 +15,8 @@ const LoanEmiRechargeOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Loan EMI Operator"} getOperatorList={ApiUrl.LoanGetOperatorList} getCommission={ApiUrl.LoanUpdateCommission} getAddIcon={ApiUrl.LoanAddIcon} />
+      <OperatorListTable pageTitlle={"Loan EMI Operator"} 
+      getOperatorList={ApiUrl.LoanGetOperatorList} getCommission={ApiUrl.LoanUpdateCommission} getAddIcon={ApiUrl.LoanAddIcon} filterOperatorList={ApiUrl.loanEmiSearchOp} />
     </div>
   )
 }

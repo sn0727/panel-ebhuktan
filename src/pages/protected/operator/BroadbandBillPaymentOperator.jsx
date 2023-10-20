@@ -15,7 +15,7 @@ const BroadbandBillPaymentOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Broadband  Bill-Payment Operator"} getOperatorList={ApiUrl.broadbandGetOperatorList} getCommission={ApiUrl.broadbandBillPaymentUpdateCommission} getAddIcon={ApiUrl.electricityOperatorAddIcon} />
+      <OperatorListTable pageTitlle={"Broadband  Bill-Payment Operator"} getOperatorList={ApiUrl.broadbandGetOperatorList} getCommission={ApiUrl.broadbandBillPaymentUpdateCommission} getAddIcon={ApiUrl.electricityOperatorAddIcon} filterOperatorList={ApiUrl.broadbandbillPaymentSearchOp} />
     </div>
   )
 }

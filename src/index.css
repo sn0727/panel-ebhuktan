@@ -515,3 +515,32 @@ p.verify.add-form {
   justify-content: end;
   gap: 10px;
 }
+.sdfhsd-sdfkdsj-res {
+  display: block;
+  width: 100%;
+  border: 1px solid #00000030;
+  padding: 5px;
+  border-radius: 6px;
+}
+label.please-choice {
+  margin-bottom: 4px;
+  font-size: 0.875rem;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+  display: block;
+}
+svg.search-icon {
+  background-color: #2c427d;
+  color: #fff;
+  height: 100%;
+  width: 33px;
+  padding: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  cursor: pointer;
+}
+.btn-primary {
+  height: 40px;
+}
+.mx-3.cursor-pointer.text-center > div > svg {
+  margin: auto;
+}

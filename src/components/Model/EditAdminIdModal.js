@@ -26,7 +26,7 @@ const style = {
     borderRadius: '16px'
 };
 
-export default function EditAdminModal({ id = null, adminId = null, status, Pandinghandler, useDetails }) {
+export default function EditAdminModal({ id = null, adminId = null, status, filterTransaction, useDetails }) {
     const token = jwtDecode(localStorage.getItem('token'));
     let role = token?.user.role;
 
@@ -66,7 +66,7 @@ export default function EditAdminModal({ id = null, adminId = null, status, Pand
             res => {
                 console.log(res);
                 toast.success(res?.message)
-                Pandinghandler();
+                filterTransaction();
                 setOpen(false)
                 setisLoading(false)
             },

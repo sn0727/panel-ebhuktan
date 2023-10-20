@@ -15,7 +15,7 @@ const LandlineBillPaymentOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Landline Bill-Payment Operator"} getOperatorList={ApiUrl.LandlineGetOperatorList} getCommission={ApiUrl.LandlineUpdateCommission} getAddIcon={ApiUrl.LandlineAddIcon} />
+      <OperatorListTable pageTitlle={"Landline Bill-Payment Operator"} getOperatorList={ApiUrl.LandlineGetOperatorList} getCommission={ApiUrl.LandlineUpdateCommission} getAddIcon={ApiUrl.LandlineAddIcon} filterOperatorList={ApiUrl.landlineSearchOp}/>
     </div>
   )
 }

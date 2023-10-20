@@ -150,8 +150,8 @@ function WalletTransactions() {
                                     <th>Receiver No</th>
                                     <th>Receiver Name</th>
                                     <th>Status</th>
+                                    <th className="text-right">Date and time</th>
                                     <th>Amount</th>
-                                    <th className="text-center">Date and time</th>
 
                                 </tr>
                             </thead>
@@ -168,8 +168,8 @@ function WalletTransactions() {
                                                 <td className="text-center">{item.receiverNo}</td>
                                                 <td className="text-center">{item.receiverName}</td>
                                                 <td className="text-center">{userId === parseInt(item.senderId) ? "Send" : "Received"}</td>
-                                                <td className="text-center">{item.amount}</td>
-                                                <td className="text-center">{moment(item.modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm a")}</td>
+                                                <td className="text-right">{moment(item.modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
+                                                <td className="text-right">&#8377; {item.amount}</td>
                                             </tr>
                                         )
                                     })

@@ -115,6 +115,12 @@ if (role === "cluster") {
 } else if (role === "superAdmin") {
   userSubMenu.push(
     {
+      path: '/app/subAdmin',
+      icon: <BiUserCheck className={submenuIconClasses} />,
+      name: 'Sub Admin',
+
+    },
+    {
       path: '/app/cluster',
       icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'Cluster',
@@ -146,70 +152,105 @@ if (role === "cluster") {
     {
       path: '/app/operator/mobile-recharge-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Mobile Recharge',
+      name: 'Prepaid Mobile Operator',
 
     },
     {
       path: '/app/operator/postpaid-mobile-recharge-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Postpaid Mobile Recharge',
+      name: 'Postpaid Mobile Operator',
 
     },
     {
       path: '/app/operator/electricity',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Electricity Bill Payment',
+      name: 'Electricity Operator',
     },
     {
       path: '/app/operator/fast-tag-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Fast Tag',
+      name: 'Fast Tag Operator',
     },
     {
-      path: '/app/operator/lpg-gag-operator',
+      path: '/app/operator/gas-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Gas Bill Payment',
+      name: 'Gas Operator',
+    },
+    {
+      path: '/app/operator/lpg-gas-operator',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'LPG Gas Operator',
     },
     {
       path: '/app/operator/municipality-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Municipality',
+      name: 'Municipality Operator',
     },
     {
       path: '/app/operator/dth-Recharge-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'DTH Recharge',
+      name: 'DTH Recharge Operator',
     },
     {
       path: '/app/operator/cable-Recharge-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Cable Tv Recharge',
+      name: 'Cable Tv Recharge Operator',
     },
     {
       path: '/app/operator/broadband-bill-Payment',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Broadband Bill Payment',
+      name: 'Broadband Operator',
     },
     {
       path: '/app/operator/landline-bill-Payment',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Landline Bill Payment',
+      name: 'Landline Operator',
     },
     {
       path: '/app/operator/watter-bill-Payment',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Water Bill Payment',
+      name: 'Water Operator',
     },
     {
       path: '/app/operator/loan-emi-Payment',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Loan EMI Payment',
+      name: 'Loan EMI Operator',
     },
     {
       path: '/app/operator/insurance-emi-Payment',
       icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'Insurance EMI Payment',
+      name: 'Insurance EMI Operator',
     },
+  );
+}else if (role === "subAdmin") {
+  userSubMenu.push(
+    {
+      path: '/app/cluster',
+      icon: <BiUserCheck className={submenuIconClasses} />,
+      name: 'Cluster',
+
+    },
+    {
+      path: '/app/distributor',
+      icon: <BiUserPin className={submenuIconClasses} />,
+      name: 'Distributor',
+    },
+    {
+      path: '/app/retailer',
+      icon: <BiUserPlus className={submenuIconClasses} />,
+      name: 'Retailer',
+    },
+    {
+      path: '/app/franchise',
+      icon: <BiUserPlus className={submenuIconClasses} />,
+      name: 'Franchise',
+    },
+    {
+      path: '/app/client-user',
+      icon: <BiUserVoice className={submenuIconClasses} />,
+      name: 'User',
+    },
+
   );
 }
 
@@ -284,6 +325,28 @@ routes = [
     name: 'Wallet',
   },
 ]
+
+role==='subAdmin' && (
+  routes = [
+    {
+      path: '/app/dashboard',
+      icon: <Squares2X2Icon className={iconClasses} />,
+      name: 'Dashboard',
+    },
+    // {
+    //   path: '/app/transactions',
+    //   icon: <CurrencyDollarIcon className={iconClasses} />,
+    //   name: 'All Transactions',
+    // },
+    {
+      path: "",
+      icon: <BiUserCircle className={`${iconClasses} inline`} />,
+      name: "UserRoll",
+      submenu: userSubMenu
+    }
+    
+  ]
+)
 
 export default routes
 

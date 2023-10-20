@@ -2,116 +2,78 @@ import React from "react"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import TitleCard from "../../components/Cards/TitleCard"
-import { openModal } from "../common/modalSlice"
-// import { getLeadsContent } from "./leadSlice"
+import { openModal } from "../../features/common/modalSlice"
+import { getLeadsContent } from "../../features/cluster/leadSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
 import Pagination from "../../components/pagination/Pagination"
-import { AiOutlinePlusCircle, AiTwotoneDelete } from "react-icons/ai";
-
+import jwtDecode from 'jwt-decode';
+import AddMoneyModal from "../../components/Model/AddMoneyModal"
 // select box code 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import jwtDecode from 'jwt-decode';
-import AlertDialog from "../../components/Alert"
+import { AiOutlineSearch, AiTwotoneDelete } from "react-icons/ai"
+import { FaArrowCircleRight } from "react-icons/fa";
 import { toast } from "react-toastify"
-import BasicModal from "../../components/Model/AddMoneyModal"
-import AddMoneyModal from "../../components/Model/AddMoneyModal"
+import { Link, useNavigate } from "react-router-dom"
 import EditAdminIdModal from "../../components/Model/EditAdminIdModal"
-
-import { AiOutlineSearch } from "react-icons/ai"
+import EditProfileModal from "../../components/Model/EditProfileModal"
 import { DateByFilter } from "../../components/DateByFilter/DateByFilter"
 import moment from "moment"
 import { TablePagination } from "@mui/material"
 import { Button } from "@mui/material";
+import { elements } from "chart.js"
 // select box code 
 
-const TopSideButtons = ({ children }) => {
+const TopSideButtons = ({ children, createRoleName }) => {
 
     const dispatch = useDispatch()
 
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
-    const { role } = decodedToken.user
+    const { role } = decodedToken.user;
 
+    // console.log(createRoleName, "createRoleName============")
+
+    // select box funtion
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, role: "user" }))
+        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName }))
     }
 
     return (
 
         <>
             <div className="select-with-ps">
-                {/* {children} */}
-                {/* <div className="inline-block float-right">
-                    <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
-                </div> */}
-            </div>
-
-            <div className="select-with-ps">
                 {
                     role === "superAdmin" && (
                         <>
                             {children}
-                            {/* <div className="inline-block float-right">
+                            <div className="inline-block float-right">
                                 <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
-                            </div> */}
-                            {/* <Box sx={{ minWidth: 120 }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={roleStatus}
-                                        label="Status"
-                                        size="small"
-                                        onChange={handleChange}
-                                    >
-                                        <MenuItem value={"aproved"} onClick={() => setCategory('Aproved')}>Aproved</MenuItem>
-                                        <MenuItem value={"Pending"} onClick={() => setCategory('Pending')}>Pending</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Box> */}
+                            </div>
                         </>
-                    )
-                }
-                {
-                    role === "retailer" && (
-                        <>
-                            {children}
-                        </>
-                        // <div className="inline-block float-right">
-                        //     <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
-                        // </div>
-                        // null
-                    )
-                }
-
-                {
-                    role === "cluster" && (
-                        <>
-                            {children}
-                        </>
-                        // <div className="inline-block float-right">
-                        //     <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
-                        // </div>
-                        // null
                     )
                 }
                 {
                     role === "distributor" && (
                         <>
                             {children}
+                            <div className="inline-block float-right">
+                                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                            </div>
                         </>
                     )
                 }
                 {
-                    role === "franchise" && (
+                    role === "subAdmin" && (
                         <>
                             {children}
+                            <div className="inline-block float-right">
+                                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                            </div>
                         </>
                     )
                 }
@@ -121,8 +83,10 @@ const TopSideButtons = ({ children }) => {
     )
 }
 
-function ClientUserContent() {
 
+function UserRoleTable({getFilterCluster, pagetableName, getPageLimit, superadminDeleteUser, createRoleName}) {
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
     const [clusterData, setClusterData] = React.useState([]);
     const [isLoading, setisLoading] = useState(false);
     const [totalCount, setTotalCount] = useState(0)
@@ -133,9 +97,16 @@ function ClientUserContent() {
     const [roleStatus, setRoleStatus] = React.useState('All');
     const [searchOperatorName, setSearchOperatorName] = useState('');
 
+    console.log(clusterData, "====================== ggg")
+    console.log(roleStatus, "roleStatusroleStatusroleStatus");
+
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
-    const { role } = decodedToken.user;
+    const { role } = decodedToken.user
+
+    // send user role anthoer compents
+    // console.log(createRoleName, "======================== u")
+    // createRoleName(createRoleName)
 
     // date selection value
     const [selectionRange, setSelectionRange] = useState({
@@ -165,22 +136,23 @@ function ClientUserContent() {
         return items;
     });
 
-    // delete record
+
+    // delete recorded
     const Delete = (id) => {
         const choice = window.confirm(`Are you sure you want to delete user ?`)
         if (choice) {
             setisLoading(true)
             let config = {
-                url: `${ApiUrl.superadminDeleteUser}/${id}`,
+                url: `${superadminDeleteUser}/${id}`,
                 method: 'delete',
             };
             APIRequest(
                 config,
                 res => {
                     console.log(res);
+                    // Pandinghandler()
                     filterTransaction()
                     setisLoading(false)
-                    toast.success(res.message)
                 },
                 err => {
                     console.log(err);
@@ -193,7 +165,7 @@ function ClientUserContent() {
     // get page per page record
     const getPageLimitFun = () => {
         let config = {
-            url: ApiUrl.getPageLimit,
+            url: getPageLimit,
             method: 'get'
         }
         APIRequest(
@@ -233,7 +205,7 @@ function ClientUserContent() {
             }
         }
         const config = {
-            url: ApiUrl.getFilterUsers,
+            url: getFilterCluster,
             method: 'post',
             body: body
         };
@@ -280,7 +252,7 @@ function ClientUserContent() {
             }
         }
         const config = {
-            url: ApiUrl.getFilterUsers,
+            url: getFilterCluster,
             method: 'post',
             body: body
         };
@@ -325,10 +297,12 @@ function ClientUserContent() {
 
     return (
         <>
-            <TitleCard title="User" topMargin="mt-2" TopSideButtons={
+
+            <TitleCard title={pagetableName} topMargin="mt-2" TopSideButtons={
                 <TopSideButtons
                     clusterData={clusterData}
-                >
+                    createRoleName={createRoleName}
+                     >
                     <div className="relative w-52 mt-0 rounded-md shadow-sm">
                         <input
                             onChange={(e) => setSearchOperatorName(e.target.value)}
@@ -337,13 +311,13 @@ function ClientUserContent() {
                             name="price"
                             id="price"
                             className="block h-full w-full rounded-md border-0 py-1.5 pl-2 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            placeholder="Name / Partner Id"
+                            placeholder="Name / Partner id"
                         />
                         <div className="absolute inset-y-0 right-0 flex items-center" onClick={() => searchOperatorHandler()}>
                             <AiOutlineSearch className="search-icon" />
                         </div>
                     </div>
-                    {/* <Box sx={{ minWidth: 120 }}>
+                    <Box sx={{ minWidth: 120 }}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">Status</InputLabel>
                             <Select
@@ -359,11 +333,13 @@ function ClientUserContent() {
                                 <MenuItem value={"pending"} >Pending</MenuItem>
                             </Select>
                         </FormControl>
-                    </Box> */}
+                    </Box>
                     <DateByFilter selectionRange={selectionRange} setSelectionRange={setSelectionRange} setCheck={setCheck} />
                     <Button onClick={clearFun} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Clear</Button>
                 </TopSideButtons>
-            }>
+            }
+            >
+
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
@@ -376,15 +352,38 @@ function ClientUserContent() {
                                     <th>Email Id</th>
                                     <th>Contact No.</th>
                                     <th>Address</th>
-                                    <td>AadharNo</td>
+                                    <td>AddharNo</td>
                                     <td>PanNo</td>
                                     <td>Partner Id</td>
-                                    {/* <td>Status</td> */}
-                                    {pendingData[0]?.status === "pending" ? null : <td>Amount</td>}
-                                    {/* {pendingData[0]?.status === "pending" ? null : <td>Earning</td>} */}
-                                    {/* {pendingData[0]?.status === "pending" ? null : <td>Commission</td>} */}
+                                    <td>Status</td>
+                                    {/* Amount td condition pending case in the hide */}
+                                    {
+                                        roleStatus === "All" || roleStatus === "approved" ? <td>Amount</td> : null
+                                    }
+
+                                    {/* Earning td condition pending case in the hide */}
+                                    {
+                                        roleStatus === "All" || roleStatus === "approved" ? <td>Earning</td> : null
+                                    }
+
+                                    {/* Commission td condition pending case in the hide */}
+                                    {
+                                        roleStatus === "All" || roleStatus === "approved" ? <td>Commission</td> : null
+                                    }
+
+                                    {/* if role is superAdmin be will show Delete field else hide */}
                                     {role === "superAdmin" && <td>Delete</td>}
-                                    {role === "superAdmin" && pendingData[0]?.status === "pending" ? null : <td>Add Money</td>}
+
+                                    {/* if role is superAdmin be will show Add Money field else hide */}
+                                    {role === "superAdmin" && roleStatus === "All" || roleStatus === "approved" ? <td>Add Money</td> : null}
+
+                                    {/* if role is superAdmin be will show Edit Profile field else hide */}
+                                    {
+                                        role === "superAdmin" && roleStatus === "All" || roleStatus === "approved" ? <td>Edit Profile</td> : null
+                                    }
+                                    {
+                                        roleStatus === "All" || roleStatus === "approved" ? <td>View Details</td> : null
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
@@ -401,42 +400,102 @@ function ClientUserContent() {
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <div className="font-bold">{l.name ? l.name : 'no name'}</div>
+                                                            <div className="font-bold">{l.name}</div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>{l.email ? l.email : 'no email'}</td>
+                                                <td>{l.email}</td>
                                                 <td>{l.contact}</td>
                                                 <td>
                                                     <div>
-                                                        <address>{l.district ? l.district : 'Data no found'}, {l.state ? l?.state : 'Data no found'}, <br></br> {l.postalCode} </address>
+                                                        <address>{l.district}, {l.state}, <br></br> {l.postalCode} </address>
                                                     </div>
                                                 </td>
-                                                <td>{l.aadharNo ? l.aadharNo : 'Data no found'}</td>
-                                                <td>{l.panNo ? l?.panNo : 'Data no found'}</td>
+                                                <td>{l.aadharNo}</td>
+                                                <td>{l.panNo}</td>
                                                 <td>{l?.partnerId}</td>
-                                                {/* <td>
-                                                    {pendingData[0]?.status === "pending" ?
-                                                        <div className="badge badge-primary">
-                                                            <EditAdminIdModal id={l.id} adminId={l?.adminId} status={l?.status} useDetails={l} Pandinghandler={Pandinghandler} />
-                                                        </div> : <div className="badge badge-primary not-allowed-cr">approved</div>}
 
-                                                </td> */}
-                                                {pendingData[0]?.status === "pending" ? null : <td> &#8377; {parseFloat(l?.amount).toFixed(2)}</td>}
-                                                {/* {pendingData[0]?.status === "pending" ? null : <td> &#8377; {parseFloat(l?.earning).toFixed(2)}</td>} */}
-                                                {/* {pendingData[0]?.status === "pending" ? null : <td className="text-center"> {l?.commission ? parseFloat(l?.commission).toFixed(2) : 'No'}</td>} */}
-                                                {role === "superAdmin" && <td>
-                                                    <div className="mx-3 cursor-pointer" >
-                                                        <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
+                                                <td>
+                                                    <div className="badge badge-primary">
+                                                        {
+                                                            roleStatus === "All" || roleStatus === "approved" ? l?.status : null
+                                                        }
+                                                        {
+                                                            roleStatus === "pending" &&
+                                                            <EditAdminIdModal id={l.id} adminId={l?.adminId} status={l?.status} filterTransaction={filterTransaction} />
+                                                        }
                                                     </div>
-                                                </td>}
-                                                {role === "superAdmin" &&
-                                                    pendingData[0]?.status === "pending" ? null :
+                                                </td>
+
+                                                {/* amount condition code hide pending case */}
+                                                {
+                                                    roleStatus === "All" && l?.status === 'pending' ? <td>&#10067;</td> : null
+                                                }
+                                                {
+                                                    roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === 'approved' ? <td> &#8377; {l?.amount}</td> : null
+                                                }
+
+                                                {/* earning condition code hide pending case */}
+                                                {
+                                                    roleStatus === "All" && l?.status === 'pending' ? <td>&#10067;</td> : null
+                                                }
+                                                {
+                                                    roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ? <td> &#8377; {parseFloat(l?.earning).toFixed(2)}</td> : null
+                                                }
+
+                                                {/* commission condition code hide pending case */}
+                                                {
+                                                    roleStatus === "All" && l?.status === 'pending' ? <td>&#10067;</td> : null
+                                                }
+                                                {
+                                                    roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ? <td> &#8377; {parseFloat(l?.commission).toFixed(2)}</td> : null
+                                                }
+
+                                                {/* if role is superAdmin be will show delete feild else hide  */}
+                                                {
+                                                    role === "superAdmin" &&
                                                     <td>
                                                         <div className="mx-3 cursor-pointer" >
-                                                            <AddMoneyModal id={l.id} />
+                                                            <AiTwotoneDelete fontSize={30} onClick={() => Delete(l.id)} />
                                                         </div>
-                                                    </td>}
+                                                    </td>
+                                                }
+
+                                                {/* if role is superAdmin be will show delete feild else hide  */}
+                                                {role === "superAdmin" && roleStatus === "All" && l?.status === 'pending' ? <td>&#10067;</td> : null}
+                                                {
+                                                    role === "superAdmin" && roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ?
+                                                        <td>
+                                                            <div className="mx-3 cursor-pointer" >
+                                                                <AddMoneyModal id={l.id} />
+                                                            </div>
+                                                        </td>
+                                                        : null
+                                                }
+                                                {/* if role is superAdmin be will show EditProfileModal else hide  */}
+                                                {role === "superAdmin" && roleStatus === "All" && l?.status === 'pending' ? <td>&#10067;</td> : null}
+                                                {
+                                                    role === "superAdmin" && roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ?
+                                                        <td>
+                                                            <div className="mx-3 cursor-pointer" >
+                                                                <EditProfileModal id={l.id} profileData={l} filterTransaction={filterTransaction} />
+                                                            </div>
+                                                        </td>
+                                                        : null
+                                                }
+
+                                                {/* if role is superAdmin be will show EditProfileModal else hide  */}
+                                                {roleStatus === "All" && l?.status === 'pending' ? <td>&#10067;</td> : null}
+                                                {
+                                                    roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ?
+                                                        <td>
+                                                            <div className="mx-3 cursor-pointer" >
+                                                                <FaArrowCircleRight fontSize={28} id={l.id} onClick={() => navigate('/app/commission', { state: { id: l.id } })} />
+                                                            </div>
+                                                        </td>
+                                                        : null
+                                                }
+
                                             </tr>
                                         )
                                     })
@@ -449,8 +508,6 @@ function ClientUserContent() {
                         </div>
                     }
                 </div>
-
-                {/* <Pagination /> */}
                 <TablePagination
                     rowsPerPageOptions={pageLimit.map((item) => item.limit)}
                     component="div"
@@ -460,10 +517,20 @@ function ClientUserContent() {
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
+                {/* <nav aria-label="Page navigation example text-right" className="navigation example">
+                    {Check ? null : <Pagination
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        setTotalCount={setTotalCount}
+                        totalCount={totalCount}
+                    />}
+                </nav> */}
             </TitleCard>
             {isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')}
+
         </>
     )
 }
 
-export default ClientUserContent
+
+export default UserRoleTable

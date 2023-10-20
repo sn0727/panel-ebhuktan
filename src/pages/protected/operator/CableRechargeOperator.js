@@ -15,7 +15,7 @@ const CableRechargeOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Cable Tv Operator"} getOperatorList={ApiUrl.CableGetOperatorList} getCommission={ApiUrl.CableUpdateCommission} getAddIcon={ApiUrl.CableAddIcon} />
+      <OperatorListTable pageTitlle={"Cable Tv Operator"} getOperatorList={ApiUrl.CableGetOperatorList} getCommission={ApiUrl.CableUpdateCommission} getAddIcon={ApiUrl.CableAddIcon} filterOperatorList={ApiUrl.dthRechargeCableSearchOp} />
     </div>
   )
 }

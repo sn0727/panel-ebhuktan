@@ -15,7 +15,13 @@ const DTHRechargeOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"DTHRecharge Operator"} getOperatorList={ApiUrl.DthGetOperatorList} getCommission={ApiUrl.MobileRechargeAddIcon} getAddIcon={ApiUrl.MobileRechargeAddIcon} />
+      <OperatorListTable
+        pageTitlle={"DTHRecharge Operator"}
+        getOperatorList={ApiUrl.DthGetOperatorList}
+        getCommission={ApiUrl.MobileRechargeAddIcon}
+        getAddIcon={ApiUrl.MobileRechargeAddIcon}
+        filterOperatorList={ApiUrl.dthRechargeSearchOp}
+      />
     </div>
   )
 }

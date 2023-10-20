@@ -16,7 +16,7 @@ const WaterBillPaymentOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Water Bill-Payment Operator"} getOperatorList={ApiUrl.waterGetOperaterList} getCommission={ApiUrl.waterBillPaymentUpdateCommission} getAddIcon={ApiUrl.electricityOperatorAddIcon} />
+      <OperatorListTable pageTitlle={"Water Bill-Payment Operator"} getOperatorList={ApiUrl.waterGetOperaterList} getCommission={ApiUrl.waterBillPaymentUpdateCommission} getAddIcon={ApiUrl.electricityOperatorAddIcon} filterOperatorList={ApiUrl.waterSearchOp}/>
     </div>
   )
 }

@@ -9,19 +9,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import DashboardTopBar from "../dashboard/components/DashboardTopBar";
 import { useDispatch } from 'react-redux'
 import { showNotification } from '../common/headerSlice'
-import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
-import UserGroupIcon from '@heroicons/react/24/outline/UserGroupIcon'
-import CircleStackIcon from '@heroicons/react/24/outline/CircleStackIcon'
-import CreditCardIcon from '@heroicons/react/24/outline/CreditCardIcon'
 import jwtDecode from 'jwt-decode';
 import DashboardStats from "../dashboard/components/DashboardStats";
 import { FaRupeeSign } from "react-icons/fa"
 import TablePagination from '@mui/material/TablePagination';
 import { Button } from "@mui/material";
 import { DateByFilter } from "../../components/DateByFilter/DateByFilter";
+import { AiOutlineSearch } from 'react-icons/ai'
 
 function CommissionTransactionContent() {
     const dispatch = useDispatch()
@@ -33,6 +29,8 @@ function CommissionTransactionContent() {
     const [totalAmount, setTotalAmount] = useState(0)
     const [totalCount, setTotalCount] = useState(0)
     const [Check, setCheck] = useState(false);
+    const [searchOperatorName, setSearchOperatorName] = useState('');
+    const [searchPartnerId, setSearchPartnerId] = useState('');
     const [pageLimit, setPageLimit] = useState([])
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
@@ -40,10 +38,12 @@ function CommissionTransactionContent() {
     // i am getting authantication role
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
-    const { role } = decodedToken.user
+    const { role } = decodedToken.user;
+
+    console.log(role, "================== sdfsd")
 
     // show commision amount table.
-    const SendRequest02 = async () => {
+    const SendRequest02 = () => {
         setisLoading(true)
         let config = {
             url: ApiUrl.TotalCommissionTransaction,
@@ -64,8 +64,6 @@ function CommissionTransactionContent() {
                         ]
                     )
                 }
-
-
                 setisLoading(false)
             },
             err => {
@@ -179,6 +177,100 @@ function CommissionTransactionContent() {
 
     };
 
+    // search filter Operator Name
+    const searchOperatorHandler = () => {
+        setisLoading(true)
+        let body;
+        if (Check) {
+            body = {
+                page: page + 1,
+                limit: rowsPerPage,
+                type: category ? category : 'All',
+                operatorName: searchOperatorName,
+                startDate: moment(selectionRange.startDate).format('YYYY-MM-DD'),
+                endDate: moment(selectionRange.endDate).format('YYYY-MM-DD'),
+
+            }
+        } else {
+            body = {
+                page: page + 1,
+                limit: rowsPerPage,
+                operatorName: searchOperatorName,
+                type: category ? category : 'All',
+                startDate: null,
+                endDate: null,
+
+            }
+        }
+        const config = {
+            url: ApiUrl.getFilterTransaction,
+            method: 'post',
+            body: body
+        };
+
+        APIRequest(
+            config,
+            (res) => {
+                console.log(res, "res =================== ddd");
+                setUsers(res?.data)
+                setTotalAmount(res?.total)
+                setTotalCount(res?.count)
+                setisLoading(false)
+            },
+            (err) => {
+                console.log(err, "================== erro");
+                setisLoading(false)
+            }
+        );
+    }
+
+    // search filer with partner id
+    const searchPartnerIdHandler = () => {
+        setisLoading(true)
+        let body;
+        if (Check) {
+            body = {
+                page: page + 1,
+                limit: rowsPerPage,
+                type: category ? category : 'All',
+                consumerId: searchPartnerId,
+                startDate: moment(selectionRange.startDate).format('YYYY-MM-DD'),
+                endDate: moment(selectionRange.endDate).format('YYYY-MM-DD'),
+
+            }
+        } else {
+            body = {
+                page: page + 1,
+                limit: rowsPerPage,
+                consumerId: searchPartnerId,
+                type: category ? category : 'All',
+                startDate: null,
+                endDate: null,
+
+            }
+        }
+        const config = {
+            url: ApiUrl.getFilterTransaction,
+            method: 'post',
+            body: body
+        };
+
+        APIRequest(
+            config,
+            (res) => {
+                console.log(res, "res =================== ddd");
+                setUsers(res?.data)
+                setTotalAmount(res?.total)
+                setTotalCount(res?.count)
+                setisLoading(false)
+            },
+            (err) => {
+                console.log(err, "================== erro");
+                setisLoading(false)
+            }
+        );
+    }
+
     // CLEAR filter funcation
     const clearFun = () => {
         setSelectionRange({
@@ -188,6 +280,10 @@ function CommissionTransactionContent() {
         })
         // setCategoryType([])
         setCategory('')
+        setRowsPerPage(25)
+        setPage(0)
+        setSearchOperatorName('')
+        setSearchPartnerId('')
         setCheck(false)
     }
 
@@ -230,6 +326,34 @@ function CommissionTransactionContent() {
             {/* Team Member list in table format loaded constant */}
             <TitleCard title="Commission Transactions" topMargin="mt-2">
                 <div className="date-by-filter">
+                    <div className="relative w-52 mt-0 rounded-md shadow-sm">
+                        <input
+                            onChange={(e) => setSearchOperatorName(e.target.value)}
+                            type="text"
+                            value={searchOperatorName}
+                            name="price"
+                            id="price"
+                            className="block w-full rounded-md border-0 py-1.5 pl-5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder="Operator Name"
+                        />
+                        <div className="absolute inset-y-0 right-0 flex items-center" onClick={() => searchOperatorHandler()}>
+                            <AiOutlineSearch className="search-icon" />
+                        </div>
+                    </div>
+                    <div className="relative w-40 mt-0 rounded-md shadow-sm">
+                        <input
+                            onChange={(e) => setSearchPartnerId(e.target.value)}
+                            type="text"
+                            value={searchPartnerId}
+                            name="price"
+                            id="price"
+                            className="block w-full rounded-md border-0 py-1.5 pl-5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder="Partner id"
+                        />
+                        <div className="absolute inset-y-0 right-0 flex items-center" onClick={() => searchPartnerIdHandler()}>
+                            <AiOutlineSearch className="search-icon" />
+                        </div>
+                    </div>
                     <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
                         <InputLabel id="demo-select-small-label">Choice Category</InputLabel>
                         <Select
@@ -259,38 +383,50 @@ function CommissionTransactionContent() {
                                 <tr>
                                     {/* <th>Sr.No</th> */}
                                     <th>Sr.No</th>
+                                    <th>Id</th>
                                     <th>Transaction Id</th>
-                                    <th>Amount</th>
                                     <th>Operator Id</th>
                                     <th>Partner Id</th>
+                                    <th>Operator Name</th>
+                                    <th>Image</th>
+                                    <th className="text-center">Type</th>
                                     <th>Pin Code</th>
                                     {users[0]['clusterAmount'] ? <th>Cluster Amount</th> : null}
                                     {users[0]['retailerAmount'] ? <th>Retailer Amount</th> : null}
                                     {users[0]['franchiseAmount'] ? <th>Franchise Amount</th> : null}
                                     {users[0]['distributorAmount'] ? <th>Distributor Amount</th> : null}
                                     {users[0]['adminAmount'] ? <th>Admin Amount</th> : null}
-                                    <th className="text-center">Type</th>
                                     <th className="text-center">Date and time</th>
+                                    {role === "superAdmin" && <th className="text-right">Total Amount</th>}
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    users.map(({transactionId, amount, operatorId, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, modifiedCreatedAt, franchiseAmount }, k) => {
+                                    users?.map(({ id, transactionId, amount, operatorId, userImage, operatorName, consumerId, adminPinCode, clusterAmount, retailerAmount, distributorAmount, adminAmount, type, modifiedCreatedAt, franchiseAmount }, k) => {
                                         return (
                                             <tr key={k}>
                                                 <td className="text-center">{(parseInt(page) * parseInt(rowsPerPage) + k) + 1}</td>
+                                                <td className="text-center">{id}</td>
                                                 <td className="text-center">{transactionId}</td>
-                                                <td className="text-center"> &#8377; {parseFloat(amount).toFixed(2)}</td>
                                                 <td className="text-center">{operatorId}</td>
                                                 <td className="text-center">{consumerId}</td>
-                                                <td className="text-center">{adminPinCode}</td>
-                                                {users[0]['clusterAmount'] ? <td className="text-center">{clusterAmount}</td> : null}
-                                                {users[0]['retailerAmount'] ? <td className="text-center">{retailerAmount}</td> : null}
-                                                {users[0]['franchiseAmount'] ? <td className="text-center">{franchiseAmount}</td> : null}
-                                                {users[0]['distributorAmount'] ? <td className="text-center">{distributorAmount}</td> : null}
-                                                {users[0]['adminAmount'] ? <td className="text-center">{adminAmount}</td> : null}
+                                                <td className="text-left">{operatorName?.slice(0, 20)}</td>
+                                                <td className="text-center">
+                                                    <div className="avatar">
+                                                        <div className="mask mask-squircle w-12 h-12">
+                                                            {userImage ? <img src={userImage} alt="Avatar" /> : "Not"}
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td className="text-center">{type}</td>
-                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm a")}</td>
+                                                <td className="text-center">{adminPinCode}</td>
+                                                {users[0]['clusterAmount'] ? <td className="text-center">&#8377; {clusterAmount}</td> : null}
+                                                {users[0]['retailerAmount'] ? <td className="text-center">&#8377; {retailerAmount}</td> : null}
+                                                {users[0]['franchiseAmount'] ? <td className="text-center">&#8377; {franchiseAmount}</td> : null}
+                                                {users[0]['distributorAmount'] ? <td className="text-center">&#8377; {distributorAmount}</td> : null}
+                                                {users[0]['adminAmount'] ? <td className="text-center">&#8377; {adminAmount}</td> : null}
+                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
+                                                {role === "superAdmin" && <td className="text-right"> &#8377; {parseFloat(amount).toFixed(2)}</td>}
                                             </tr>
                                         )
                                     })

@@ -15,7 +15,7 @@ const MunicipalityOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Municipality Operator"} getOperatorList={ApiUrl.municipalityGetOperatorList} getCommission={ApiUrl.municipalityUpdateCommission} getAddIcon={ApiUrl.municipalityOperatorAddIcon} />
+      <OperatorListTable pageTitlle={"Municipality Operator"} getOperatorList={ApiUrl.municipalityGetOperatorList} getCommission={ApiUrl.municipalityUpdateCommission} getAddIcon={ApiUrl.municipalityOperatorAddIcon} filterOperatorList={ApiUrl.municipalitySearchOp} />
     </div>
   )
 }

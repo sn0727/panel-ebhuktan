@@ -15,7 +15,7 @@ const PostpaidMobileRechargeOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Postpaid Mobile Operator"} getOperatorList={ApiUrl.rechargePostpaidGetOperatorList} getCommission={ApiUrl.updatePostpaidMobileRechargeCommission} getAddIcon={ApiUrl.PostpaidMobileRechargeAddIcon} />
+      <OperatorListTable pageTitlle={"Postpaid Mobile Operator"} getOperatorList={ApiUrl.rechargePostpaidGetOperatorList} getCommission={ApiUrl.updatePostpaidMobileRechargeCommission} getAddIcon={ApiUrl.PostpaidMobileRechargeAddIcon} filterOperatorList={ApiUrl.postpaidRechargeSearchOp} />
     </div>
   )
 }

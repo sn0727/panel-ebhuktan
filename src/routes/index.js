@@ -2,6 +2,7 @@
 
 import { lazy } from 'react'
 import FastTagOperator from '../pages/protected/operator/FastTagOperator'
+import GasOperator from '../pages/protected/operator/GasOperator'
 import LPGGasOperator from '../pages/protected/operator/LPGGasOperator'
 import Commission from '../pages/protected/Commission'
 import MunicipalityOperator from '../pages/protected/operator/MunicipalityOperator'
@@ -49,6 +50,7 @@ const Franchise = lazy(() => import('../pages/protected/Franchise'))
 const ClientUser = lazy(() => import('../pages/protected/ClientUser'))
 const OperatorElectricity = lazy(() => import('../pages/protected/operator/Electricity'))
 const MobileRechargeOperators = lazy(()=> import('../pages/protected/operator/MobileRechargeOperator'))
+const SubAdmin = lazy(()=> import('../pages/protected/SubAdmin'))
 
 
 
@@ -56,6 +58,10 @@ const routes = [
   {
     path: '/dashboard', // the url
     component: Dashboard, // view rendered
+  },
+  {
+    path: '/subAdmin',
+    component: SubAdmin
   },
   {
     path: '/distributor',
@@ -148,7 +154,11 @@ const routes = [
     component: FastTagOperator
   },
   {
-    path: "/operator/lpg-gag-operator",
+    path: "/operator/gas-operator",
+    component: GasOperator
+  },
+  {
+    path: "/operator/lpg-gas-operator",
     component: LPGGasOperator
   },
   {

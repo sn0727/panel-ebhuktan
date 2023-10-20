@@ -7,20 +7,28 @@ import TitleCard from "../../components/Cards/TitleCard";
 import Pagination from "../../components/pagination/Pagination";
 import EditOperatorModal from "../../components/Model/EditOperatorModal";
 import EditOperatorImageModal from "../../components/Model/EditOperatorImageModal";
+import { Button } from "@mui/material";
+import { AiOutlineSearch } from "react-icons/ai";
 
 
 
 
 const submenuIconClasses = `h-5 w-5`
 
-function OperatorListTable({ pageTitlle, getOperatorList, getCommission, getAddIcon }) {
+function OperatorListTable({
+  pageTitlle,
+  getOperatorList,
+  getCommission,
+  getAddIcon,
+  filterOperatorList
+}) {
   const [isLoading, setisLoading] = useState(true);
   const [transaction, setTransaction] = useState([])
   const [totalUser, setTotalUser] = useState("")
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchOperatorName, setSearchOperatorName] = useState('');
 
   // console.log(getCommission, "getCommission")
-
   const SendRequest = async () => {
     setisLoading(true)
     let config = {
@@ -42,6 +50,34 @@ function OperatorListTable({ pageTitlle, getOperatorList, getCommission, getAddI
     );
   }
 
+  const searchOperatorHandler = () => {
+    setisLoading(true)
+    const config = {
+      url: `${filterOperatorList}/search?name=${searchOperatorName}`,
+      method: 'post',
+    };
+
+    APIRequest(
+      config,
+      (res) => {
+        console.log(res, "res =================== ddd");
+        setTransaction(res?.data)
+        setisLoading(false)
+      },
+      (err) => {
+        console.log(err, "================== erro");
+        setisLoading(false)
+      }
+    );
+  }
+
+
+  // CLEAR filter funcation
+  const clearFun = () => {
+    setSearchOperatorName('')
+    SendRequest()
+  }
+
   // useEffect(() => {
   //   SendRequest()
   // }, [currentPage])
@@ -52,6 +88,23 @@ function OperatorListTable({ pageTitlle, getOperatorList, getCommission, getAddI
   return (
     <>
       <TitleCard title={pageTitlle} topMargin="mt-2">
+        <div className="date-by-filter mb-2">
+          <div className="relative w-52 mt-0 rounded-md shadow-sm">
+            <input
+              onChange={(e) => setSearchOperatorName(e.target.value)}
+              type="text"
+              value={searchOperatorName}
+              name="price"
+              id="price"
+              className="block w-full rounded-md border-0 py-1.5 pl-5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              placeholder="Operator Name"
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center" onClick={() => searchOperatorHandler()}>
+              <AiOutlineSearch className="search-icon" />
+            </div>
+          </div>
+          <Button onClick={clearFun} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Clear</Button>
+        </div>
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full operator_table">
           {transaction.length > 0 ?

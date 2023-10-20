@@ -15,7 +15,11 @@ const InsuranceEmiRechargeOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Insurance EMI Operator"} getOperatorList={ApiUrl.InsuranceGetOperatorList} getCommission={ApiUrl.InsuranceUpdateCommission} getAddIcon={ApiUrl.InsuranceAddIcon} />
+      <OperatorListTable pageTitlle={"Insurance EMI Operator"} 
+      getOperatorList={ApiUrl.InsuranceGetOperatorList} 
+      getCommission={ApiUrl.InsuranceUpdateCommission} 
+      getAddIcon={ApiUrl.InsuranceAddIcon} 
+      filterOperatorList={ApiUrl.insuranceSearchOp}/>
     </div>
   )
 }

@@ -15,7 +15,8 @@ const FastTagOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Fast Tag Operator"} getOperatorList={ApiUrl.fastTagGetOperatorList} getCommission={ApiUrl.fastTagUpdateCommission} getAddIcon={ApiUrl.fastTagOperatorAddIcon} />
+      <OperatorListTable 
+      pageTitlle={"Fast Tag Operator"} getOperatorList={ApiUrl.fastTagGetOperatorList} getCommission={ApiUrl.fastTagUpdateCommission} getAddIcon={ApiUrl.fastTagOperatorAddIcon} filterOperatorList={ApiUrl.fastTagSearchOp} />
     </div>
   )
 }

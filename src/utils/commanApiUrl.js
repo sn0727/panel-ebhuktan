@@ -13,6 +13,9 @@ const APIUser = `${apiBaseUrl}user/`
 const APISuperadmin = `${apiBaseUrl}superAdmin/`
 
 export const ApiUrl = {
+  // sub admin
+  getSubAdmin: `${APISuperadmin}getSubAdmin`,
+
   signup: `${APIUser}signup`,
   createUser: `${APIUser}createUser`,
   accountVerification: `${APIUser}accountVerification`,
@@ -49,8 +52,33 @@ export const ApiUrl = {
 
   // filter api data url
   getFilterTransaction: `${apiBaseUrl}transaction/getTransaction`,
-  getPageLimit: `${apiBaseUrl}transaction/getPageLimit`,
   getFilterCommissionTranc: `${apiBaseUrl}transaction/getCommissionTransaction`,
+  getPageLimit: `${apiBaseUrl}transaction/getPageLimit`,
+  
+  // role table filter api
+  getFilterCluster: `${APISuperadmin}getFilterCluster`,
+  getFilterDistributor: `${APISuperadmin}getFilterDistributor`,
+  getFilterRetailer: `${APISuperadmin}getFilterRetailer`,
+  getFilterFranchise: `${APISuperadmin}getFilterFranchise`,
+  getFilterUsers: `${APISuperadmin}getFilterUsers`,
+  
+  // operator filter api
+  electricitybillPaymentSearchOp: `${apiBaseUrl}electricity/bill-payment`,
+  broadbandbillPaymentSearchOp: `${apiBaseUrl}broadband/bill-payment`,
+  fastTagSearchOp: `${apiBaseUrl}fastTag`,
+  gasSearchOp: `${apiBaseUrl}lpg-gas`,
+  bookinGasSearchOp: `${apiBaseUrl}lpg-gas/booking`,
+  municipalitySearchOp: `${apiBaseUrl}municipality`,
+  dthRechargeSearchOp: `${apiBaseUrl}dth-recharge`,
+  dthRechargeCableSearchOp: `${apiBaseUrl}dth-recharge/cable`,
+  landlineSearchOp: `${apiBaseUrl}broadband/bill-payment/landline`,
+  waterSearchOp: `${apiBaseUrl}water/bill-payment`,
+  loanEmiSearchOp: `${apiBaseUrl}loan/EMI/payment`,
+  insuranceSearchOp: `${apiBaseUrl}insurance/EMI/payment`,
+  prepaidRechargeSearchOp: `${apiBaseUrl}recharge`,
+  postpaidRechargeSearchOp: `${apiBaseUrl}recharge/postpaid`,
+
+
 
   // updateCommission
   updateMobileRechargeCommission: `${apiBaseUrl}recharge/updateCommission`,
@@ -164,7 +192,7 @@ export const ApiUrl = {
   LoanUpdateCommission: `${apiBaseUrl}loan/EMI/payment/updateCommission`,
   LoanAddIcon: `${apiBaseUrl}loan/EMI/payment/addIcon`,
 
-  InsuranceGetOperatorList: `${apiBaseUrl}insurance/EMI/payment/fetchInsuranceDetails`,
+  InsuranceGetOperatorList: `${apiBaseUrl}insurance/EMI/payment/getOperatorList`,
   InsuranceUpdateCommission: `${apiBaseUrl}insurance/EMI/payment/updateCommission`,
   InsuranceAddIcon: `${apiBaseUrl}insurance/EMI/payment/addIcon`,
 

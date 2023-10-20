@@ -13,7 +13,11 @@ const LPGGasOperator = () => {
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"LPG Gas Operator"} getOperatorList={ApiUrl.lpgGasGetOperatorList} getCommission={ApiUrl.lpgGasUpdateCommission} getAddIcon={ApiUrl.lpgGasOperatorAddIcon} />
+      <OperatorListTable pageTitlle={"LPG Gas Operator"} 
+      getOperatorList={ApiUrl.lpgGetBookingList} 
+      getCommission={ApiUrl.lpgGasUpdateCommission} 
+      getAddIcon={ApiUrl.lpgGasOperatorAddIcon}
+      filterOperatorList={ApiUrl.bookinGasSearchOp} />
     </div>
   )
 }

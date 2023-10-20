@@ -14,7 +14,13 @@ const Electricity = () => {
   return (
     <>
       <DynamicTitle pageTitle={"Electricity Bill"} />
-      <OperatorListTable pageTitlle={"Electricity Operator"} getOperatorList={ApiUrl.electricityGetOperatorList} getCommission={ApiUrl.electricityUpdateCommission} getAddIcon={ApiUrl.electricityOperatorAddIcon} />
+      <OperatorListTable
+        pageTitlle={"Electricity Operator"}
+        getOperatorList={ApiUrl.electricityGetOperatorList}
+        getCommission={ApiUrl.electricityUpdateCommission}
+        getAddIcon={ApiUrl.electricityOperatorAddIcon}
+        filterOperatorList={ApiUrl.electricitybillPaymentSearchOp}
+      />
     </>
   )
 }
