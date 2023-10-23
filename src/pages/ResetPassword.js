@@ -1,11 +1,13 @@
+import DynamicTitle from '../components/dynamic_title'
 import ResetPassword from '../features/user/ResetPassword'
 
-function ExternalPage(){
+function ExternalPage() {
 
 
-    return(
+    return (
         <div className="">
-                <ResetPassword />
+            <DynamicTitle pageTitle={"Reset Password"} />
+            <ResetPassword />
         </div>
     )
 }

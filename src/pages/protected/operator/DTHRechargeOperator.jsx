@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
 import { ApiUrl } from '../../../utils/commanApiUrl'
+import DynamicTitle from '../../../components/dynamic_title'
 
 const DTHRechargeOperator = () => {
 
@@ -15,6 +16,7 @@ const DTHRechargeOperator = () => {
 
   return (
     <div>
+      <DynamicTitle pageTitle={"DTHRecharge Operator"} />
       <OperatorListTable
         pageTitlle={"DTHRecharge Operator"}
         getOperatorList={ApiUrl.DthGetOperatorList}

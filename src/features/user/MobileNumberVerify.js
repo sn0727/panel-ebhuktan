@@ -127,7 +127,7 @@ function MobileNumberVerify({ sendId, mobileAllData }) {
                     <div className=''>
                         <LandingIntro />
                     </div>
-                    <div className='py-10 px-10' style={{height: '400px'}}>
+                    <div className='py-10 px-10' style={{ height: '400px' }}>
                         {/* <h2 className='text-2xl font-semibold mb-2 text-center'>Login</h2> */}
                         <form>
                             <div className="mb-2">
@@ -152,6 +152,7 @@ function MobileNumberVerify({ sendId, mobileAllData }) {
                                     : <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={submitVerifyOtpNoHandler}>Verify OTP</Button>}
                             </Stack>
                             {/* <button type="submit" className={"btn mt-2 w-full btn-primary"}>Login</button> */}
+                            <div className='text-center mt-4'>Don't have an account yet? <Link to="/login"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Login</span></Link></div>
                         </form>
                     </div>
                 </div>

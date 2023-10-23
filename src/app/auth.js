@@ -9,12 +9,12 @@ const checkAuth = () => {
 
     const isPublicPage = PUBLIC_ROUTES.some( r => window.location.href.includes(r))
 
-    if(!TOKEN && !isPublicPage){
-        window.location.href = '/login'
-        return;
-    }else {
-        return TOKEN
-    }
+    // if(!TOKEN && !isPublicPage){
+    //     window.location.href = '/login'
+    //     return;
+    // }else {
+    //     return TOKEN
+    // }
     // if(!TOKEN && !isPublicPage){
     //     window.location.href = '/login'
     //     return;

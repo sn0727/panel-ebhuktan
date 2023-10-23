@@ -169,7 +169,7 @@ function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
                             </div>
                             <div className='inputRow'>
                                 {role !== 'cluster' ?
-                                    <InputText type="number" defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-1" labelTitle={role === 'distributor' ? "Cluster Id (Optional)" : role === 'retailer' || role === 'franchise' ? 'Distributor Id (Optional)' : 'Referral Id (Optional)'} updateFormValue={updateFormValue} />
+                                    <InputText type="text" defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-1" labelTitle={role === 'distributor' ? "Cluster Id (Optional)" : role === 'retailer' || role === 'franchise' ? 'Distributor Id (Optional)' : 'Referral Id (Optional)'} updateFormValue={updateFormValue} />
                                     : null}
                                 <InputText type="number" defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-1" labelTitle="Postal Code (Optional)" updateFormValue={updateFormValue} />
                             </div>

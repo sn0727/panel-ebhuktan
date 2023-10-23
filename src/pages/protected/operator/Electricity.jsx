@@ -8,12 +8,12 @@ import { ApiUrl } from '../../../utils/commanApiUrl'
 const Electricity = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(setPageTitle({ title: "Electricity Bill" }))
+    dispatch(setPageTitle({ title: "Electricity Operator" }))
   }, [])
 
   return (
     <>
-      <DynamicTitle pageTitle={"Electricity Bill"} />
+      <DynamicTitle pageTitle={"Electricity Operator"} />
       <OperatorListTable
         pageTitlle={"Electricity Operator"}
         getOperatorList={ApiUrl.electricityGetOperatorList}

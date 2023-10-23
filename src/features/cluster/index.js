@@ -14,6 +14,7 @@ function Cluster() {
                 getFilterCluster={ApiUrl.getFilterCluster}
                 createRoleName={'cluster'}
                 pagetableName={'Cluster'}
+                testName={'new data'}
             />
         </>
     )

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
 import { ApiUrl } from '../../../utils/commanApiUrl'
+import DynamicTitle from '../../../components/dynamic_title'
 
 const MobileRechargeOperator = () => {
 
@@ -10,13 +11,14 @@ const MobileRechargeOperator = () => {
 
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(setPageTitle({ title: "Mobile Bill" }))
+    dispatch(setPageTitle({ title: "Prepaid Mobile Operator" }))
   }, [])
 
   return (
     <div>
+      <DynamicTitle pageTitle={"Prepaid Mobile Operator"} />
       <OperatorListTable
-        pageTitlle={"Mobile Operator"}
+        pageTitlle={"Prepaid Mobile Operator"}
         getOperatorList={ApiUrl.rechargeGetOperatorList}
         getCommission={ApiUrl.updateMobileRechargeCommission}
         getAddIcon={ApiUrl.MobileRechargeAddIcon}

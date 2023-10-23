@@ -8,18 +8,21 @@ export const modalSlice = createSlice({
         bodyType : "",   // modal content management
         size : "",   // modal content management
         extraObject : {},   
-        createRoleName: ""
+        createRoleName: "",
+        filterTransaction : ""
     },
     reducers: {
 
         openModal: (state, action) => {
-            const {title, bodyType, extraObject, size, createRoleName} = action.payload
+            const {title, bodyType, extraObject, size, createRoleName, filterTransaction} = action.payload
             state.isOpen = true
             state.bodyType = bodyType
             state.title = title
             state.createRoleName = createRoleName
+            state.filterTransaction = filterTransaction
             state.size = size || 'md'
             state.extraObject = extraObject
+            // console.log(testName, "====================== dd dfds modal slice")
         },
 
         closeModal: (state, action) => {
@@ -27,6 +30,7 @@ export const modalSlice = createSlice({
             state.bodyType = ""
             state.title = ""
             state.createRoleName = ""
+            state.filterTransaction = ""
             state.extraObject = {}
         },
 

@@ -544,3 +544,8 @@ svg.search-icon {
 .mx-3.cursor-pointer.text-center > div > svg {
   margin: auto;
 }
+.text-red {
+  color: red;
+  font-size: 18px;
+  display: inline-block;
+}

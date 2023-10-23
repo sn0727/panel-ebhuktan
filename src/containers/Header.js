@@ -8,13 +8,13 @@ import SunIcon from '@heroicons/react/24/outline/SunIcon'
 import { openRightDrawer } from '../features/common/rightDrawerSlice';
 import { RIGHT_DRAWER_TYPES } from '../utils/globalConstantUtil'
 
-import { NavLink, Routes, Link, useLocation } from 'react-router-dom'
+import { NavLink, Routes, Link, useLocation, useNavigate } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
 import { APIRequest, ApiUrl } from '../utils/commanApiUrl'
 
 
 function Header() {
-
+    const navigation = useNavigate();
     const [useData, setUserData] = useState([])
 
     // console.log(useData, '========= useData')
@@ -73,7 +73,8 @@ function Header() {
 
     function logoutUser() {
         localStorage.clear();
-        window.location.href = '/'
+        navigation("/")
+        // window.location.href = '/'
     }
 
     return (

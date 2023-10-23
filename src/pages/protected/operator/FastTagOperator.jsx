@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
 import { ApiUrl } from '../../../utils/commanApiUrl'
+import DynamicTitle from '../../../components/dynamic_title'
 
 const FastTagOperator = () => {
 
@@ -15,8 +16,9 @@ const FastTagOperator = () => {
 
   return (
     <div>
-      <OperatorListTable 
-      pageTitlle={"Fast Tag Operator"} getOperatorList={ApiUrl.fastTagGetOperatorList} getCommission={ApiUrl.fastTagUpdateCommission} getAddIcon={ApiUrl.fastTagOperatorAddIcon} filterOperatorList={ApiUrl.fastTagSearchOp} />
+      <DynamicTitle pageTitle={"Fast Tag Operator"} />
+      <OperatorListTable
+        pageTitlle={"Fast Tag Operator"} getOperatorList={ApiUrl.fastTagGetOperatorList} getCommission={ApiUrl.fastTagUpdateCommission} getAddIcon={ApiUrl.fastTagOperatorAddIcon} filterOperatorList={ApiUrl.fastTagSearchOp} />
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { setPageTitle } from '../../features/common/headerSlice'
 import CustomizeCommissionTable from '../../features/CustomizeCommissionTable'
 import { ApiUrl } from '../../utils/commanApiUrl'
+import DynamicTitle from '../../components/dynamic_title'
 
 const CustomizeCommission = () => {
 
@@ -15,6 +16,7 @@ const CustomizeCommission = () => {
 
   return (
     <div>
+      <DynamicTitle pageTitle={"Customize Commission"} />
       <CustomizeCommissionTable pageTitlle={"Customize Commission"} GetConfigList={ApiUrl.superAdminGetConfigList} getAddIcon={ApiUrl.MobileRechargeAddIcon} />
     </div>
   )

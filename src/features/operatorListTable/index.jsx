@@ -10,9 +10,6 @@ import EditOperatorImageModal from "../../components/Model/EditOperatorImageModa
 import { Button } from "@mui/material";
 import { AiOutlineSearch } from "react-icons/ai";
 
-
-
-
 const submenuIconClasses = `h-5 w-5`
 
 function OperatorListTable({

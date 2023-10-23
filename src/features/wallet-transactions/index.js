@@ -105,7 +105,7 @@ function WalletTransactions() {
         <>
 
 
-            <DynamicTitle pageTitle={"Transaction"} />
+            <DynamicTitle pageTitle={"Wallet Transaction"} />
 
             {/* total amout section */}
             <div className="total-amount">

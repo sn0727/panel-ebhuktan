@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
 import { ApiUrl } from '../../../utils/commanApiUrl'
+import DynamicTitle from '../../../components/dynamic_title'
 
 const LoanEmiRechargeOperator = () => {
 
@@ -15,6 +16,7 @@ const LoanEmiRechargeOperator = () => {
 
   return (
     <div>
+      <DynamicTitle pageTitle={"Loan EMI Operator"} />
       <OperatorListTable pageTitlle={"Loan EMI Operator"} 
       getOperatorList={ApiUrl.LoanGetOperatorList} getCommission={ApiUrl.LoanUpdateCommission} getAddIcon={ApiUrl.LoanAddIcon} filterOperatorList={ApiUrl.loanEmiSearchOp} />
     </div>

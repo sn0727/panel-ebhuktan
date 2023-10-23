@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { setPageTitle } from '../../../features/common/headerSlice'
 import OperatorListTable from '../../../features/operatorListTable'
 import { ApiUrl } from '../../../utils/commanApiUrl'
+import DynamicTitle from '../../../components/dynamic_title'
 
 const LandlineBillPaymentOperator = () => {
 
@@ -10,12 +11,13 @@ const LandlineBillPaymentOperator = () => {
 
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(setPageTitle({ title: "Landline Bill-Payment Operator" }))
+    dispatch(setPageTitle({ title: "Landline Operator" }))
   }, [])
 
   return (
     <div>
-      <OperatorListTable pageTitlle={"Landline Bill-Payment Operator"} getOperatorList={ApiUrl.LandlineGetOperatorList} getCommission={ApiUrl.LandlineUpdateCommission} getAddIcon={ApiUrl.LandlineAddIcon} filterOperatorList={ApiUrl.landlineSearchOp}/>
+      <DynamicTitle pageTitle={"Landline Operator"} />
+      <OperatorListTable pageTitlle={"Landline Operator"} getOperatorList={ApiUrl.LandlineGetOperatorList} getCommission={ApiUrl.LandlineUpdateCommission} getAddIcon={ApiUrl.LandlineAddIcon} filterOperatorList={ApiUrl.landlineSearchOp}/>
     </div>
   )
 }

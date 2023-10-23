@@ -21,32 +21,37 @@ const MobileNumberVerifyCompent = ({ setStepId, mobileSendAnthorComponent }) => 
     // final registration func
     const mobileNoVerifyFun = (e) => {
         e.stopPropagation();
-        setisLoading(true)
-        let config = {
-            url: ApiUrl.sendOTPMobileNo,
-            method: 'post',
-            body: {
-                contact: mobileNo,
-            }
-        }
-        APIRequest(
-            config,
-            res => {
-                if (!res?.error) {
-                    toast.success(res?.message)
-                    setHiddeOtpFeild(true)
-                    setisLoading(false)
-                } else {
-                    toast.error(res?.message)
+        if (mobileNo === '') {
+            toast.error("Mobile No. feild is required")
+        } else {
+            setisLoading(true)
+            let config = {
+                url: ApiUrl.sendOTPMobileNo,
+                method: 'post',
+                body: {
+                    contact: mobileNo,
                 }
-
-            },
-            err => {
-                console.log(err, "err ==============")
-                toast.error(err?.message)
-                setisLoading(false)
             }
-        )
+            APIRequest(
+                config,
+                res => {
+                    if (!res?.error) {
+                        toast.success(res?.message)
+                        setHiddeOtpFeild(true)
+                        setisLoading(false)
+                    } else {
+                        toast.error(res?.message)
+                    }
+
+                },
+                err => {
+                    console.log(err, "err ==============")
+                    toast.error(err?.message)
+                    setisLoading(false)
+                }
+            )
+        }
+
     }
 
     const OtpVerify = (e) => {
@@ -81,14 +86,14 @@ const MobileNumberVerifyCompent = ({ setStepId, mobileSendAnthorComponent }) => 
         )
     }
 
-    mobileSendAnthorComponent('9354940727')
+    mobileSendAnthorComponent(mobileNo)
 
     return (
         <div className="w-full max-w-lg">
             <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                        Enter mobile number.
+                        Enter mobile number. <span className="text-red">*</span>
                     </label>
                     <input
 
@@ -104,7 +109,7 @@ const MobileNumberVerifyCompent = ({ setStepId, mobileSendAnthorComponent }) => 
                 {hiddeOtpFeild ?
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                            Enter Vaild (OTP)
+                            Enter Vaild (OTP) <span className="text-red">*</span>
                         </label>
                         <input
 
@@ -219,7 +224,7 @@ const AddharCardCompent = ({ setStepId, AadhaarNoSn }) => {
             <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                        Aadhaar No.
+                        Aadhaar No. <span className="text-red">*</span>
                     </label>
                     <input
 
@@ -234,7 +239,7 @@ const AddharCardCompent = ({ setStepId, AadhaarNoSn }) => {
                 {hiddeOtpFeild ?
                     <div className="w-full md:w-1/2 px-3">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                            Enter Vaild (OTP)
+                            Enter Vaild (OTP) <span className="text-red">*</span>
                         </label>
                         <input
 
@@ -281,7 +286,7 @@ const AddharCardCompent = ({ setStepId, AadhaarNoSn }) => {
 }
 
 // final Ristration component
-const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, closeModal }) => {
+const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, closeModal, filterTransaction }) => {
     const [isLoading, setisLoading] = useState(false)
     const [name, setName] = useState("")
     const [mobileNo, setMobileNo] = useState(saveMobileNo)
@@ -294,10 +299,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
     const [referralId, setReferralId] = useState('');
     const [file, setFileProfile] = useState(null);
 
-    // console.log(file, "================ file")
-
-    console.log(saveAadharNo, "=================== saveAadharNo")
-    console.log(saveMobileNo, "=================== saveMobileNo")
+    // console.log(filterTransaction(), "===================== filterTransaction")
 
     // final registration func
     const AddFinalRisHandler = (e) => {
@@ -327,7 +329,9 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                 console.log(res, "add modle");
                 if (!res.error) {
                     toast.success(res?.message)
-                    setisLoading(false)
+                    setisLoading(false);
+                    window.location.reload(true);
+                    // filterTransaction();
                     closeModal();
                 } else {
                     toast.error(res?.message)
@@ -349,7 +353,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
             <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
-                        Name
+                        Name <span className="text-red">*</span>
                     </label>
                     <input
                         onChange={(e) => setName(e.target.value)}
@@ -362,7 +366,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                 </div>
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                        Enter mobile number.
+                        Enter mobile number. <span className="text-red">*</span>
                     </label>
                     <input
                         defaultValue={mobileNo}
@@ -375,7 +379,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                 </div>
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                        Email
+                        Email <span className="text-red">*</span>
                     </label>
                     <input
                         onChange={(e) => setEmail(e.target.value)}
@@ -389,7 +393,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
 
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                        Postal Code
+                        Postal Code <span className="text-red">*</span>
                     </label>
                     <input
                         onChange={(e) => setPostalCode(e.target.value)}
@@ -402,7 +406,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
 
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                        State
+                        State <span className="text-red">*</span>
                     </label>
                     <input
                         onChange={(e) => setStateValue(e.target.value)}
@@ -415,7 +419,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
 
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                        District
+                        District (Optional)
                     </label>
                     <input
                         onChange={(e) => setDistrict(e.target.value)}
@@ -427,7 +431,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                 </div>
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
-                        Aadhaar No.
+                        Aadhaar No. <span className="text-red">*</span>
                     </label>
                     <input
                         defaultValue={aadhaarNo}
@@ -440,7 +444,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                 </div>
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                        Enter PAN
+                        Enter PAN <span className="text-red">*</span>
                     </label>
                     <input
                         onChange={(e) => setPanNo(e.target.value)}
@@ -453,7 +457,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
 
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                        Referral Id
+                        Referral Id <span className="text-red">*</span>
                         {/* {role === 'distributor' ? "Cluster Id (Optional)" : role === 'retailer' || role === 'franchise' ? 'Distributor Id (Optional)' : 'Referral Id (Optional)'} */}
                     </label>
                     <input
@@ -467,7 +471,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
 
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                        select Profile Image
+                        select Profile Image (Optional)
                     </label>
                     <input
                         onChange={(e) => setFileProfile(e.target.files[0])}
@@ -495,7 +499,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
     )
 }
 
-function ConfirmationModalBody({ closeModal, createRoleName }) {
+function AddLeadModalBody({ closeModal, createRoleName, filterTransaction }) {
     const [saveMobileNo, setSaveMobileNo] = useState('')
     const [saveAadharNo, setSaveAadhaarNo] = useState('')
     const [stepId, setStepId] = useState(1)
@@ -528,6 +532,7 @@ function ConfirmationModalBody({ closeModal, createRoleName }) {
                     saveAadharNo={saveAadharNo}
                     createRoleName={createRoleName}
                     closeModal={closeModal}
+                    filterTransaction={filterTransaction}
                 />
             </>
         )
@@ -536,4 +541,4 @@ function ConfirmationModalBody({ closeModal, createRoleName }) {
 
 }
 
-export default ConfirmationModalBody
+export default AddLeadModalBody

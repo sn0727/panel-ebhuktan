@@ -34,10 +34,8 @@ export default function EditAdminModal({ id = null, adminId = null, status, filt
     const [isLoading, setisLoading] = useState(false)
     const [changeStatus, setChangeStatus] = React.useState('');
     const [editProfile, setEditProfile] = useState({
-        adminId: adminId,
+        adminid: adminId ? adminId : '',
     })
-
-    console.log(editProfile, "==================== alam")
 
     const handleChange = (event) => {
         setChangeStatus(event.target.value);
@@ -58,7 +56,7 @@ export default function EditAdminModal({ id = null, adminId = null, status, filt
             body: {
                 userId: id,
                 status: changeStatus,
-                adminId: editProfile.adminId
+                adminId: editProfile.adminid
             }
         };
         APIRequest(
@@ -113,8 +111,8 @@ export default function EditAdminModal({ id = null, adminId = null, status, filt
                                 < InputText
                                     type="text"
                                     placeholder="Referral Id"
-                                    value={editProfile.adminId}
-                                    defaultValue={editProfile.adminId}
+                                    value={editProfile.adminid}
+                                    defaultValue={editProfile.adminid}
                                     updateType="adminid"
                                     containerStyle="mt-0"
                                     labelTitle={

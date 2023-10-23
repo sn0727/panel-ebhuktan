@@ -255,7 +255,7 @@ function Transactions() {
         <>
 
 
-            <DynamicTitle pageTitle={"Transaction"} />
+            <DynamicTitle pageTitle={"Dashboard / Transaction"} />
             {/* total amout section */}
             <div className="total-amount">
                 <div>total : {`${parseFloat(totalAmount).toFixed(2)}`}</div>

@@ -28,7 +28,7 @@ import { Button } from "@mui/material";
 import { elements } from "chart.js"
 // select box code 
 
-const TopSideButtons = ({ children, createRoleName, filterTransaction }) => {
+const TopSideButtons = ({ children, createRoleName }) => {
 
     const dispatch = useDispatch()
 
@@ -36,12 +36,11 @@ const TopSideButtons = ({ children, createRoleName, filterTransaction }) => {
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user;
 
-    // console.log(testName, "testName=========================================")
+    // console.log(createRoleName, "createRoleName============")
 
     // select box funtion
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName, filterTransaction}))
-        // console.log(data, "obj -=======================")
+        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName }))
     }
 
     return (
@@ -85,7 +84,7 @@ const TopSideButtons = ({ children, createRoleName, filterTransaction }) => {
 }
 
 
-function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadminDeleteUser, createRoleName, testName }) {
+function UserRoleTable({getFilterCluster, pagetableName, getPageLimit, superadminDeleteUser, createRoleName}) {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const [clusterData, setClusterData] = React.useState([]);
@@ -98,30 +97,8 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
     const [roleStatus, setRoleStatus] = React.useState('All');
     const [searchOperatorName, setSearchOperatorName] = useState('');
 
-    // live search filter
-    const filteredItems = clusterData.filter((user) =>
-        user.name.toLowerCase().includes(searchOperatorName.toLowerCase()) ||
-        user.partnerId.toLowerCase().includes(searchOperatorName.toLowerCase())
-    );
-
-    // live search and highlight text 
-    function getHighlightedText(text, highlight) {
-        // Split text on highlight term, include term itself into parts, ignore case
-        const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-
-        // console.log(parts, "parts= ====================")
-        return (
-            <span>
-                {parts.map((part, index) =>
-                    part.toLowerCase() === highlight.toLowerCase() ? (
-                        <b key={index} style={{ color: '#2c427d' }}>{part}</b>
-                    ) : (
-                        part
-                    )
-                )}
-            </span>
-        );
-    }
+    console.log(clusterData, "====================== ggg")
+    console.log(roleStatus, "roleStatusroleStatusroleStatus");
 
     var token = localStorage.getItem("token")
     const decodedToken = jwtDecode(token);
@@ -158,6 +135,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
     const pendingData = clusterData.map((items) => {
         return items;
     });
+
 
     // delete recorded
     const Delete = (id) => {
@@ -310,7 +288,6 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
 
     useEffect(() => {
         getPageLimitFun()
-        filterTransaction()
     }, [])
 
     useEffect(() => {
@@ -325,8 +302,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                 <TopSideButtons
                     clusterData={clusterData}
                     createRoleName={createRoleName}
-                    filterTransaction={filterTransaction}
-                >
+                     >
                     <div className="relative w-52 mt-0 rounded-md shadow-sm">
                         <input
                             onChange={(e) => setSearchOperatorName(e.target.value)}
@@ -367,7 +343,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
 
                 {/* Leads List in table format loaded from slice after api call */}
                 <div className="overflow-x-auto w-full">
-                    {filteredItems.length > 0 ?
+                    {clusterData.length > 0 ?
                         <table className="table w-full">
                             <thead>
                                 <tr>
@@ -412,7 +388,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                             </thead>
                             <tbody>
                                 {
-                                    filteredItems.map((l, k) => {
+                                    clusterData.map((l, k) => {
                                         return (
                                             <tr key={k}>
                                                 <td>{l.id}</td>
@@ -424,7 +400,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <div className="font-bold">{getHighlightedText(l?.name, searchOperatorName)}</div>
+                                                            <div className="font-bold">{l.name}</div>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -432,12 +408,12 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                 <td>{l.contact}</td>
                                                 <td>
                                                     <div>
-                                                        <address>{l.address}, {l.district}, {l.state}, <br></br> {l.postalCode} </address>
+                                                        <address>{l.district}, {l.state}, <br></br> {l.postalCode} </address>
                                                     </div>
                                                 </td>
                                                 <td>{l.aadharNo}</td>
                                                 <td>{l.panNo}</td>
-                                                <td>{getHighlightedText(l?.partnerId, searchOperatorName)}</td>
+                                                <td>{l?.partnerId}</td>
 
                                                 <td>
                                                     <div className="badge badge-primary">

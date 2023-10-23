@@ -16,6 +16,7 @@ import MobileNumberVerify from '../features/user/MobileNumberVerify'
 import AadhaarNumberVerify from '../features/user/AadhaarNumberVerify'
 import Register from '../features/user/Register'
 import { useNavigate } from 'react-router-dom'
+import DynamicTitle from '../components/dynamic_title'
 
 const steps = [
     { title: 'Verify', description: 'Contact Number' },
@@ -57,6 +58,7 @@ const SteperInformation = () => {
 
     return (
         <>
+            <DynamicTitle pageTitle={"Registration"} />
             <Stepper index={activeStep} margin={'20px 120px'}>
                 {steps.map((step, index) => (
                     <Step key={index}>
