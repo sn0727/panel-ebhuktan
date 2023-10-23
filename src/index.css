@@ -549,3 +549,9 @@ svg.search-icon {
   font-size: 18px;
   display: inline-block;
 }
+.avatar>.mask {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

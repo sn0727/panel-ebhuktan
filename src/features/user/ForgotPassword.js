@@ -70,7 +70,7 @@ function ForgotPassword(){
                         linkSent && 
                         <>
                             <div className='text-center mt-8'><CheckCircleIcon className='inline-block w-32 text-success'/></div>
-                            <p className='my-4 text-xl font-bold text-center'>Link Sent</p>
+                            <p className='my-4 text-xl font-bold text-center'>Verification code send successfully</p>
                             <p className='mt-4 mb-8 font-semibold text-center'>Check your email to  reset password</p>
                             <div className='text-center mt-4'><Link to="/reset-password" className='text-white-sdfdskbj'><button className="btn btn-block btn-primary">Reset Password</button></Link></div>
 
@@ -80,18 +80,15 @@ function ForgotPassword(){
                     {
                         !linkSent && 
                         <>
-                            <p className='my-8 font-semibold text-center'>We will send password reset link on your email Id</p>
+                            <p className='my-8 font-semibold text-center'>Verification code will be sent on your email id</p>
                             <form onSubmit={(e) => submitForm(e)}>
 
                                 <div className="mb-4">
-
                                     <InputText type="email" defaultValue={userObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue}/>
-
-
                                 </div>
 
                                 <ErrorText styleClass="mt-12">{errorMessage}</ErrorText>
-                                <button type="submit" className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Send Reset Link</button>
+                                <button type="submit" className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Send verification code </button>
 
                             </form>
                         </>

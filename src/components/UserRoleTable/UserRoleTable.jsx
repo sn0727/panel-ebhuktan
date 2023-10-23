@@ -26,6 +26,8 @@ import moment from "moment"
 import { TablePagination } from "@mui/material"
 import { Button } from "@mui/material";
 import { elements } from "chart.js"
+import {BsFileEarmarkImage} from "react-icons/bs"
+// import CgProfile from "react-icons/cg"
 // select box code 
 
 const TopSideButtons = ({ children, createRoleName, filterTransaction }) => {
@@ -373,12 +375,12 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
+                                    <td>Partner Id</td>
                                     <th>Email Id</th>
                                     <th>Contact No.</th>
                                     <th>Address</th>
                                     <td>AddharNo</td>
                                     <td>PanNo</td>
-                                    <td>Partner Id</td>
                                     <td>Status</td>
                                     {/* Amount td condition pending case in the hide */}
                                     {
@@ -420,7 +422,10 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                     <div className="flex items-center space-x-3">
                                                         <div className="avatar">
                                                             <div className="mask mask-squircle w-12 h-12">
-                                                                <img src={l.image ? l.image : "https://e-bhuktan.s3.eu-north-1.amazonaws.com/image/1692695219537_image.png"} alt="Avatar" />
+                                                                {
+                                                                    l.image ? <img src={l.image} alt="Avatar" /> : <img src="/assets/image/profile.jpg" alt="Avatar" />
+                                                                }
+                                                                
                                                             </div>
                                                         </div>
                                                         <div>
@@ -428,6 +433,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td>{getHighlightedText(l?.partnerId, searchOperatorName)}</td>
                                                 <td>{l.email}</td>
                                                 <td>{l.contact}</td>
                                                 <td>
@@ -437,7 +443,6 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                 </td>
                                                 <td>{l.aadharNo}</td>
                                                 <td>{l.panNo}</td>
-                                                <td>{getHighlightedText(l?.partnerId, searchOperatorName)}</td>
 
                                                 <td>
                                                     <div className="badge badge-primary">

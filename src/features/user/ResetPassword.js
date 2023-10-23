@@ -85,14 +85,14 @@ function ForgotPassword() {
                         {
                             !linkSent &&
                             <>
-                                <p className='my-8 font-semibold text-center'>We will send password reset link on your email Id</p>
+                                {/* <p className='my-8 font-semibold text-center'>We will send password reset link on your email Id</p> */}
                                 <form onSubmit={(e) => submitForm(e)}>
 
                                     <div className="mb-4">
 
-                                        <InputText type="email" defaultValue={userObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email" updateFormValue={updateFormValue} />
-                                        <InputText type="number" defaultValue={userObj.OTP} updateType="OTP" containerStyle="mt-4" labelTitle="OTP" updateFormValue={updateFormValue} />
-                                        <InputText type="password" defaultValue={userObj.password} updateType="password" containerStyle="mt-4" labelTitle="Change Password" updateFormValue={updateFormValue} />
+                                        <InputText type="email" defaultValue={userObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email *" updateFormValue={updateFormValue} />
+                                        <InputText type="number" defaultValue={userObj.OTP} updateType="OTP" containerStyle="mt-4" labelTitle="OTP *" updateFormValue={updateFormValue} />
+                                        <InputText type="password" defaultValue={userObj.password} updateType="password" containerStyle="mt-4" labelTitle="Change Password *" updateFormValue={updateFormValue} />
 
 
                                     </div>
