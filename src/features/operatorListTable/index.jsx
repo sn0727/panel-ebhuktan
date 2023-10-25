@@ -25,6 +25,31 @@ function OperatorListTable({
   const [currentPage, setCurrentPage] = useState(1);
   const [searchOperatorName, setSearchOperatorName] = useState('');
 
+
+  // live search filter
+  const filteredItems = transaction.filter((user) =>
+    user.name.toLowerCase().includes(searchOperatorName.toLowerCase())
+  );
+
+  // live search and highlight text 
+  function getHighlightedText(text, highlight) {
+    // Split text on highlight term, include term itself into parts, ignore case
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+
+    // console.log(parts, "parts= ====================")
+    return (
+      <span>
+        {parts.map((part, index) =>
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <b key={index} style={{ color: '#2c427d' }}>{part}</b>
+          ) : (
+            part
+          )
+        )}
+      </span>
+    );
+  }
+
   // console.log(getCommission, "getCommission")
   const SendRequest = async () => {
     setisLoading(true)
@@ -104,11 +129,11 @@ function OperatorListTable({
         </div>
         {/* Team Member list in table format loaded constant */}
         <div className="overflow-x-auto w-full operator_table">
-          {transaction.length > 0 ?
+          {filteredItems.length > 0 ?
             <table className="table w-full">
               <thead>
                 <tr>
-                  <th>Id</th>
+                  <th>SR.NO</th>
                   <th>Image</th>
                   <th>Name</th>
                   <th>Category</th>
@@ -120,10 +145,11 @@ function OperatorListTable({
               </thead>
               <tbody>
                 {
-                  transaction.map((l, k) => {
+                  filteredItems.map((l, k) => {
                     return (
                       <tr key={k}>
-                        <td>{l.id}</td>
+                        {/* <td>{l.id}</td> */}
+                        <td>{k + 1}</td>
                         <td>
                           <div className="flex items-center space-x-3">
                             <div className="avatar">
@@ -136,7 +162,7 @@ function OperatorListTable({
                         </td>
                         {/* <td>{moment(l.date).format("D MMM")}</td> */}
                         <td>
-                          <div className="description-data">{l.name}</div>
+                          <div className="description-data">{getHighlightedText(l?.name, searchOperatorName)}</div>
                         </td>
                         <td>{l.category}</td>
                         <td className="text-center">{l.isPercentage === "true" ? 'Percentage' : 'Fixed'}</td>

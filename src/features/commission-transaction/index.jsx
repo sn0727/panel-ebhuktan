@@ -106,8 +106,9 @@ function CommissionTransactionContent() {
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(1);
+        // setRowsPerPage(+event.target.value);
+        setRowsPerPage(event.target.value);
+        // setPage(1);
     };
 
     // get type from the api
@@ -387,8 +388,8 @@ function CommissionTransactionContent() {
                                     <th>Transaction Id</th>
                                     <th>Operator Id</th>
                                     <th>Partner Id</th>
-                                    <th>Operator Name</th>
-                                    <th>Image</th>
+                                    <th className="text-center">Operator Name</th>
+                                    {/* <th>Image</th> */}
                                     <th className="text-center">Type</th>
                                     <th>Pin Code</th>
                                     {users[0]['clusterAmount'] ? <th>Cluster Amount</th> : null}
@@ -410,14 +411,14 @@ function CommissionTransactionContent() {
                                                 <td className="text-center">{transactionId}</td>
                                                 <td className="text-center">{operatorId}</td>
                                                 <td className="text-center">{consumerId}</td>
-                                                <td className="text-left">{operatorName?.slice(0, 20)}</td>
-                                                <td className="text-center">
+                                                <td className="text-center">{operatorName?.slice(0, 20)} </td>
+                                                {/* <td className="text-center">
                                                     <div className="avatar">
                                                         <div className="mask mask-squircle w-12 h-12">
                                                             {userImage ? <img src={userImage} alt="Avatar" /> : "Not"}
                                                         </div>
                                                     </div>
-                                                </td>
+                                                </td> */}
                                                 <td className="text-center">{type}</td>
                                                 <td className="text-center">{adminPinCode}</td>
                                                 {users[0]['clusterAmount'] ? <td className="text-center">&#8377; {clusterAmount}</td> : null}

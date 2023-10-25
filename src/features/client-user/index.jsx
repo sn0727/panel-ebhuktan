@@ -156,8 +156,11 @@ function ClientUserContent() {
 
     // set page row number
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(1);
+        // setRowsPerPage(+event.target.value);
+        // setPage(1);
+        // setRowsPerPage(+event.target.value);
+        setRowsPerPage(event.target.value);
+        // setPage(1);
     };
 
     // pending data get
@@ -371,7 +374,7 @@ function ClientUserContent() {
                         <table className="table w-full">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>SR.NO</th>
                                     <th>Name</th>
                                     <th>Email Id</th>
                                     <th>Contact No.</th>
@@ -392,7 +395,8 @@ function ClientUserContent() {
                                     clusterData.map((l, k) => {
                                         return (
                                             <tr key={k}>
-                                                <td>{l.id}</td>
+                                                <td>{(parseInt(page) * parseInt(rowsPerPage) + k) + 1}</td>
+                                                {/* <td>{l.id}</td> */}
                                                 <td>
                                                     <div className="flex items-center space-x-3">
                                                         <div className="avatar">

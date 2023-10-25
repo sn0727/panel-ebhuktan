@@ -38,11 +38,13 @@ const TopSideButtons = ({ children, createRoleName, filterTransaction }) => {
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user;
 
+    // console.log(filterTransaction, "================= alam")
+
     // console.log(testName, "testName=========================================")
 
     // select box funtion
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName, filterTransaction }))
+        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName, filterTransaction: filterTransaction }))
         // console.log(data, "obj -=======================")
     }
 
@@ -152,8 +154,11 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
 
     // set page row number
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(1);
+        // setRowsPerPage(+event.target.value);
+        // setPage(1);
+        // setRowsPerPage(+event.target.value);
+        setRowsPerPage(event.target.value);
+        // setPage(1);
     };
 
     // pending data get
@@ -377,7 +382,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                         <table className="table w-full">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>SR.NO</th>
                                     <th>Name</th>
                                     <td>Partner Id</td>
                                     <th>Email Id</th>
@@ -421,7 +426,8 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                     filteredItems.map((l, k) => {
                                         return (
                                             <tr key={k}>
-                                                <td className="text-left">{l.id}</td>
+                                                {/* <td className="text-left">{l.id}</td> */}
+                                                <td className="text-left">{(parseInt(page) * parseInt(rowsPerPage) + k) + 1}</td>
                                                 <td className="text-left">
                                                     <div className="flex items-center space-x-3">
                                                         <div className="avatar">
