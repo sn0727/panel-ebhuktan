@@ -315,7 +315,7 @@ input.fileProfile {
 
 svg.eye-icon {
   position: absolute;
-  top: 45px;
+  top: 52px;
   right: 11px;
   font-size: 25px;
   cursor: pointer;
@@ -554,4 +554,30 @@ svg.search-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.error-page {
+  max-width: 700px;
+  margin: auto;
+  object-fit: cover;
+  text-align: center;
+}
+.css-kq5oaw[data-status=complete], 
+.css-4t6ey5[data-status=complete]
+ {
+  background: #2c427d !important;
+}
+.css-kq5oaw[data-status=active] {
+  border-color : #2c427d !important;
+}
+.sdkjfsdfsd-dsfsdk {
+  width: 100%;
+}
+label.sdfdsbkdsf-sdfdsk {
+  --tw-text-opacity: 1;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+select.select-style.mt-0 {
+  margin-top: 10px;
 }

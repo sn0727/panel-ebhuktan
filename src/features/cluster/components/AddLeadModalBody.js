@@ -3,6 +3,15 @@ import { ApiUrl, APIRequest, APIRequestWithFile } from '../../../utils/commanApi
 import ErrorText from '../../../components/Typography/ErrorText'
 import jwtDecode from 'jwt-decode';
 import { toast } from "react-toastify";
+import {
+    AadhaarNoValidation,
+    PanNoValidation,
+    emailValidation,
+    mobileNoValidation,
+    nameValidation,
+    postalCodeValidation,
+    stateValidation
+} from "../../../components/Validation"
 
 
 
@@ -21,9 +30,7 @@ const MobileNumberVerifyCompent = ({ setStepId, mobileSendAnthorComponent }) => 
     // final registration func
     const mobileNoVerifyFun = (e) => {
         e.stopPropagation();
-        if (mobileNo === '') {
-            toast.error("Mobile No. feild is required")
-        } else {
+        if (mobileNoValidation(mobileNo)) {
             setisLoading(true)
             let config = {
                 url: ApiUrl.sendOTPMobileNo,
@@ -86,6 +93,7 @@ const MobileNumberVerifyCompent = ({ setStepId, mobileSendAnthorComponent }) => 
         )
     }
 
+    // save mobile 
     mobileSendAnthorComponent(mobileNo)
 
     return (
@@ -169,28 +177,30 @@ const AddharCardCompent = ({ setStepId, AadhaarNoSn }) => {
 
     const AadhaarWithOTP = (e) => {
         e.stopPropagation()
-        setisLoading(true)
-        let config = {
-            url: `${ApiUrl.aadhaarWithOTP}`,
-            method: 'post',
-            body: {
-                id_number: aadhaarNo
-            }
-        };
-        APIRequest(
-            config,
-            res => {
-                console.log(res);
-                setaadharclient_id(res?.data?.data?.client_id)
-                toast.success(res?.message)
-                setHiddeOtpFeild(true)
-                setisLoading(false)
-            },
-            err => {
-                toast.error(err?.message)
-                setisLoading(false)
-            }
-        );
+        if (AadhaarNoValidation(aadhaarNo)) {
+            setisLoading(true)
+            let config = {
+                url: `${ApiUrl.aadhaarWithOTP}`,
+                method: 'post',
+                body: {
+                    id_number: aadhaarNo
+                }
+            };
+            APIRequest(
+                config,
+                res => {
+                    console.log(res);
+                    setaadharclient_id(res?.data?.data?.client_id)
+                    toast.success(res?.message)
+                    setHiddeOtpFeild(true)
+                    setisLoading(false)
+                },
+                err => {
+                    toast.error(err?.message)
+                    setisLoading(false)
+                }
+            );
+        }
     }
 
     const VerifyAadhaarOTP = (e) => {
@@ -292,6 +302,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
     const [mobileNo, setMobileNo] = useState(saveMobileNo)
     const [email, setEmail] = useState("")
     const [postalCode, setPostalCode] = useState("")
+    const [stateData, setStateData] = useState([]);
     const [stateValue, setStateValue] = useState("")
     const [district, setDistrict] = useState("")
     const [panNo, setPanNo] = useState("")
@@ -299,54 +310,88 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
     const [referralId, setReferralId] = useState('');
     const [file, setFileProfile] = useState(null);
 
-    // console.log(filterTransaction(), "===================== filterTransaction")
+    // select state value 
+    const stateHandler = (event) => {
+        setStateValue(event.target.value)
+    }
 
     // final registration func
     const AddFinalRisHandler = (e) => {
-        e.stopPropagation();
-        // create formdata 
-        let formdata = new FormData();
-        formdata.append('name', name);
-        formdata.append('contact', mobileNo);
-        formdata.append('email', email);
-        formdata.append('state', stateValue);
-        formdata.append('aadharNo', aadhaarNo);
-        formdata.append('panNo', panNo);
-        formdata.append('role', createRoleName);
-        formdata.append('district', district);
-        formdata.append('postalCode', postalCode);
-        formdata.append('adminId', referralId);
-        formdata.append('image', file);
-        setisLoading(true)
-        let config = {
-            url: ApiUrl.editProfileRes,
-            method: 'post',
-            body: formdata
-        };
-        APIRequestWithFile(
-            config,
-            res => {
-                console.log(res, "add modle");
-                if (!res.error) {
-                    toast.success(res?.message)
-                    setisLoading(false);
-                    window.location.reload(true);
-                    // filterTransaction();
-                    closeModal();
-                } else {
-                    toast.error(res?.message)
+        // e.stopPropagation();
+
+        if (
+            nameValidation(name) && mobileNoValidation(mobileNo) &&
+            emailValidation(email) &&
+            postalCodeValidation(postalCode) &&
+            stateValidation(stateValue) &&
+            AadhaarNoValidation(aadhaarNo) &&
+            PanNoValidation(panNo)
+        ) {
+            // create formdata 
+            let formdata = new FormData();
+            formdata.append('name', name);
+            formdata.append('contact', mobileNo);
+            formdata.append('email', email);
+            formdata.append('state', stateValue);
+            formdata.append('aadharNo', aadhaarNo);
+            formdata.append('panNo', panNo);
+            formdata.append('role', createRoleName);
+            formdata.append('district', district);
+            formdata.append('postalCode', postalCode);
+            formdata.append('adminId', referralId);
+            formdata.append('image', file);
+            setisLoading(true)
+            let config = {
+                url: ApiUrl.editProfileRes,
+                method: 'post',
+                body: formdata
+            };
+            APIRequestWithFile(
+                config,
+                res => {
+                    console.log(res, "add modle");
+                    if (!res.error) {
+                        toast.success(res?.message)
+                        setisLoading(false);
+                        window.location.reload(true);
+                        // filterTransaction();
+                        closeModal();
+                    } else {
+                        toast.error(res?.message)
+                        setisLoading(false)
+                    }
+                },
+                err => {
+                    console.log(err, "================= alm")
+                    if (err?.data?.error) {
+                        toast.error(err?.data?.message)
+                    }
                     setisLoading(false)
                 }
+            );
+        }
+
+    }
+
+    // get state from the api
+    const stateGetFun = () => {
+        let config = {
+            url: ApiUrl?.electricityGetState,
+            method: 'get'
+        }
+        APIRequest(
+            config,
+            res => {
+                // console.log(res?.data, 'res======================= kkk')
+                setStateData(res?.data)
             },
             err => {
-                console.log(err, "================= alm")
-                if (err?.data?.error) {
-                    toast.error(err?.data?.message)
-                }
-                setisLoading(false)
+                console.log(err?.data, 'res======================= kkk')
             }
-        );
+        )
     }
+
+    useEffect(() => { stateGetFun() }, [])
 
     return (
         <div className="w-full max-w-lg">
@@ -359,7 +404,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                         onChange={(e) => setName(e.target.value)}
                         value={name}
                         name="name"
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="grid-first-name"
                         type="text" placeholder="Enter name."
                         required />
@@ -405,7 +450,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                 </div>
 
                 <div className="w-full md:w-1/2 px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                    {/* <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
                         State <span className="text-red">*</span>
                     </label>
                     <input
@@ -414,7 +459,18 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                         name="text"
                         required
                         className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
-                        type="text" placeholder={"Use current state"} />
+                        type="text" placeholder={"Use current state"} /> */}
+                    <div className='sdkjfsdfsd-dsfsdk'>
+                        <label className='sdfdsbkdsf-sdfdsk'>Select State</label>
+                        <select name="role" onChange={stateHandler} className='block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                            <option value="">Select State</option>
+                            {
+                                stateData?.map((items, index) => (
+                                    <option key={index} value={items?.statename}>{items?.statename}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
                 </div>
 
                 <div className="w-full md:w-1/2 px-3">
@@ -447,11 +503,11 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                         Enter PAN <span className="text-red">*</span>
                     </label>
                     <input
-                        onChange={(e) => setPanNo(e.target.value)}
+                        onChange={(e) => setPanNo(e.target.value.toUpperCase())}
                         value={panNo}
                         name="panNo"
                         required
-                        className="mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
+                        className="text-sm uppercase mb-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip"
                         type="text" placeholder={"Enter PAN"} />
                 </div>
 

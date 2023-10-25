@@ -59,6 +59,7 @@ span.mt-4.select-slide {
 .inputRow {
   display: flex;
   gap: 10px;
+  align-items: end;
 }
 
 input[type=number]::-webkit-inner-spin-button, 

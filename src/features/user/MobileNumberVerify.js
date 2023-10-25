@@ -7,6 +7,7 @@ import { APIRequest, ApiUrl } from '../../utils/commanApiUrl';
 import { toast } from 'react-toastify';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { Button, Stack } from '@chakra-ui/react';
+import { mobileNoValidation } from '../../components/Validation';
 
 function MobileNumberVerify({ sendId, mobileAllData }) {
     const navigation = useNavigate();
@@ -25,34 +26,36 @@ function MobileNumberVerify({ sendId, mobileAllData }) {
     }
 
     const mobileNoVerify = () => {
-        setisLoading(true)
-        let config = {
-            url: ApiUrl.sendOTPMobileNo,
-            method: 'post',
-            body: {
-                contact: loginObj.mobileNumber,
-            }
-        }
-        APIRequest(
-            config,
-            res => {
-                if (!res?.error) {
-                    toast.success(res?.message)
-                    localStorage.setItem("token", res?.token)
-                    setHiddeOtpFeild(true)
-                    setisLoading(false)
-                    // navigation('/app/dashboard')
-                } else {
-                    toast.error(res?.message)
+        if (mobileNoValidation(loginObj?.mobileNumber)) {
+            setisLoading(true)
+            let config = {
+                url: ApiUrl.sendOTPMobileNo,
+                method: 'post',
+                body: {
+                    contact: loginObj.mobileNumber,
                 }
-
-            },
-            err => {
-                console.log(err, "err ==============")
-                toast.error(err?.message)
-                setisLoading(false)
             }
-        )
+            APIRequest(
+                config,
+                res => {
+                    if (!res?.error) {
+                        toast.success(res?.message)
+                        localStorage.setItem("token", res?.token)
+                        setHiddeOtpFeild(true)
+                        setisLoading(false)
+                        // navigation('/app/dashboard')
+                    } else {
+                        toast.error(res?.message)
+                    }
+
+                },
+                err => {
+                    console.log(err, "err ==============")
+                    toast.error(err?.message)
+                    setisLoading(false)
+                }
+            )
+        }
     }
 
     const OtpVerify = () => {
@@ -86,40 +89,13 @@ function MobileNumberVerify({ sendId, mobileAllData }) {
         )
     }
 
-    const submitMobileNoHandler = (e) => {
-        e.preventDefault()
-        setErrorMessage("")
-        if (loginObj.mobileNumber.trim() === "") return setErrorMessage("Mobile No, is required! (use any value)")
-        else {
-            mobileNoVerify()
-        }
-
-    }
-
-    const submitVerifyOtpNoHandler = (e) => {
-        e.preventDefault()
-        setErrorMessage("")
-        if (loginObj.mobileNumber.trim() === "") return setErrorMessage("Mobile No, is required! (use any value)")
-        if (loginObj.otp.trim() === "") return setErrorMessage("Otp is required! (use any value)")
-        else {
-            OtpVerify()
-            mobileAllData(loginObj?.mobileNumber)
-        }
-
-    }
-
-    // resend otp 
-    const handleResendOtp = () => {
-        mobileNoVerify();
-    }
-
-    const handlePrevious = () => {
-        sendId(1)
-    }
+    // save mobile no.
+    mobileAllData(loginObj?.mobileNumber)
 
     const showPassword = () => {
         showPass === "password" ? setShowPass("text") : setShowPass("password")
     }
+    
     return (
         <div className="flex items-center">
             <div className="card mx-auto w-full max-w-5xl  shadow-xl mt-5" >
@@ -141,15 +117,15 @@ function MobileNumberVerify({ sendId, mobileAllData }) {
                                 </div>
                             </div>
 
-                            {hiddeOtpFeild ? <div className='text-right text-primary'><div><span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200" onClick={handleResendOtp}>Resend OTP</span></div>
+                            {hiddeOtpFeild ? <div className='text-right text-primary'><div><span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200" onClick={() => mobileNoVerify()}>Resend OTP</span></div>
                             </div> : null}
                             {errorMessage ? <ErrorText styleClass="mt-1">{errorMessage}</ErrorText> : null}
                             {/* <button type="submit" className={"btn mt-2 w-full btn-primary" + (isLoading ? " loading" : "")}>Verify</button> */}
                             <Stack direction='colunm' align='center' spacing={4}>
-                                {hiddeOtpFeild ? <Button type='submit' colorScheme='blue' spacing={2} onClick={handlePrevious}>Previous</Button> : null}
+                                {hiddeOtpFeild ? <Button type='submit' colorScheme='blue' spacing={2} onClick={() => sendId(1)} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Previous</Button> : null}
                                 {!hiddeOtpFeild ?
-                                    <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={submitMobileNoHandler}>Get OTP</Button>
-                                    : <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={submitVerifyOtpNoHandler}>Verify OTP</Button>}
+                                    <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={() => mobileNoVerify()} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Get OTP</Button>
+                                    : <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={() => OtpVerify()} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Verify OTP</Button>}
                             </Stack>
                             {/* <button type="submit" className={"btn mt-2 w-full btn-primary"}>Login</button> */}
                             <div className='text-center mt-4'>Don't have an account yet? <Link to="/login"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Login</span></Link></div>

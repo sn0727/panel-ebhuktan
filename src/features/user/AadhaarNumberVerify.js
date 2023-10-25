@@ -7,6 +7,7 @@ import { APIRequest, ApiUrl } from '../../utils/commanApiUrl';
 import { toast } from 'react-toastify';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { Button, Stack } from '@chakra-ui/react';
+import { AadhaarNoValidation } from '../../components/Validation';
 
 function AddharNumberVerify({ revicedIdAaddhar, aaddhaarAllData }) {
     const navigation = useNavigate();
@@ -28,33 +29,35 @@ function AddharNumberVerify({ revicedIdAaddhar, aaddhaarAllData }) {
     }
 
     const AaddaarVerify = () => {
-        setisLoading(true)
-        let config = {
-            url: ApiUrl.aadhaarWithOTP,
-            method: 'post',
-            body: {
-                id_number: loginObj.aadhaarNo,
-            }
-        }
-        APIRequest(
-            config,
-            res => {
-                if (!res?.error) {
-                    toast.success(res?.message)
-                    setAaddaarData(res?.data?.data)
-                    setisLoading(false)
-                    setHiddeOtpFeild(true)
-                } else {
-                    toast.error(res?.message)
+        if (AadhaarNoValidation(loginObj?.aadhaarNo)) {
+            setisLoading(true)
+            let config = {
+                url: ApiUrl.aadhaarWithOTP,
+                method: 'post',
+                body: {
+                    id_number: loginObj.aadhaarNo,
                 }
-
-            },
-            err => {
-                console.log(err, "err ==============")
-                toast.error(err?.message)
-                setisLoading(false)
             }
-        )
+            APIRequest(
+                config,
+                res => {
+                    if (!res?.error) {
+                        toast.success(res?.message)
+                        setAaddaarData(res?.data?.data)
+                        setisLoading(false)
+                        setHiddeOtpFeild(true)
+                    } else {
+                        toast.error(res?.message)
+                    }
+
+                },
+                err => {
+                    console.log(err, "err ==============")
+                    toast.error(err?.message)
+                    setisLoading(false)
+                }
+            )
+        }
     }
 
     const AaddaarOtpVerify = () => {
@@ -74,7 +77,6 @@ function AddharNumberVerify({ revicedIdAaddhar, aaddhaarAllData }) {
                     toast.success(res?.message)
                     setisLoading(false)
                     revicedIdAaddhar(3)
-                    // navigation('/app/dashboard')
                 } else {
                     toast.error(res?.message)
                 }
@@ -88,39 +90,8 @@ function AddharNumberVerify({ revicedIdAaddhar, aaddhaarAllData }) {
         )
     }
 
-    const submitAadhaarNoHandler = (e) => {
-        e.preventDefault()
-        setErrorMessage("")
-        if (loginObj.aadhaarNo.trim() === "") return setErrorMessage("Aaddhaar No, is required! (use any value)")
-        // if (loginObj.password.trim() === "") return setErrorMessage("Password is required! (use any value)")
-        else {
-            AaddaarVerify()
-            // revicedIdAaddhar(3)
-        }
-    }
-
-    const submitVerifyOtpNoHandler = (e) => {
-        e.preventDefault()
-        setErrorMessage("")
-
-        if (loginObj.aadhaarNo.trim() === "") return setErrorMessage("Aaddhaar No, is required! (use any value)")
-        if (loginObj.otp.trim() === "") return setErrorMessage("OTP is required! (use any value)")
-        else {
-            AaddaarOtpVerify()
-            if (aaddaarData?.otp_sent) {
-                aaddhaarAllData(loginObj.aadhaarNo)
-            }
-        }
-    }
-
-    // resend otp 
-    const handleResendOtp = () => {
-        AaddaarVerify();
-    }
-
-    const handlePrevious = () => {
-        revicedIdAaddhar(1)
-    }
+    // send aadhaar no on the register page.
+    aaddhaarAllData(loginObj?.aadhaarNo)
 
     const showPassword = () => {
         showPass === "password" ? setShowPass("text") : setShowPass("password")
@@ -145,17 +116,14 @@ function AddharNumberVerify({ revicedIdAaddhar, aaddhaarAllData }) {
                                 </div>
                             </div>
 
-                            {hiddeOtpFeild ? <div className='text-right text-primary'><div><span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200" onClick={handleResendOtp}>Resend OTP</span></div>
+                            {hiddeOtpFeild ? <div className='text-right text-primary'><div><span className="text-sm  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200" onClick={() => AaddaarVerify()}>Resend OTP</span></div>
                             </div> : null}
                             {errorMessage ? <ErrorText styleClass="mt-1">{errorMessage}</ErrorText> : null}
                             <Stack direction='colunm' align='center' spacing={4}>
-                                {/* <button type="submit" className={"btn mt-2 w-full btn-primary" + (isLoading ? " loading" : "")}>Verify</button> */}
-                                <Button type='submit' colorScheme='blue' spacing={2} onClick={handlePrevious}>Previous</Button>
-                                {/* <Button colorScheme='blue' spacing={2} onClick={submitForm}>Next</Button> */}
-                                {/* <button type="submit" className={"btn mt-2 w-full btn-primary" + (isLoading ? " loading" : "")}>Verify</button> */}
+                                <Button type='submit' colorScheme='blue' spacing={2} onClick={() => revicedIdAaddhar(1)} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Previous</Button>
                                 {!hiddeOtpFeild ?
-                                    <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={submitAadhaarNoHandler}>Next</Button>
-                                    : <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={submitVerifyOtpNoHandler}>Verify OTP</Button>}
+                                    <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={() => AaddaarVerify()} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Next</Button>
+                                    : <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={() => AaddaarOtpVerify()} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Verify OTP</Button>}
                             </Stack>
                             {/* <button type="submit" className={"btn mt-2 w-full btn-primary"}>Login</button> */}
                             <div className='text-center mt-4'>Don't have an account yet? <Link to="/login"><span className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Login</span></Link></div>
