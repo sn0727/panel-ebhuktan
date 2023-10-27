@@ -8,7 +8,7 @@ function SubAdminTable() {
 
     return (
         <>
-            <DynamicTitle pageTitle={"Sub Amin"} />
+            <DynamicTitle pageTitle={"Sub Admin"} />
             <UserRoleTable
                 superadminDeleteUser={ApiUrl.superadminDeleteUser}
                 getPageLimit={ApiUrl.getPageLimit}
