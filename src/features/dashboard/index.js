@@ -53,7 +53,7 @@ function Dashboard() {
     const [totalCount, setTotalCount] = useState(0)
 
     // i am getting authantication role
-    var token = localStorage?.getItem("token")
+    var token = sessionStorage?.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken?.user;
 
@@ -83,23 +83,24 @@ function Dashboard() {
                 if (role === "superAdmin") {
                     setCount(
                         [
-                            { title: "All Cluster", value: res?.clusterCount, icon: <CreditCardIcon className='w-8 h-8' />, description: "" },
-                            { title: "All distributor", value: res?.distributorCount, icon: <CircleStackIcon className='w-8 h-8' />, description: "" },
-                            { title: "All Retailer", value: res?.retailerCount, icon: <UsersIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Cluster", value: res?.clusterCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                            { title: "All distributor", value: res?.distributorCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Retailer", value: res?.retailerCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
                             { title: "All Franchise", value: res?.franchiseCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
                         ]
                     )
                 } else if (role === "cluster") {
                     setCount(
                         [
-                            { title: "All distributor", value: res?.distributorCount, icon: <CircleStackIcon className='w-8 h-8' />, description: "" },
-                            { title: "All Retailer", value: res?.retailerCount, icon: <UsersIcon className='w-8 h-8' />, description: "" },
+                            { title: "All distributor", value: res?.distributorCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Retailer", value: res?.retailerCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Franchise", value: res?.franchiseCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
                         ]
                     )
                 } else if (role === "distributor") {
                     setCount(
                         [
-                            { title: "All Retailer", value: res?.retailerCount, icon: <UsersIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Retailer", value: res?.retailerCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
                             { title: "All Franchise", value: res?.franchiseCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
                         ]
                     )
@@ -112,9 +113,9 @@ function Dashboard() {
                 }else if (role === "subAdmin") {
                     setCount(
                         [
-                            { title: "All Cluster", value: res?.clusterCount, icon: <CreditCardIcon className='w-8 h-8' />, description: "" },
-                            { title: "All distributor", value: res?.distributorCount, icon: <CircleStackIcon className='w-8 h-8' />, description: "" },
-                            { title: "All Retailer", value: res?.retailerCount, icon: <UsersIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Cluster", value: res?.clusterCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                            { title: "All distributor", value: res?.distributorCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
+                            { title: "All Retailer", value: res?.retailerCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
                             { title: "All Franchise", value: res?.franchiseCount, icon: <UserGroupIcon className='w-8 h-8' />, description: "" },
                         ]
                     )

@@ -7,12 +7,12 @@ import DynamicTitle from '../../components/dynamic_title';
 const ClientUser = () => {
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(setPageTitle({ title : "Client User"}))
+        dispatch(setPageTitle({ title : "Users"}))
       }, [])
 
   return (
     <>
-    <DynamicTitle pageTitle={"User"} />
+    <DynamicTitle pageTitle={"Users"} />
         <ClientUserContent />
     </>
   )

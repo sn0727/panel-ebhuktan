@@ -38,11 +38,17 @@ import { BiUserPin } from 'react-icons/bi';
 import { BiUserPlus } from 'react-icons/bi';
 import { BiUserVoice } from 'react-icons/bi';
 import { FaMobileAlt } from "react-icons/fa";
+import { AiFillBank } from "react-icons/ai";
+import { BiEdit } from "react-icons/bi";
+import { HiUsers } from "react-icons/hi";
+import { LiaUserAstronautSolid } from "react-icons/lia";
+import { BiSolidWallet } from "react-icons/bi";
+import { GiMoneyStack } from "react-icons/gi";
 
 // import { Jwt } from 'jsonwebtoken'
 import jwtDecode from 'jwt-decode';
 
-var token = localStorage.getItem("token")
+var token = sessionStorage.getItem("token")
 const decodedToken = jwtDecode(token);
 const { role } = decodedToken.user
 
@@ -57,23 +63,23 @@ if (role === "cluster") {
   userSubMenu.push(
     {
       path: '/app/distributor',
-      icon: <BiUserPin className={submenuIconClasses} />,
-      name: 'Distributor',
+      icon: <BiUserCheck className={submenuIconClasses} />,
+      name: 'District Partner',
     },
     {
       path: '/app/franchise',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'Franchise',
     },
     {
       path: '/app/retailer',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'Retailer',
     },
     {
       path: '/app/client-user',
-      icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'User',
+      icon: <BiUserCheck className={submenuIconClasses} />,
+      name: 'Users',
     },
 
   );
@@ -81,17 +87,17 @@ if (role === "cluster") {
   userSubMenu.push(
     {
       path: '/app/retailer',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'Retailer',
     },
     {
       path: '/app/franchise',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'Franchise',
     },
     {
       path: '/app/client-user',
-      icon: <BiUserVoice className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'User',
     },
 
@@ -128,22 +134,22 @@ if (role === "cluster") {
     },
     {
       path: '/app/distributor',
-      icon: <BiUserPin className={submenuIconClasses} />,
-      name: 'Distributor',
+      icon: <BiUserCheck className={submenuIconClasses} />,
+      name: 'District Partner',
     },
     {
       path: '/app/retailer',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'Retailer',
     },
     {
       path: '/app/franchise',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'Franchise',
     },
     {
       path: '/app/client-user',
-      icon: <BiUserVoice className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'User',
     },
 
@@ -232,22 +238,22 @@ if (role === "cluster") {
     },
     {
       path: '/app/distributor',
-      icon: <BiUserPin className={submenuIconClasses} />,
-      name: 'Distributor',
+      icon: <BiUserCheck className={submenuIconClasses} />,
+      name: 'District Partner',
     },
     {
       path: '/app/retailer',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'Retailer',
     },
     {
       path: '/app/franchise',
-      icon: <BiUserPlus className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'Franchise',
     },
     {
       path: '/app/client-user',
-      icon: <BiUserVoice className={submenuIconClasses} />,
+      icon: <BiUserCheck className={submenuIconClasses} />,
       name: 'User',
     },
 
@@ -264,35 +270,40 @@ routes = [
   },
   {
     path: '/app/commission-transaction',
-    icon: <RiHealthBookLine className={submenuIconClasses} />,
+    icon: <AiFillBank className={submenuIconClasses} />,
     name: 'Commission Transaction',
   },
   {
     path: '/app/customize-commission',
-    icon: <RiHealthBookLine className={submenuIconClasses} />,
+    icon: <BiEdit className={submenuIconClasses} />,
     name: 'Customize Commission',
   },
   {
     path: '/app/transactions',
-    icon: <CurrencyDollarIcon className={iconClasses} />,
+    icon: <AiFillBank className={iconClasses} />,
     name: 'All Transactions',
   },
   {
     path: "",
-    icon: <BiUserCircle className={`${iconClasses} inline`} />,
-    name: "UserRoll",
+    icon: <HiUsers className={`${iconClasses} inline`} />,
+    name: "User Roles",
     submenu: userSubMenu
   },
   {
     path: "",
-    icon: <BiUserCircle className={`${iconClasses} inline`} />,
+    icon: <LiaUserAstronautSolid className={`${iconClasses} inline`} />,
     name: "Operator",
     submenu: userSubMenu1
   },
   {
     path: '/app/wallet',
-    icon: <BsWater className={submenuIconClasses} />,
+    icon: <BiSolidWallet className={submenuIconClasses} />,
     name: 'Wallet',
+  },
+  {
+    path: '/app/riseRequest',
+    icon: <GiMoneyStack className={submenuIconClasses} />,
+    name: 'Rise Request',
   },
 ]
 :
@@ -304,24 +315,24 @@ routes = [
   },
   {
     path: '/app/commission-transaction',
-    icon: <RiHealthBookLine className={submenuIconClasses} />,
+    icon: <AiFillBank className={submenuIconClasses} />,
     name: 'Commission Transaction',
   },
   {
     path: '/app/transactions',
-    icon: <CurrencyDollarIcon className={iconClasses} />,
+    icon: <AiFillBank className={iconClasses} />,
     name: 'All Transactions',
   },
   {
     path: "",
-    icon: <BiUserCircle className={`${iconClasses} inline`} />,
+    icon: <HiUsers className={`${iconClasses} inline`} />,
     name: "UserRoll",
     submenu: userSubMenu
   },
  
   {
     path: '/app/wallet',
-    icon: <BsWater className={submenuIconClasses} />,
+    icon: <GiMoneyStack className={submenuIconClasses} />,
     name: 'Wallet',
   },
 ]
@@ -340,7 +351,7 @@ role==='subAdmin' && (
     // },
     {
       path: "",
-      icon: <BiUserCircle className={`${iconClasses} inline`} />,
+      icon: <HiUsers className={`${iconClasses} inline`} />,
       name: "UserRoll",
       submenu: userSubMenu
     }

@@ -18,7 +18,7 @@ function LeftSidebar(){
             <XMarkIcon className="h-5 inline-block w-5"/>
             </button>
 
-                <li className="mb-2 font-semibold text-xl">
+                <li className="mb-2 font-semibold text-xl jhsdfkjds">
                     
                     <Link to={'/app/dashboard'}><img className="mask mask-squircle w-10" src="/logo02.png" alt="DashWind Logo"/>E-BHUKTAN</Link> </li>
                 {
@@ -31,8 +31,8 @@ function LeftSidebar(){
                                     (<NavLink
                                         end
                                         to={route.path}
-                                        className={({isActive}) => `${isActive ? 'font-semibold  bg-base-200 ' : 'font-normal'}`} >
-                                           {route.icon} {route.name}
+                                        className={({isActive}) => `${isActive ? 'font-semibold  bg-base-200 ddd' : 'font-normal'}`} >
+                                           {route.icon} <div className='dfdfd-dfdf'>{route.name}</div>
                                             {
                                                 location.pathname === route.path ? (<span className="absolute inset-y-0 left-0 w-1 rounded-tr-md rounded-br-md bg-primary "
                                                 aria-hidden="true"></span>) : null

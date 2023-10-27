@@ -32,6 +32,12 @@ export const ApiUrl = {
   contactVerification: `${APIUser}contactVerification`,
   aadhaarWithOTP: `${APIUser}verification/aadhaarWithOTP`,
   verifyAadhaarOTP: `${APIUser}verification/verifyAadhaarOTP`,
+  
+  // rise request api route end point
+  riseRequestGetAll: `${APIUser}payment/request/getAll`,
+  riseRequestDelete: `${APIUser}payment/request/delete`,
+  riseRequestUpdateStatus: `${APIUser}payment/request/updateStatus`,
+  
 
 
   forgotPassword: `${APISuperadmin}forgotPassword`,
@@ -203,7 +209,7 @@ export const ApiUrl = {
 
 export const APIRequest = async (config = {}, onSuccess, onError, noAuth = null) => {
 
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   try {
     let data = {};
@@ -232,12 +238,13 @@ export const APIRequest = async (config = {}, onSuccess, onError, noAuth = null)
     console.log(data);
     axios(data)
       .then(res => {
+        console.log(res)
         if (res.status == 200 || res.status == 201 || res.status == 203) {
           onSuccess(res?.data);
         }
       })
       .catch(err => {
-        console.log(err);
+        console.log(err, "================dfd")
         onError(err?.response?.data);
       });
   } catch (error) {
@@ -246,7 +253,7 @@ export const APIRequest = async (config = {}, onSuccess, onError, noAuth = null)
 };
 
 export const APIRequestWithFile = async (config = {}, onSuccess, onError) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   try {
     let data;

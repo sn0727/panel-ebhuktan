@@ -291,6 +291,7 @@ input.fileProfile {
   width: 100%;
   min-height: 60px;
   position: relative;
+  top: 10px;
   /* border: 1px solid #000; */
 }
 
@@ -311,6 +312,7 @@ input.fileProfile {
 
 .remove-background:active {
   background-color: #fff;
+  color: #000;
 }
 
 svg.eye-icon {
@@ -433,7 +435,10 @@ input:checked+.slider:before {
 }
 
 .stat-value {
-  font-size: 28px !important;
+  font-size: 22px !important;
+  display: flex;
+  align-items: center;
+  justify-content: start;
 }
 
 ul.commission-customize li {
@@ -473,9 +478,11 @@ p.verify.add-form {
 .relative {
   position: relative;
 }
+
 .text-white-sdfdskbj {
   color: #fff !important;
 }
+
 /* 
 .operator_table tbody {
   display: block;
@@ -495,6 +502,7 @@ p.verify.add-form {
 .setPosition-fd {
   position: relative;
 }
+
 .rdrDateRangePickerWrapper {
   display: inline-flex;
   -webkit-user-select: none;
@@ -505,6 +513,7 @@ p.verify.add-form {
   right: 60px;
   z-index: 999;
 }
+
 .not-allowed-cr {
   cursor: default !important;
 }
@@ -515,6 +524,7 @@ p.verify.add-form {
   justify-content: end;
   gap: 10px;
 }
+
 .sdfhsd-sdfkdsj-res {
   display: block;
   width: 100%;
@@ -522,12 +532,14 @@ p.verify.add-form {
   padding: 5px;
   border-radius: 6px;
 }
+
 label.please-choice {
   margin-bottom: 4px;
   font-size: 0.875rem;
   color: hsl(var(--bc) / var(--tw-text-opacity));
   display: block;
 }
+
 svg.search-icon {
   background-color: #2c427d;
   color: #fff;
@@ -538,46 +550,124 @@ svg.search-icon {
   border-bottom-right-radius: 5px;
   cursor: pointer;
 }
+
 .btn-primary {
   height: 40px;
 }
-.mx-3.cursor-pointer.text-center > div > svg {
+
+.mx-3.cursor-pointer.text-center>div>svg {
   margin: auto;
 }
+
 .text-red {
   color: red;
   font-size: 18px;
   display: inline-block;
 }
+
 .avatar>.mask {
   position: relative;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: center;
 }
+
 .error-page {
   max-width: 700px;
   margin: auto;
   object-fit: cover;
   text-align: center;
 }
-.css-kq5oaw[data-status=complete], 
-.css-4t6ey5[data-status=complete]
- {
+
+.css-kq5oaw[data-status=complete],
+.css-4t6ey5[data-status=complete] {
   background: #2c427d !important;
 }
+
 .css-kq5oaw[data-status=active] {
-  border-color : #2c427d !important;
+  border-color: #2c427d !important;
 }
+
 .sdkjfsdfsd-dsfsdk {
   width: 100%;
 }
+
 label.sdfdsbkdsf-sdfdsk {
   --tw-text-opacity: 1;
   color: hsl(var(--bc) / var(--tw-text-opacity));
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
+
 select.select-style.mt-0 {
   margin-top: 10px;
+}
+
+.menu :where(li)> :where(*:not(ul)) {
+  gap: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.badge.badge-primary {
+  background-color: #2c427d;
+  border-color: #2c427d;
+}
+
+/* ================== side bar add new css code ================== */
+li.mb-2.font-semibold.text-xl.jhsdfkjds a:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+li.mb-2.font-semibold.text-xl.jhsdfkjds a:focus {
+  background-color: #fff !important;
+}
+
+.menu>li a:hover {
+  background-color: rgb(44, 66, 125) !important;
+  color: #fff !important;
+}
+
+a[aria-current="page"] {
+  background-color: rgb(44, 66, 125) !important;
+  --tw-bg-opacity: 1;
+  color: #fff !important;
+}
+.btn-circle:where(.btn-sm), .bg-blue-700 {
+  background-color: rgb(44, 66, 125) !important;
+}
+
+ul.menu.pt-2.w-80.bg-base-100.text-base-content > li > div:hover,
+ul.menu.pt-2.w-80.bg-base-100.text-base-content > li > div:hover {
+  background-color: #fff !important;
+}
+
+span[aria-hidden="true"] {
+  background-color: green !important;
+}
+
+a.active-color:focus {
+  background-color: rgb(44, 66, 125) !important;
+  --tw-bg-opacity: 1;
+  color: #fff !important;
+}
+
+
+@media screen and (max-width: 576px) {
+  .date-by-filter {
+    display: flex;
+    align-items: center;
+    justify-content: initial;
+    gap: 10px;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .date-by-filter input {
+    width: 161px;
+    padding: 8px 10px;
+  }
 }

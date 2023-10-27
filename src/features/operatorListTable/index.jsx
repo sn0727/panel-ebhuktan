@@ -60,7 +60,7 @@ function OperatorListTable({
     APIRequest(
       config,
       res => {
-        console.log(res);
+        console.log(res, "respo =========================");
         setTotalUser(res?.count)
         setTransaction(res?.data)
         setisLoading(false)
@@ -133,14 +133,14 @@ function OperatorListTable({
             <table className="table w-full">
               <thead>
                 <tr>
-                  <th>SR.NO</th>
+                  <th className="text-left">SR.NO</th>
                   <th>Image</th>
                   <th>Name</th>
-                  <th>Category</th>
-                  <th>Commission type</th>
-                  <th>Commission</th>
-                  <th>Status</th>
-                  <th>Update</th>
+                  <th className="text-center">Category</th>
+                  <th className="text-center">Commission type</th>
+                  <th className="text-center">Commission</th>
+                  <th className="text-center">Status</th>
+                  <th className="text-center">Update</th>
                 </tr>
               </thead>
               <tbody>
@@ -154,7 +154,10 @@ function OperatorListTable({
                           <div className="flex items-center space-x-3">
                             <div className="avatar">
                               <div className="mask mask-circle w-12 h-12">
-                                <img src={l.image} alt="Avatar" />
+                                {
+                                  l?.image ? <img src={l?.image} alt="Avatar" /> : <img src="/assets/image/profile.jpg" alt="Avatar" />
+                                }
+
                                 <EditOperatorImageModal id={l.id} getAddIcon={getAddIcon} />
                               </div>
                             </div>
@@ -164,12 +167,12 @@ function OperatorListTable({
                         <td>
                           <div className="description-data">{getHighlightedText(l?.name, searchOperatorName)}</div>
                         </td>
-                        <td>{l.category}</td>
-                        <td className="text-center">{l.isPercentage === "true" ? 'Percentage' : 'Fixed'}</td>
-                        <td className="text-center">{l.commission}</td>
-                        <td>{l.isEnable}</td>
-                        <td>
-                          <div className="m-4">
+                        <td className="text-center">{l?.category}</td>
+                        <td className="text-center">{l?.isPercentage === "true" ? 'Percentage' : 'Fixed'}</td>
+                        <td className="text-center">{l?.commission}</td>
+                        <td className="text-center">{l.isEnable}</td>
+                        <td className="text-center">
+                          <div className="m-4" style={{ display: 'flex', justifyContent: 'center' }}>
                             <EditOperatorModal id={l.id} isPercentage={l.isPercentage} isEnable1={l.isEnable} getCommissionApi={getCommission} />
                           </div>
                         </td>

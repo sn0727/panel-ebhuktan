@@ -38,7 +38,7 @@ function WalletTransactions() {
     const handleChange = (event) => {
         setCategory(event.target.value);
     };
-    const token = localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
     const decodeToken = jwtDecode(token);
     const userId = decodeToken.user.id;
 

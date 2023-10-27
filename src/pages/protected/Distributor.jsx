@@ -7,12 +7,12 @@ import DynamicTitle from '../../components/dynamic_title';
 const Distributor = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(setPageTitle({ title: "Distributor" }))
+    dispatch(setPageTitle({ title: "District Partner" }))
   }, [])
 
   return (
     <>
-      <DynamicTitle pageTitle={"Distributor"} />
+      <DynamicTitle pageTitle={"District Partner"} />
       <DistributorContent />
     </>
   )

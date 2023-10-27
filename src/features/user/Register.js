@@ -155,13 +155,13 @@ function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
                         {/* <form onSubmit={(e) => submitForm(e)}> */}
                         <div className="mb-4">
                             <div className='inputRow'>
-                                <InputText defaultValue={registerObj.name} updateType="name" containerStyle="mt-1" labelTitle="Name" updateFormValue={updateFormValue} />
-                                <InputText type="number" defaultValue={registerObj.contact} updateType="contact" containerStyle="mt-1" labelTitle="Contact No." updateFormValue={updateFormValue} disabled={'disabled'} />
+                                <InputText defaultValue={registerObj.name} placeholder={'Name'} updateType="name" containerStyle="mt-1" labelTitle="Name" updateFormValue={updateFormValue} />
+                                <InputText type="number" placeholder={'Mobile no'} defaultValue={registerObj.contact} updateType="contact" containerStyle="mt-1" labelTitle="Contact No." updateFormValue={updateFormValue} disabled={'disabled'} />
                             </div>
 
                             <div className='inputRow'>
-                                <InputText defaultValue={registerObj.email} updateType="email" containerStyle="mt-1" labelTitle="Email Id" updateFormValue={updateFormValue} />
-                                <InputText type="number" defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-1" labelTitle="Postal Code (Optional)" updateFormValue={updateFormValue} />
+                                <InputText defaultValue={registerObj.email} placeholder={'Email id'} updateType="email" containerStyle="mt-1" labelTitle="Email Id" updateFormValue={updateFormValue} />
+                                <InputText type="number" placeholder={'Postal code'} defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-1" labelTitle="Postal Code (Optional)" updateFormValue={updateFormValue} />
                             </div>
 
                             <div className='inputRow'>
@@ -178,11 +178,11 @@ function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
                                     </select>
                                 </div>
 
-                                <InputTextOptional defaultValue={registerObj.district} updateType="district" containerStyle="mt-1" labelTitle="District (Optional)" updateFormValue={updateFormValue} />
+                                <InputTextOptional placeholder={'District'} defaultValue={registerObj.district} updateType="district" containerStyle="mt-1" labelTitle="District (Optional)" updateFormValue={updateFormValue} />
                             </div>
                             <div className='inputRow relative'>
-                                <InputText defaultValue={registerObj.aadharNo} updateType="aadharNo" containerStyle="mt-1" labelTitle="Aadhaar No" updateFormValue={updateFormValue} disabled={'disabled'} />
-                                <InputTextUpperCase defaultValue={registerObj.panNo} updateType="panNo" containerStyle="mt-1" labelTitle="Pan No" updateFormValue={updateFormValue} />
+                                <InputText placeholder={'Aadhaar no'} defaultValue={registerObj.aadharNo} updateType="aadharNo" containerStyle="mt-1" labelTitle="Aadhaar No" updateFormValue={updateFormValue} disabled={'disabled'} />
+                                <InputTextUpperCase placeholder={'Pan no'} defaultValue={registerObj.panNo} updateType="panNo" containerStyle="mt-1" labelTitle="Pan No" updateFormValue={updateFormValue} />
                             </div>
                             <div className='inputRow'>
 
@@ -193,7 +193,7 @@ function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
                                     : null} */}
 
 
-                                <InputTextOptional type="text" defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-1" labelTitle={role === 'cluster' ? "Sub Admin Id (Optional)" : role === 'distributor' ? "Cluster Id (Optional)" : role === 'retailer' || role === 'franchise' ? 'Distributor Id (Optional)' : 'Referral Id (Optional)'} updateFormValue={updateFormValue} />
+                                <InputTextOptional type="text" placeholder={'Referral Id'} defaultValue={registerObj.adminId} updateType="adminId" containerStyle="mt-1" labelTitle={role === 'cluster' ? "Sub Admin Id (Optional)" : role === 'distributor' ? "Cluster Id (Optional)" : role === 'retailer' || role === 'franchise' ? 'Distributor Id (Optional)' : 'Referral Id (Optional)'} updateFormValue={updateFormValue} />
 
                                 <div className='sdkjfsdfsd-dsfsdk'>
                                     <label className='sdfdsbkdsf-sdfdsk'>Select role</label>

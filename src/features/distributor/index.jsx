@@ -11,7 +11,7 @@ function DistributorContent() {
                 getPageLimit={ApiUrl.getPageLimit}
                 getFilterCluster={ApiUrl.getFilterDistributor}
                 createRoleName={'distributor'}
-                pagetableName={'Distributor'}
+                pagetableName={'District Partner'}
             />
         </>
     )

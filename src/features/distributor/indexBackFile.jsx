@@ -29,7 +29,7 @@ const TopSideButtons = ({ Aprovehandler, Pandinghandler, createRoleName, setCate
 
     const dispatch = useDispatch()
 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
 
@@ -115,7 +115,7 @@ function DistributorContent() {
 
 
 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
 
@@ -153,7 +153,7 @@ function DistributorContent() {
     // set condition accordding role
     const Pandinghandler = () => {
         const getCusterDatapandding = async () => {
-            // let token = localStorage.getItem("token")
+            // let token = sessionStorage.getItem("token")
             try {
                 setisLoading(true)
                 const SendRequest = async () => {

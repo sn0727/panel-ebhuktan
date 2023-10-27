@@ -27,7 +27,7 @@ const style = {
 };
 
 export default function EditAdminModal({ id = null, adminId = null, status, filterTransaction, useDetails }) {
-    const token = jwtDecode(localStorage.getItem('token'));
+    const token = jwtDecode(sessionStorage.getItem('token'));
     let role = token?.user.role;
 
     const [open, setOpen] = useState(false);

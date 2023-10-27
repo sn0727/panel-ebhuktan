@@ -34,17 +34,17 @@ const TopSideButtons = ({ children, createRoleName, filterTransaction }) => {
 
     const dispatch = useDispatch()
 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user;
 
-    // console.log(filterTransaction, "================= alam")
-
-    // console.log(testName, "testName=========================================")
+    console.log(role, "================= alam")
 
     // select box funtion
     const openAddNewLeadModal = () => {
-        dispatch(openModal({ title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName, filterTransaction: filterTransaction }))
+        dispatch(openModal({
+            title: "Add New", bodyType: MODAL_BODY_TYPES.LEAD_ADD_NEW, createRoleName: createRoleName
+        }))
         // console.log(data, "obj -=======================")
     }
 
@@ -63,16 +63,6 @@ const TopSideButtons = ({ children, createRoleName, filterTransaction }) => {
                     )
                 }
                 {
-                    role === "distributor" && (
-                        <>
-                            {children}
-                            <div className="inline-block float-right">
-                                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
-                            </div>
-                        </>
-                    )
-                }
-                {
                     role === "subAdmin" && (
                         <>
                             {children}
@@ -82,6 +72,27 @@ const TopSideButtons = ({ children, createRoleName, filterTransaction }) => {
                         </>
                     )
                 }
+                {
+                    role === "cluster" && (
+                        <>
+                            {children}
+                            <div className="inline-block float-right">
+                                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                            </div>
+                        </>
+                    )
+                }
+                {
+                    role === "distributor" && (
+                        <>
+                            {children}
+                            <div className="inline-block float-right">
+                                <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+                            </div>
+                        </>
+                    )
+                }
+
             </div>
         </>
 
@@ -127,7 +138,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
         );
     }
 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
 
@@ -388,20 +399,24 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                     <th>Email Id</th>
                                     <th>Contact No.</th>
                                     <th>Address</th>
-                                    <td>AddharNo</td>
-                                    <td>PanNo</td>
-                                    <td className="text-center">Status</td>
-                                    {/* Amount td condition pending case in the hide */}
+                                    <td>Aadhaar No</td>
+                                    <td>Pan No</td>
+                                    
+                                    {/* if role is cluster, retailer, franchise, subAdmin be will show status field else hide */}
+                                    {role === "cluster" || role === "distributor" || role === "retailer" || role === "franchise" || role === "subAdmin" ? <td className="text-center">Status</td> : null}
+                                    {role === "superAdmin" && <td className="text-center">Status</td>}
+                                    
+                                    {/* if roleStatus is All, approved be will show amount field else hide */}
                                     {
                                         roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">Amount</td> : null
                                     }
 
-                                    {/* Earning td condition pending case in the hide */}
+                                    {/* if roleStatus is All, approved be will show Earning field else hide */}
                                     {
                                         roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">Earning</td> : null
                                     }
 
-                                    {/* Commission td condition pending case in the hide */}
+                                    {/* if roleStatus is All, approved be will show Commission field else hide */}
                                     {
                                         roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">Commission</td> : null
                                     }
@@ -410,15 +425,15 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                     {role === "superAdmin" && <td className="text-center">Delete</td>}
 
                                     {/* if role is superAdmin be will show Add Money field else hide */}
-                                    {role === "superAdmin" && roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">Add Money</td> : null}
+                                    {role === "superAdmin" ? roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">Add Money</td> : null : null}
 
                                     {/* if role is superAdmin be will show Edit Profile field else hide */}
                                     {
-                                        role === "superAdmin" && roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">Edit Profile</td> : null
+                                        role === "superAdmin" ? roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">Edit Profile</td> : null : null
                                     }
-                                    {
+                                    {/* {
                                         roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">View Details</td> : null
-                                    }
+                                    } */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -454,7 +469,9 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                 <td className="text-left">{l.aadharNo}</td>
                                                 <td className="text-left">{l.panNo}</td>
 
-                                                <td className="text-center">
+                                                {/* if role is cluster, retailer, franchise, subAdmin be will show status field else hide */}
+                                                {role === "cluster" || role === "distributor" || role === "retailer" || role === "franchise" || role === "subAdmin" ? <td className="text-center"><div className="badge badge-primary">{l?.status}</div></td> : null}
+                                                {role === "superAdmin" && <td className="text-center">
                                                     <div className="badge badge-primary">
                                                         {
                                                             roleStatus === "All" || roleStatus === "approved" ? l?.status : null
@@ -464,17 +481,17 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                             <EditAdminIdModal id={l.id} adminId={l?.adminId} status={l?.status} filterTransaction={filterTransaction} />
                                                         }
                                                     </div>
-                                                </td>
+                                                </td>}
 
-                                                {/* amount condition code hide pending case */}
+                                                {/* if roleStatus is All, approved be will show amount field else hide */}
                                                 {
                                                     roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null
                                                 }
                                                 {
-                                                    roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === 'approved' ? <td className="text-center"> &#8377; {l?.amount}</td> : null
+                                                    roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === 'approved' ? <td className="text-center"> &#8377; {parseFloat(l?.amount).toFixed(2)}</td> : null
                                                 }
 
-                                                {/* earning condition code hide pending case */}
+                                                {/* if roleStatus is All, approved be will show earning field else hide */}
                                                 {
                                                     roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null
                                                 }
@@ -482,7 +499,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                     roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ? <td className="text-center"> &#8377; {parseFloat(l?.earning).toFixed(2)}</td> : null
                                                 }
 
-                                                {/* commission condition code hide pending case */}
+                                                {/* if roleStatus is All, approved be will show commission field else hide */}
                                                 {
                                                     roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null
                                                 }
@@ -500,31 +517,31 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                     </td>
                                                 }
 
-                                                {/* if role is superAdmin be will show delete feild else hide  */}
-                                                {role === "superAdmin" && roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null}
+                                                {/* if role is superAdmin be will show AddMoneyModal feild else hide  */}
+                                                {role === "superAdmin" ? roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null : null}
                                                 {
-                                                    role === "superAdmin" && roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ?
+                                                    role === "superAdmin" ? roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ?
                                                         <td className="text-center">
                                                             <div className="mx-3 text-center cursor-pointer" >
                                                                 <AddMoneyModal id={l.id} />
                                                             </div>
                                                         </td>
-                                                        : null
+                                                        : null : null
                                                 }
                                                 {/* if role is superAdmin be will show EditProfileModal else hide  */}
-                                                {role === "superAdmin" && roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null}
+                                                {role === "superAdmin" ? roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null : null}
                                                 {
-                                                    role === "superAdmin" && roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ?
+                                                    role === "superAdmin" ? roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ?
                                                         <td>
                                                             <div className="mx-3 text-center cursor-pointer" >
                                                                 <EditProfileModal id={l.id} profileData={l} filterTransaction={filterTransaction} />
                                                             </div>
                                                         </td>
-                                                        : null
+                                                        : null : null
                                                 }
 
                                                 {/* if role is superAdmin be will show EditProfileModal else hide  */}
-                                                {roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null}
+                                                {/* {roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null}
                                                 {
                                                     roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ?
                                                         <td className="text-center">
@@ -533,7 +550,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                             </div>
                                                         </td>
                                                         : null
-                                                }
+                                                } */}
 
                                             </tr>
                                         )
@@ -544,7 +561,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                         :
                         <div className="error-page">
                             <img src="/assets/image/404Error.jpg" alt="404Error" />
-                            <Button onClick={()=>clearFun()} style={{ backgroundColor: '#2c427d', color: '#fff', textAlign: 'center' }}>Reload Page</Button>
+                            <Button onClick={() => clearFun()} style={{ backgroundColor: '#2c427d', color: '#fff', textAlign: 'center' }}>Reload Page</Button>
                         </div>
                     }
                 </div>

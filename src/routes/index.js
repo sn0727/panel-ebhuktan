@@ -51,6 +51,7 @@ const ClientUser = lazy(() => import('../pages/protected/ClientUser'))
 const OperatorElectricity = lazy(() => import('../pages/protected/operator/Electricity'))
 const MobileRechargeOperators = lazy(()=> import('../pages/protected/operator/MobileRechargeOperator'))
 const SubAdmin = lazy(()=> import('../pages/protected/SubAdmin'))
+const ReseRequest = lazy(()=> import('../pages/protected/RiseRequest'))
 
 
 
@@ -102,6 +103,10 @@ const routes = [
   {
     path: "/wallet",
     component: Wallet
+  },
+  {
+    path: "/riseRequest",
+    component: ReseRequest
   },
   {
     path: "/watter-bill",

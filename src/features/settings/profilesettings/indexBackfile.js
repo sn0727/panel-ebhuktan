@@ -18,7 +18,7 @@ function ProfileSettings() {
     const [isLoading, setisLoading] = useState(false);
 
     // get profile information from the api
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
 
     const {
@@ -75,7 +75,7 @@ function ProfileSettings() {
             res => {
                 console.log(res, "res ===================== dd")
                 toast.success(res?.message)
-                localStorage.setItem("token", res?.token)
+                sessionStorage.setItem("token", res?.token)
                 setisLoading(false)
                 setTimeout(()=>{
                     window.location.reload(true);

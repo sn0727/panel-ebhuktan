@@ -263,7 +263,7 @@ function Transactions() {
             </div>
 
 
-            <TitleCard title="Recent Transactions" topMargin="mt-2">
+            <TitleCard title="Transactions" topMargin="mt-2">
                 <div className="date-by-filter">
                     <div className="relative w-52 mt-0 rounded-md shadow-sm">
                         <input
@@ -326,7 +326,7 @@ function Transactions() {
                                     <th className="text-center">Operator Name</th>
                                     {/* <th>Image</th> */}
                                     <th className="text-center">Type</th>
-                                    <th>Invoice No</th>
+                                    <th className="text-center">Invoice No</th>
                                     <th>Pin Code</th>
                                     <th className="text-center">Date and time</th>
                                     <th>Amount</th>

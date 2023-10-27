@@ -37,9 +37,10 @@ function Login() {
             res => {
                 if (!res?.error) {
                     toast.success(res?.message)
-                    localStorage.setItem("token", res?.token)
+                    sessionStorage.setItem("token", res?.token)
                     setisLoading(false)
-                    navigation('/app/dashboard')
+                    // navigation('/app/dashboard')
+                    window.location.href = '/app/dashboard'
                 }else {
                     toast.error(res?.message)
                     setisLoading(false)

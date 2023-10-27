@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import { useDispatch } from 'react-redux'
 import { showNotification } from '../common/headerSlice'
 import jwtDecode from 'jwt-decode';
-import DashboardStats from "../dashboard/components/DashboardStats";
+import DashboardStatsTwo from "../dashboard/components/DashboardStatsTwo";
 import { FaRupeeSign } from "react-icons/fa"
 import TablePagination from '@mui/material/TablePagination';
 import { Button } from "@mui/material";
@@ -36,7 +36,7 @@ function CommissionTransactionContent() {
     const [rowsPerPage, setRowsPerPage] = useState(25);
 
     // i am getting authantication role
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user;
 
@@ -312,7 +312,7 @@ function CommissionTransactionContent() {
                     !isLoading ?
                         statsData.map((d, k) => {
                             return (
-                                <DashboardStats key={k} {...d} colorIndex={k} />
+                                <DashboardStatsTwo key={k} {...d} colorIndex={k} />
                             )
                         })
                         : null

@@ -411,7 +411,7 @@ const FinalRistrationComponent = ({ createRoleName }) => {
 
 function ConfirmationModalBody({ closeModal, createRoleName }) {
     // get token object 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { id } = decodedToken.user
 

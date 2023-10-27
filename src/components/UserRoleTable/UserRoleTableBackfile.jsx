@@ -32,7 +32,7 @@ const TopSideButtons = ({ children, createRoleName }) => {
 
     const dispatch = useDispatch()
 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user;
 
@@ -100,7 +100,7 @@ function UserRoleTable({getFilterCluster, pagetableName, getPageLimit, superadmi
     console.log(clusterData, "====================== ggg")
     console.log(roleStatus, "roleStatusroleStatusroleStatus");
 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
 

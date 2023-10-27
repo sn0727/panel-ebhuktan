@@ -23,7 +23,7 @@ const style = {
 };
 
 export default function EditProfileModal({id = null, profileData = null, filterTransaction}) {
-    const token = jwtDecode(localStorage.getItem('token'));
+    const token = jwtDecode(sessionStorage.getItem('token'));
     let role = token?.user.role;
     // const { id = null } = props
     // const { profileData = null } = props

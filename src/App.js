@@ -24,7 +24,7 @@ initializeApp()
 // Check for login and initialize axios
 const token = checkAuth()
 
-// const token = localStorage.getItem('token')
+// const token = sessionStorage.getItem('token')
 
 function App() {
 

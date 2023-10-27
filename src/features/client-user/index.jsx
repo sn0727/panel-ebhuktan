@@ -33,7 +33,7 @@ const TopSideButtons = ({ children }) => {
 
     const dispatch = useDispatch()
 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
 
@@ -133,7 +133,7 @@ function ClientUserContent() {
     const [roleStatus, setRoleStatus] = React.useState('All');
     const [searchOperatorName, setSearchOperatorName] = useState('');
 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user;
 
@@ -328,7 +328,7 @@ function ClientUserContent() {
 
     return (
         <>
-            <TitleCard title="User" topMargin="mt-2" TopSideButtons={
+            <TitleCard title="Users" topMargin="mt-2" TopSideButtons={
                 <TopSideButtons
                     clusterData={clusterData}
                 >
@@ -376,18 +376,18 @@ function ClientUserContent() {
                                 <tr>
                                     <th>SR.NO</th>
                                     <th>Name</th>
+                                    <td>Partner Id</td>
                                     <th>Email Id</th>
                                     <th>Contact No.</th>
                                     <th>Address</th>
-                                    <td>AadharNo</td>
-                                    <td>PanNo</td>
-                                    <td>Partner Id</td>
+                                    <th>Aadhaar No</th>
+                                    <th className="text-center">Pan No</th>
                                     {/* <td>Status</td> */}
-                                    {pendingData[0]?.status === "pending" ? null : <td>Amount</td>}
+                                    {pendingData[0]?.status === "pending" ? null : <th>Amount</th>}
                                     {/* {pendingData[0]?.status === "pending" ? null : <td>Earning</td>} */}
                                     {/* {pendingData[0]?.status === "pending" ? null : <td>Commission</td>} */}
-                                    {role === "superAdmin" && <td>Delete</td>}
-                                    {role === "superAdmin" && pendingData[0]?.status === "pending" ? null : <td>Add Money</td>}
+                                    {role === "superAdmin" && <th>Delete</th>}
+                                    {role === "superAdmin" && <th>Add Money</th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -409,6 +409,7 @@ function ClientUserContent() {
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td>{l?.partnerId}</td>
                                                 <td>{l.email ? l.email : 'no email'}</td>
                                                 <td>{l.contact}</td>
                                                 <td>
@@ -418,7 +419,6 @@ function ClientUserContent() {
                                                 </td>
                                                 <td>{l.aadharNo ? l.aadharNo : 'Data no found'}</td>
                                                 <td>{l.panNo ? l?.panNo : 'Data no found'}</td>
-                                                <td>{l?.partnerId}</td>
                                                 {/* <td>
                                                     {pendingData[0]?.status === "pending" ?
                                                         <div className="badge badge-primary">
@@ -435,12 +435,12 @@ function ClientUserContent() {
                                                     </div>
                                                 </td>}
                                                 {role === "superAdmin" &&
-                                                    pendingData[0]?.status === "pending" ? null :
                                                     <td>
                                                         <div className="mx-3 cursor-pointer" >
                                                             <AddMoneyModal id={l.id} />
                                                         </div>
-                                                    </td>}
+                                                    </td>
+                                                }
                                             </tr>
                                         )
                                     })

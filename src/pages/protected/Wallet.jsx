@@ -44,7 +44,7 @@ const Wallet = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  var token = localStorage.getItem("token")
+  var token = sessionStorage.getItem("token")
   const decodedToken = jwtDecode(token);
   const { role } = decodedToken.user
 

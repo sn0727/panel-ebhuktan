@@ -40,7 +40,7 @@ function MobileNumberVerify({ sendId, mobileAllData }) {
                 res => {
                     if (!res?.error) {
                         toast.success(res?.message)
-                        localStorage.setItem("token", res?.token)
+                        sessionStorage.setItem("token", res?.token)
                         setHiddeOtpFeild(true)
                         setisLoading(false)
                         // navigation('/app/dashboard')

@@ -41,7 +41,7 @@ import { BiUserVoice } from 'react-icons/bi';
 import jwtDecode from 'jwt-decode';
 
 function tokenTa() {
-  var token = localStorage.getItem("token")
+  var token = sessionStorage.getItem("token")
   const decodedToken = jwtDecode(token);
   const { role } = decodedToken.user
 

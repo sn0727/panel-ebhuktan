@@ -22,7 +22,8 @@ export const modalSlice = createSlice({
             state.filterTransaction = filterTransaction
             state.size = size || 'md'
             state.extraObject = extraObject
-            // console.log(testName, "====================== dd dfds modal slice")
+            
+            // console.log(filterTransaction, "====================== dd dfds modal slice")
         },
 
         closeModal: (state, action) => {

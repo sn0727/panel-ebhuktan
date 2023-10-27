@@ -25,7 +25,7 @@ function Commission() {
     const [totalCount, setTotalCount] = useState(0)
     const [Category, setCategory] = useState('Aproved');
     const [Check, setCheck] = useState(false);
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
 

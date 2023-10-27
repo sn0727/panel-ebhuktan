@@ -20,7 +20,7 @@ function Header() {
     // console.log(useData, '========= useData')
 
     // get profile information from the api
-    // var token = localStorage.getItem("token")
+    // var token = sessionStorage.getItem("token")
     // const decodedToken = jwtDecode(token);
 
     // const image = decodedToken?.user?.image;
@@ -29,7 +29,7 @@ function Header() {
 
     const dispatch = useDispatch()
     const { noOfNotifications, pageTitle } = useSelector(state => state.header)
-    const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"))
+    const [currentTheme, setCurrentTheme] = useState(sessionStorage.getItem("theme"))
 
     const GetUserDataByToken = async () => {
         // setisLoading(true)
@@ -72,9 +72,9 @@ function Header() {
 
 
     function logoutUser() {
-        localStorage.clear();
-        navigation("/")
-        // window.location.href = '/'
+        sessionStorage.clear();
+        // navigation("/")
+        window.location.href = '/'
     }
 
     return (

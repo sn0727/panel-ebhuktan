@@ -18,7 +18,7 @@ import {
 // Mobile No Verification component
 const MobileNumberVerifyCompent = ({ setStepId, mobileSendAnthorComponent }) => {
     // get token object
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { id } = decodedToken.user
 
@@ -317,11 +317,10 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
     const stateHandler = (event) => {
         setStateValue(event.target.value)
     }
-
+    
     // final registration func
     const AddFinalRisHandler = (e) => {
         // e.stopPropagation();
-
         if (
             nameValidation(name) && mobileNoValidation(mobileNo) &&
             emailValidation(email) &&
@@ -356,7 +355,9 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                     if (!res.error) {
                         toast.success(res?.message)
                         setisLoading(false);
-                        window.location.reload(true);
+                        setTimeout(()=>{
+                            window.location.reload(true);
+                        }, 1500)
                         // filterTransaction();
                         closeModal();
                     } else {
@@ -825,7 +826,7 @@ function AddLeadModalBody({ closeModal, createRoleName, filterTransaction }) {
     const [saveAadharNo, setSaveAadhaarNo] = useState('')
     const [stepId, setStepId] = useState(1)
 
-    console.log(filterTransaction , "===================== alam sdsd")
+    // console.log(filterTransaction , "===================== alam sdsd")
 
     const mobileSendAnthorComponent = (mobileNo) => {
         setSaveMobileNo(mobileNo)

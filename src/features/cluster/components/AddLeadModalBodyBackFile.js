@@ -12,7 +12,7 @@ function AddLeadModalBody({ closeModal, createRoleName }) {
     console.log(createRoleName, "createRoleName")
 
     // get token object 
-    var token = localStorage.getItem("token")
+    var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { id } = decodedToken.user
 
