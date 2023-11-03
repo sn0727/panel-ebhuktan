@@ -85,6 +85,18 @@ export const PanNoValidation = (panNo) => {
 }
 
 
+export const passwordValidation = (password) => {
+    let passwordReg = /^.{8}$/  //validated name 
+    if (password === '') {
+        toast.error(`This is a mandatory field.`)
+        return false;
+    }else if (!passwordReg?.test(password)) {
+        toast.error(`Password is not valid. It should be 8 characters long.`);
+        return false;
+    }
+    return true;
+}
+
 // const regexPatterns = {
 //     name: /^[a-zA-Z_]+( [a-zA-Z_]+)+$/,  //validated name 
 //     email: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,

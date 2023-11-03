@@ -9,7 +9,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { Button, Stack } from '@chakra-ui/react';
 import { AadhaarNoValidation } from '../../components/Validation';
 
-function AddharNumberVerify({ revicedIdAaddhar, aaddhaarAllData }) {
+function AddharNumberVerify({ revicedIdAaddhar, aaddhaarAllData, sendId }) {
     const navigation = useNavigate();
     const [isLoading, setisLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
@@ -76,7 +76,7 @@ function AddharNumberVerify({ revicedIdAaddhar, aaddhaarAllData }) {
                 if (!res?.error) {
                     toast.success(res?.message)
                     setisLoading(false)
-                    revicedIdAaddhar(3)
+                    sendId(4)
                 } else {
                     toast.error(res?.message)
                 }
@@ -120,7 +120,7 @@ function AddharNumberVerify({ revicedIdAaddhar, aaddhaarAllData }) {
                             </div> : null}
                             {errorMessage ? <ErrorText styleClass="mt-1">{errorMessage}</ErrorText> : null}
                             <Stack direction='colunm' align='center' spacing={4}>
-                                <Button type='submit' colorScheme='blue' spacing={2} onClick={() => revicedIdAaddhar(1)} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Previous</Button>
+                                <Button type='submit' colorScheme='blue' spacing={2} onClick={() => sendId(2)} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Previous</Button>
                                 {!hiddeOtpFeild ?
                                     <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={() => AaddaarVerify()} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Next</Button>
                                     : <Button colorScheme='blue' isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' spacing={2} onClick={() => AaddaarOtpVerify()} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Verify OTP</Button>}

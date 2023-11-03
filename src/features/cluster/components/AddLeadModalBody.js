@@ -326,8 +326,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
             emailValidation(email) &&
             postalCodeValidation(postalCode) &&
             stateValidation(stateValue) &&
-            AadhaarNoValidation(aadhaarNo) &&
-            PanNoValidation(panNo)
+            AadhaarNoValidation(aadhaarNo)
         ) {
             // create formdata 
             let formdata = new FormData();
@@ -504,7 +503,7 @@ const FinalRistrationComponent = ({ createRoleName, saveAadharNo, saveMobileNo, 
                 </div>
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                        Enter PAN <span className="text-red">*</span>
+                        Enter PAN (Optional)
                     </label>
                     <input
                         onChange={(e) => setPanNo(e.target.value.toUpperCase())}
@@ -590,8 +589,7 @@ const SubAdminRistrationComponent = ({ createRoleName, closeModal }) => {
             emailValidation(email) &&
             postalCodeValidation(postalCode) &&
             stateValidation(stateValue) &&
-            AadhaarNoValidation(aadhaarNo) &&
-            PanNoValidation(panNo)
+            AadhaarNoValidation(aadhaarNo)
         ) {
             // create formdata 
             let formdata = new FormData();
@@ -766,7 +764,7 @@ const SubAdminRistrationComponent = ({ createRoleName, closeModal }) => {
                 </div>
                 <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
-                        Enter PAN <span className="text-red">*</span>
+                        Enter PAN (Optional)
                     </label>
                     <input
                         onChange={(e) => setPanNo(e.target.value.toUpperCase())}

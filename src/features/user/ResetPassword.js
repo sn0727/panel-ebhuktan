@@ -6,11 +6,11 @@ import InputText from '../../components/Input/InputText'
 import CheckCircleIcon from '@heroicons/react/24/solid/CheckCircleIcon';
 import { APIRequest, ApiUrl } from '../../utils/commanApiUrl';
 import { toast } from 'react-toastify'
+import { emailValidation, passwordValidation } from '../../components/Validation'
 
 function ForgotPassword() {
 
     const [loading, setLoading] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
     const [linkSent, setLinkSent] = useState(false)
     const [userObj, setUserObj] = useState({
         email: "",
@@ -18,47 +18,49 @@ function ForgotPassword() {
         password: ""
     })
 
-    
+
     const updateFormValue = ({ updateType, value }) => {
-        setErrorMessage("")
         setUserObj({ ...userObj, [updateType]: value })
     }
 
     const Authuser = async () => {
-        setLoading(true)
-        let config = {
-            url: ApiUrl.resetPassword,
-            method: 'post',
-            body: {
-                email: userObj.email,
-                OTP: userObj.OTP,
-                password: userObj.password
+        if (emailValidation(userObj?.email)
+            && passwordValidation(userObj?.password)
+        ) {
+            setLoading(true)
+            let config = {
+                url: ApiUrl.resetPassword,
+                method: 'post',
+                body: {
+                    email: userObj.email,
+                    OTP: userObj.OTP,
+                    password: userObj.password
+                }
             }
+            APIRequest(
+                config,
+                res => {
+                    if (!res?.error) {
+                        toast.success(res?.message)
+                        setLoading(false)
+                        setLinkSent(true)
+                    } else {
+                        toast.error(res?.message)
+                        setLoading(false)
+                    }
+
+                },
+                err => {
+                    toast.error(err?.message)
+                    setLoading(false)
+                }
+            )
         }
-        APIRequest(
-            config,
-            res => {
-                console.log(res)
-                toast.success(res?.message)
-                setLoading(false)
-                setLinkSent(true)
-            },
-            err => {
-                console.log(err)
-                toast.error(err?.message)
-                setLoading(false)
-            }
-        )
     }
 
     const submitForm = (e) => {
         e.preventDefault()
-        setErrorMessage("")
-
-        if (userObj.email.trim() === "") return setErrorMessage("Email Id is required! (use any value)")
-        else {
-            Authuser()
-        }
+        Authuser()
     }
 
     return (
@@ -96,8 +98,6 @@ function ForgotPassword() {
 
 
                                     </div>
-
-                                    <ErrorText styleClass="mt-12">{errorMessage}</ErrorText>
                                     <button type="submit" className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Reset Password</button>
 
                                 </form>

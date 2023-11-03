@@ -17,9 +17,11 @@ import AadhaarNumberVerify from '../features/user/AadhaarNumberVerify'
 import Register from '../features/user/Register'
 import { useNavigate } from 'react-router-dom'
 import DynamicTitle from '../components/dynamic_title'
+import EmailVerify from '../features/user/EmailVerify'
 
 const steps = [
     { title: 'Verify', description: 'Contact Number' },
+    { title: 'Verify', description: 'Email Id' },
     { title: 'Verify', description: 'Aaddhaar Number' },
     { title: 'Register', description: 'Register' },
 ]
@@ -29,14 +31,11 @@ const SteperInformation = () => {
     const [activeStep, setactiveStep] = useState(steperId)
     const [aadhaarObj, setAadhaarObj] = useState({})
     const [mobileNoSave, setMobileSave] = useState('')
+    const [emailIdSave, setEmailIdSave] = useState('')
+
+    // console.log(emailIdSave, "=====================dfd")
 
     const sendId = (revidedId) => {
-        setSteperId(revidedId)
-    }
-    const revicedIdAaddhar = (revidedId) => {
-        setSteperId(revidedId)
-    }
-    const revicedIdRegister = (revidedId) => {
         setSteperId(revidedId)
     }
 
@@ -46,6 +45,10 @@ const SteperInformation = () => {
 
     const mobileAllData = (data) => {
         setMobileSave(data)
+    }
+
+    const getingEmailId = (data) => {
+        setEmailIdSave(data)
     }
     
     // const { activeStep } = useSteps({
@@ -81,8 +84,9 @@ const SteperInformation = () => {
             </Stepper>
 
             {activeStep == 1 ? <MobileNumberVerify sendId={sendId} mobileAllData={mobileAllData} /> : null}
-            {activeStep == 2 ? <AadhaarNumberVerify  revicedIdAaddhar={revicedIdAaddhar} aaddhaarAllData={aaddhaarAllData} /> : null}
-            {activeStep == 3 ? <Register revicedIdRegister={revicedIdRegister} mobileNoSave={mobileNoSave} aadhaarObj={aadhaarObj}  /> : null}
+            {activeStep == 2 ? <EmailVerify sendId={sendId} getingEmailId={getingEmailId} /> : null}
+            {activeStep == 3 ? <AadhaarNumberVerify aaddhaarAllData={aaddhaarAllData} sendId={sendId} /> : null}
+            {activeStep == 4 ? <Register mobileNoSave={mobileNoSave} aadhaarObj={aadhaarObj} emailIdSave={emailIdSave}  /> : null}
         </>
     )
 }

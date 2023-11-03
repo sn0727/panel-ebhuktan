@@ -19,7 +19,7 @@ import {
 } from '../../components/Validation'
 import InputTextUpperCase from '../../components/Input/InputTextUpperCase'
 
-function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
+function Register({ sendId, mobileNoSave, aadhaarObj, emailIdSave }) {
     const navigation = useNavigate();
     const [loading, setLoading] = useState(false)
     const [stateData, setStateData] = useState([]);
@@ -31,7 +31,7 @@ function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
 
     const [registerObj, setRegisterObj] = useState({
         name: "",
-        email: "",
+        email: emailIdSave,
         contact: mobileNoSave,
         aadharNo: aadhaarObj,
         panNo: '',
@@ -160,7 +160,7 @@ function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
                             </div>
 
                             <div className='inputRow'>
-                                <InputText defaultValue={registerObj.email} placeholder={'Email id'} updateType="email" containerStyle="mt-1" labelTitle="Email Id" updateFormValue={updateFormValue} />
+                                <InputText defaultValue={registerObj.email} placeholder={'Email id'} updateType="email" containerStyle="mt-1" labelTitle="Email Id" updateFormValue={updateFormValue} disabled={'disabled'}/>
                                 <InputText type="number" placeholder={'Postal code'} defaultValue={registerObj.postalCode} updateType="postalCode" containerStyle="mt-1" labelTitle="Postal Code (Optional)" updateFormValue={updateFormValue} />
                             </div>
 
@@ -182,7 +182,7 @@ function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
                             </div>
                             <div className='inputRow relative'>
                                 <InputText placeholder={'Aadhaar no'} defaultValue={registerObj.aadharNo} updateType="aadharNo" containerStyle="mt-1" labelTitle="Aadhaar No" updateFormValue={updateFormValue} disabled={'disabled'} />
-                                <InputTextUpperCase placeholder={'Pan no'} defaultValue={registerObj.panNo} updateType="panNo" containerStyle="mt-1" labelTitle="Pan No" updateFormValue={updateFormValue} />
+                                <InputTextUpperCase placeholder={'Pan no'} defaultValue={registerObj.panNo} updateType="panNo" containerStyle="mt-1" labelTitle="Pan No (Optional)" updateFormValue={updateFormValue} />
                             </div>
                             <div className='inputRow'>
 
@@ -217,7 +217,7 @@ function Register({ revicedIdRegister, mobileNoSave, aadhaarObj }) {
                         {errorMessage ? <ErrorText styleClass="mt-0">{errorMessage}</ErrorText> : null}
                         {/* <button type="submit" onClick={() => submitForm()} className={"btn mt-2 w-full btn-primary" + (loading ? " loading" : "")}>Register</button> */}
                         <Stack direction='colunm' align='center' spacing={4}>
-                            <Button type='submit' colorScheme='blue' spacing={2} onClick={() => revicedIdRegister(2)} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Previous</Button>
+                            <Button type='submit' colorScheme='blue' spacing={2} onClick={() => sendId(3)} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Previous</Button>
                             <Button colorScheme='blue' spacing={2} isLoading={isLoading ? 'isLoading' : ''} loadingText='Loading' onClick={() => registrationFun()} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Submit</Button>
                             {/* <Button colorScheme='blue' spacing={2} loadingText='Loading' onClick={() => submitForm()}>Submit</Button> */}
                         </Stack>

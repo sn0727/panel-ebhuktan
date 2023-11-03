@@ -467,7 +467,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                     </div>
                                                 </td>
                                                 <td className="text-left">{l.aadharNo}</td>
-                                                <td className="text-left">{l.panNo}</td>
+                                                <td className="text-left">{l.panNo ? l.panNo : 'not available' }</td>
 
                                                 {/* if role is cluster, retailer, franchise, subAdmin be will show status field else hide */}
                                                 {role === "cluster" || role === "distributor" || role === "retailer" || role === "franchise" || role === "subAdmin" ? <td className="text-center"><div className="badge badge-primary">{l?.status}</div></td> : null}

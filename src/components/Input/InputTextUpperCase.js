@@ -13,9 +13,9 @@ function InputTextUpperCase({labelTitle, labelStyle, type, containerStyle, defau
     return(
         <div className={`form-control w-full ${containerStyle}`}>
             <label className="label">
-                <span className={"label-text text-base-content " + labelStyle}>{labelTitle} <span className="text-xl" style={{color: 'red'}}>*</span></span>
+                <span className={"label-text text-base-content " + labelStyle}>{labelTitle} <span className="text-xl" style={{color: 'red'}}></span></span>
             </label>
-            <input type={type || "text"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} className="input  input-bordered w-full uppercase" disabled={disabled || ""} />
+            <input type={type || "text"} value={value} placeholder={placeholder || ""} onChange={(e) => updateInputValue(e.target.value)} className="input input-bordered w-full uppercase" disabled={disabled || ""} style={{fontSize: '14px'}} />
         </div>
     )
 }

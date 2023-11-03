@@ -56,6 +56,9 @@ export const ApiUrl = {
   editProfile: `${APIUser}updateProfile`,
   editProfileRes: `${APIUser}userCreate`,
 
+    // checking email api
+    checkEmail: `${APIUser}checkEmail`,
+
   // filter api data url
   getFilterTransaction: `${apiBaseUrl}transaction/getTransaction`,
   getFilterCommissionTranc: `${apiBaseUrl}transaction/getCommissionTransaction`,
