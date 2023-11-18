@@ -320,7 +320,6 @@ function Transactions() {
                             <thead>
                                 <tr>
                                     <th>Sr.No</th>
-                                    <th>Transaction Id</th>
                                     <th className="text-center">Number</th>
                                     <th>Partner Id</th>
                                     <th className="text-center">Operator Name</th>
@@ -328,6 +327,7 @@ function Transactions() {
                                     <th className="text-center">Type</th>
                                     <th className="text-right">Amount</th>
                                     <th className="text-right">Date and time</th>
+                                    <th>Transaction Id</th>
                                     <th>Operator Id</th>
                                     <th className="text-center">Invoice No</th>
                                     <th>Pin Code</th>
@@ -339,7 +339,6 @@ function Transactions() {
                                         return (
                                             <tr key={k}>
                                                 <td className="text-center">{(parseInt(page) * parseInt(rowsPerPage) + k) + 1}</td>
-                                                <td className="text-center">{id}</td>
                                                 <td className="text-center">{number}</td>
                                                 <td className="text-center">{consumerId}</td>
                                                 <td className="text-center">{operatorName?.slice(0, 20)}</td>
@@ -360,6 +359,7 @@ function Transactions() {
                                                 <td className="text-center">{type}</td>
                                                 <td className="text-right"> &#8377; {parseFloat(amount).toFixed(2)} </td>
                                                 <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
+                                                <td className="text-center">{id} </td>  {/* transaction id */}
                                                 <td className="text-center">{operatorId}</td>
                                                 <td className="text-center">{invoiceNo}</td>
                                                 <td className="text-center">{adminPinCode}</td>
