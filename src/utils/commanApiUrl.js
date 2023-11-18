@@ -33,7 +33,7 @@ export const ApiUrl = {
   aadhaarWithOTP: `${APIUser}verification/aadhaarWithOTP`,
   verifyAadhaarOTP: `${APIUser}verification/verifyAadhaarOTP`,
   
-  // rise request api route end point
+  // Money Request api route end point
   riseRequestGetAll: `${APIUser}payment/request/getAll`,
   riseRequestDelete: `${APIUser}payment/request/delete`,
   riseRequestUpdateStatus: `${APIUser}payment/request/updateStatus`,

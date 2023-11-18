@@ -390,6 +390,8 @@ function CommissionTransactionContent() {
                                     <th>Partner Id</th>
                                     <th className="text-center">Operator Name</th>
                                     {/* <th>Image</th> */}
+                                    {role === "superAdmin" && <th className="text-right">Total Amount</th>}
+                                    <th className="text-center">Date and time</th>
                                     <th className="text-center">Type</th>
                                     <th>Pin Code</th>
                                     {users[0]['clusterAmount'] ? <th>Cluster Amount</th> : null}
@@ -397,8 +399,6 @@ function CommissionTransactionContent() {
                                     {users[0]['franchiseAmount'] ? <th>Franchise Amount</th> : null}
                                     {users[0]['distributorAmount'] ? <th>Distributor Amount</th> : null}
                                     {users[0]['adminAmount'] ? <th>Admin Amount</th> : null}
-                                    <th className="text-center">Date and time</th>
-                                    {role === "superAdmin" && <th className="text-right">Total Amount</th>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -419,6 +419,8 @@ function CommissionTransactionContent() {
                                                         </div>
                                                     </div>
                                                 </td> */}
+                                                {role === "superAdmin" && <td className="text-right"> &#8377; {parseFloat(amount).toFixed(2)}</td>}
+                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
                                                 <td className="text-center">{type}</td>
                                                 <td className="text-center">{adminPinCode}</td>
                                                 {users[0]['clusterAmount'] ? <td className="text-center">&#8377; {clusterAmount}</td> : null}
@@ -426,8 +428,6 @@ function CommissionTransactionContent() {
                                                 {users[0]['franchiseAmount'] ? <td className="text-center">&#8377; {franchiseAmount}</td> : null}
                                                 {users[0]['distributorAmount'] ? <td className="text-center">&#8377; {distributorAmount}</td> : null}
                                                 {users[0]['adminAmount'] ? <td className="text-center">&#8377; {adminAmount}</td> : null}
-                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
-                                                {role === "superAdmin" && <td className="text-right"> &#8377; {parseFloat(amount).toFixed(2)}</td>}
                                             </tr>
                                         )
                                     })

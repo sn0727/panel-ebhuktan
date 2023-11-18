@@ -88,7 +88,6 @@ function Commission() {
                                     <td>Earning</td>
                                     <td>Commission</td>
                                     <td>View Details</td>
-
                                 </tr>
                             </thead>
                             <tbody>

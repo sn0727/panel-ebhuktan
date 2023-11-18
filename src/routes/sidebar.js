@@ -303,7 +303,7 @@ routes = [
   {
     path: '/app/riseRequest',
     icon: <GiMoneyStack className={submenuIconClasses} />,
-    name: 'Rise Request',
+    name: 'Money Request',
   },
 ]
 :

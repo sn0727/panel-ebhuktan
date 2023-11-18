@@ -9,14 +9,14 @@ function InternalPage() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setPageTitle({ title: "Rise Request" }))
+        dispatch(setPageTitle({ title: "Money Request" }))
     }, [])
 
 
     return (
 
         <>
-            <DynamicTitle pageTitle={"Rise Request"} />
+            <DynamicTitle pageTitle={"Money Request"} />
             <RiseRequest
                 riseRequestDelete={ApiUrl.riseRequestDelete}
                 getPageLimit={ApiUrl.getPageLimit}

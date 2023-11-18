@@ -321,25 +321,26 @@ function Transactions() {
                                 <tr>
                                     <th>Sr.No</th>
                                     <th>Transaction Id</th>
-                                    <th>Operator Id</th>
+                                    <th className="text-center">Number</th>
                                     <th>Partner Id</th>
                                     <th className="text-center">Operator Name</th>
                                     {/* <th>Image</th> */}
                                     <th className="text-center">Type</th>
+                                    <th className="text-right">Amount</th>
+                                    <th className="text-right">Date and time</th>
+                                    <th>Operator Id</th>
                                     <th className="text-center">Invoice No</th>
                                     <th>Pin Code</th>
-                                    <th className="text-center">Date and time</th>
-                                    <th>Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    users.map(({ id, consumerId, operatorName, operatorId, amount, type, image, userImage, invoiceNo, adminPinCode, modifiedCreatedAt }, k) => {
+                                    users.map(({ id, consumerId, number, operatorName, operatorId, amount, type, image, userImage, invoiceNo, adminPinCode, modifiedCreatedAt }, k) => {
                                         return (
                                             <tr key={k}>
                                                 <td className="text-center">{(parseInt(page) * parseInt(rowsPerPage) + k) + 1}</td>
                                                 <td className="text-center">{id}</td>
-                                                <td className="text-center">{operatorId}</td>
+                                                <td className="text-center">{number}</td>
                                                 <td className="text-center">{consumerId}</td>
                                                 <td className="text-center">{operatorName?.slice(0, 20)}</td>
                                                 {/* <td className="text-center">
@@ -357,10 +358,11 @@ function Transactions() {
                                                     </div>
                                                 </td> */}
                                                 <td className="text-center">{type}</td>
+                                                <td className="text-right"> &#8377; {parseFloat(amount).toFixed(2)} </td>
+                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
+                                                <td className="text-center">{operatorId}</td>
                                                 <td className="text-center">{invoiceNo}</td>
                                                 <td className="text-center">{adminPinCode}</td>
-                                                <td className="text-center">{moment(modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
-                                                <td className="text-right"> &#8377; {parseFloat(amount).toFixed(2)}</td>
                                             </tr>
                                         )
                                     })
