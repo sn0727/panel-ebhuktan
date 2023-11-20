@@ -636,6 +636,11 @@ a[aria-current="page"] {
   --tw-bg-opacity: 1;
   color: #fff !important;
 }
+.pagination-perent a[aria-current="page"] {
+  background-color: rgb(235 235 235) !important;
+  --tw-bg-opacity: 1;
+  color: #000 !important;
+}
 .btn-circle:where(.btn-sm), .bg-blue-700 {
   background-color: rgb(44, 66, 125) !important;
 }

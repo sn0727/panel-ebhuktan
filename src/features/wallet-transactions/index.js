@@ -143,16 +143,15 @@ function WalletTransactions() {
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Sender Id</th>
-                                    <th>Sender No</th>
                                     <th>Sender Name</th>
+                                    <th>Receiver Name</th>
                                     <th>Receiver Id</th>
                                     <th>Receiver No</th>
-                                    <th>Receiver Name</th>
                                     <th>Status</th>
-                                    <th className="text-right">Date and time</th>
                                     <th>Amount</th>
-
+                                    <th className="text-right">Date and time</th>
+                                    <th>Sender Id</th>
+                                    <th>Sender No</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -161,15 +160,15 @@ function WalletTransactions() {
                                         return (
                                             <tr key={k}>
                                                 <td className="text-center">{item.id}</td>
-                                                <td className="text-center">{item.senderId}</td>
-                                                <td className="text-center">{item.senderNo}</td>
                                                 <td className="text-center">{item.senderName}</td>
+                                                <td className="text-center">{item.receiverName}</td>
                                                 <td className="text-center">{item.receiverId}</td>
                                                 <td className="text-center">{item.receiverNo}</td>
-                                                <td className="text-center">{item.receiverName}</td>
-                                                <td className="text-center">{userId === parseInt(item.senderId) ? "Send" : "Received"}</td>
-                                                <td className="text-right">{moment(item.modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
+                                                <td className="text-center">{userId === parseInt(item.senderId) ? "Sent" : "Received"}</td>
                                                 <td className="text-right">&#8377; {item.amount}</td>
+                                                <td className="text-right">{moment(item.modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
+                                                <td className="text-center">{item.senderNo}</td>
+                                                <td className="text-center">{item.senderId}</td>
                                             </tr>
                                         )
                                     })
