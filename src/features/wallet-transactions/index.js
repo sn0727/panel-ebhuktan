@@ -40,7 +40,7 @@ function WalletTransactions() {
     };
     const token = sessionStorage.getItem("token")
     const decodeToken = jwtDecode(token);
-    const userId = decodeToken.user.id;
+    const userId = decodeToken?.user?.partnerId;
 
     // get data from the api
     const SendRequest = async () => {
@@ -164,7 +164,7 @@ function WalletTransactions() {
                                                 <td className="text-center">{item.receiverName}</td>
                                                 <td className="text-center">{item.receiverId}</td>
                                                 <td className="text-center">{item.receiverNo}</td>
-                                                <td className="text-center">{userId === parseInt(item.senderId) ? "Sent" : "Received"}</td>
+                                                <td className="text-center">{userId === item?.senderId ? "Sent" : "Received"}</td>
                                                 <td className="text-right">&#8377; {item.amount}</td>
                                                 <td className="text-right">{moment(item.modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
                                                 <td className="text-center">{item.senderNo}</td>
