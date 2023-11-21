@@ -438,7 +438,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                             </thead>
                             <tbody>
                                 {
-                                    filteredItems.map((l, k) => {
+                                    filteredItems?.map((l, k) => {
                                         return (
                                             <tr key={k}>
                                                 {/* <td className="text-left">{l.id}</td> */}
