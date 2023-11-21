@@ -69,7 +69,6 @@ function ForgotPassword() {
                                 <p className='my-4 text-xl font-bold text-center'>Verification code send successfully</p>
                                 <p className='mt-4 mb-8 font-semibold text-center'>Check your email to  reset password</p>
                                 <div className='text-center mt-4'><Link to="/reset-password" className='text-white-sdfdskbj'><button className="btn btn-block btn-primary">Reset Password</button></Link></div>
-
                             </>
                         }
 
@@ -80,7 +79,7 @@ function ForgotPassword() {
                                 <form onSubmit={(e) => submitForm(e)}>
 
                                     <div className="mb-4">
-                                        <InputText type="email" defaultValue={userObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" updateFormValue={updateFormValue} />
+                                        <InputText type="email" defaultValue={userObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email Id" placeholder={'Enter emai id'} updateFormValue={updateFormValue} />
                                     </div>
                                     <button type="submit" className={`btn mt-2 w-full btn-primary ${loading ? "loading" : ''}`}>Send verification code </button>
                                 </form>
