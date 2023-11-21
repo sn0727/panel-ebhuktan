@@ -443,7 +443,6 @@ function RiseRequest({ getFilterCluster, pagetableName, getPageLimit, riseReques
                         :
                         <div className="error-page">
                             <img src="/assets/image/404Error.jpg" alt="404Error" />
-                            <Button onClick={() => clearFun()} style={{ backgroundColor: '#2c427d', color: '#fff', textAlign: 'center' }}>Reload Page</Button>
                         </div>
                     }
                 </div>

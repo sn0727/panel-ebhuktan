@@ -370,8 +370,8 @@ function Transactions() {
                             </tbody>
                         </table>
                         :
-                        <div className="w-100">
-                            <h3 className="text-center w-100 p-5 text-xl">Data Not found!</h3>
+                        <div className="error-page">
+                            <img src="/assets/image/404Error.jpg" alt="404Error" />
                         </div>
                     }
                 </div>
