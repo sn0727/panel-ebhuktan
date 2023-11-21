@@ -29,7 +29,7 @@ function WalletTransactions() {
     const [pageLimit, setPageLimit] = useState([])
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
-    const [roleStatus, setRoleStatus] = useState('Sent');
+    const [roleStatus, setRoleStatus] = useState('All');
     const [searchOperatorName, setSearchOperatorName] = useState('');
 
     // this is a code token
@@ -50,10 +50,6 @@ function WalletTransactions() {
         user?.receiverName.toLowerCase().includes(searchOperatorName?.toLowerCase()) ||
         user?.receiverId.toLowerCase().includes(searchOperatorName?.toLowerCase()) 
     );
-
-    console.log(filteredItems, '================ filteredItems')
-
-    console.log(walletTableData, 'filteredItems ===============')
 
     // live search and highlight text 
     function getHighlightedText(text, highlight) {
@@ -114,7 +110,7 @@ function WalletTransactions() {
             body = {
                 page: page + 1,
                 limit: rowsPerPage,
-                type: roleStatus ? roleStatus : 'Sent',
+                type: roleStatus ? roleStatus : 'All',
                 data: searchOperatorName,
                 startDate: moment(selectionRange.startDate).format('YYYY-MM-DD'),
                 endDate: moment(selectionRange.endDate).format('YYYY-MM-DD'),
@@ -161,7 +157,7 @@ function WalletTransactions() {
         })
         setRowsPerPage(25)
         setPage(0)
-        setRoleStatus('Sent')
+        setRoleStatus('All')
         setSearchOperatorName('')
         setCheck(false)
     }
@@ -198,7 +194,7 @@ function WalletTransactions() {
                                 name="price"
                                 id="price"
                                 className="block h-full w-full rounded-md border-0 py-1.5 pl-2 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                placeholder="Name / Partner id"
+                                placeholder="Search..."
                             />
                             <div className="absolute inset-y-0 right-0 flex items-center">
                                 <AiOutlineSearch className="search-icon" />
@@ -215,7 +211,7 @@ function WalletTransactions() {
                                     size="small"
                                     onChange={handleChangeSelect}
                                 >
-                                    {/* <MenuItem value={"All"} >All</MenuItem> */}
+                                    <MenuItem value={"All"} >All</MenuItem>
                                     <MenuItem value={"Sent"} >Sent</MenuItem>
                                     <MenuItem value={"Received"} >Received</MenuItem>
                                 </Select>
