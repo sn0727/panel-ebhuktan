@@ -131,6 +131,7 @@ export const ApiUrl = {
   transaction_getMunicipality: `${apiBaseUrl}transaction/getMunicipality`,
   transaction_getCardPayment: `${apiBaseUrl}transaction/getCardPayment`,
   transaction_getWallet: `${apiBaseUrl}transaction/wallet/get/transaction`,
+  getWalletTransaction: `${apiBaseUrl}transaction/getWalletTransaction`,
 
   // user forder api 
   user_getById: `${APIUser}getById`,
