@@ -156,7 +156,7 @@ function CommissionTransactionContent() {
             }
         }
         const config = {
-            url: ApiUrl.getFilterCommissionTranc,
+            url: ApiUrl?.getFilterCommissionTranc,
             method: 'post',
             body: body
         };
@@ -204,7 +204,7 @@ function CommissionTransactionContent() {
             }
         }
         const config = {
-            url: ApiUrl.getFilterTransaction,
+            url: ApiUrl?.getFilterCommissionTranc,
             method: 'post',
             body: body
         };
@@ -237,7 +237,6 @@ function CommissionTransactionContent() {
                 consumerId: searchPartnerId,
                 startDate: moment(selectionRange.startDate).format('YYYY-MM-DD'),
                 endDate: moment(selectionRange.endDate).format('YYYY-MM-DD'),
-
             }
         } else {
             body = {
@@ -247,7 +246,6 @@ function CommissionTransactionContent() {
                 type: category ? category : 'All',
                 startDate: null,
                 endDate: null,
-
             }
         }
         const config = {
@@ -325,7 +323,7 @@ function CommissionTransactionContent() {
             </div>
 
             {/* Team Member list in table format loaded constant */}
-            <TitleCard title="Commission Transactions dd" topMargin="mt-2">
+            <TitleCard title="Commission Transactions" topMargin="mt-2">
                 <div className="date-by-filter">
                     <div className="relative w-52 mt-0 rounded-md shadow-sm">
                         <input
