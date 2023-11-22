@@ -251,7 +251,7 @@ function CommissionTransactionContent() {
             }
         }
         const config = {
-            url: ApiUrl.getFilterTransaction,
+            url: ApiUrl?.getFilterCommissionTranc,
             method: 'post',
             body: body
         };
