@@ -15,6 +15,7 @@ import LandlineBillPaymentOperator from '../pages/protected/operator/LandlineBil
 import CableRechargeOperator from '../pages/protected/operator/CableRechargeOperator'
 import LoanEmiRechargeOperator from '../pages/protected/operator/LoanEmiRechargeOperator'
 import InsuranceEmiRechargeOperator from '../pages/protected/operator/InsuranceEmiRechargeOperator'
+import { ChangePassword } from '../pages/protected/ChangePassword'
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
 const Page404 = lazy(() => import('../pages/protected/404'))
@@ -229,6 +230,10 @@ const routes = [
   {
     path: '/settings-profile',
     component: ProfileSettings,
+  },
+  {
+    path: '/change-password',
+    component: ChangePassword,
   },
   {
     path: '/settings-billing',

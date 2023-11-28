@@ -135,6 +135,11 @@ function Header() {
                                     Profile Settings
                                 </Link>
                             </li>
+                            <li className="justify-between">
+                                <Link to={'/app/change-password'}>
+                                    Change Password
+                                </Link>
+                            </li>
                             {/* <li className=''><Link to={'/app/settings-billing'}>Bill History</Link></li> */}
                             <div className="divider mt-0 mb-0"></div>
                             <li><a onClick={logoutUser}>Logout</a></li>

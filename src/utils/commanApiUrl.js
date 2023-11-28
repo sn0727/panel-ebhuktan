@@ -43,6 +43,7 @@ export const ApiUrl = {
   forgotPassword: `${APISuperadmin}forgotPassword`,
   resetPassword: `${APISuperadmin}resetPassword`,
   changePassword: `${APIUser}changePassword`,
+  changePasswordSuperAdmin: `${APISuperadmin}changePassword`,
   getByToken: `${APIUser}getByToken`,
   checkBalance: `${apiBaseUrl}superAdmin/checkBalance`,
   superadminGetUsers: `${APISuperadmin}getUsers`,

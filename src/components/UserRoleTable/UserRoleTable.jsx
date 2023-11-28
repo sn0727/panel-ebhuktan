@@ -412,9 +412,9 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                     }
 
                                     {/* if roleStatus is All, approved be will show Earning field else hide */}
-                                    {
+                                    {/* {
                                         roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">Earning</td> : null
-                                    }
+                                    } */}
 
                                     {/* if roleStatus is All, approved be will show Commission field else hide */}
                                     {
@@ -492,12 +492,12 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                 }
 
                                                 {/* if roleStatus is All, approved be will show earning field else hide */}
-                                                {
+                                                {/* {
                                                     roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null
                                                 }
                                                 {
                                                     roleStatus === "All" && l?.status === 'approved' || roleStatus === "approved" && l?.status === "approved" ? <td className="text-center"> &#8377; {parseFloat(l?.earning).toFixed(2)}</td> : null
-                                                }
+                                                } */}
 
                                                 {/* if roleStatus is All, approved be will show commission field else hide */}
                                                 {
