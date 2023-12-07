@@ -2,21 +2,23 @@ import { toast } from "react-toastify";
 
 export const nameValidation = (name) => {
     // let nameReg = /^[a-zA-Z]+( [a-zA-Z]+)+$/  //validated name 
-    let nameReg = /^[a-zA-Z]+$/;  //validated name 
+    // let nameReg = /^[a-zA-Z]+$/;  //validated name 
+    // let nameReg = /^[a-zA-Z\s]+$/;
     if (name === '') {
-        toast.error(`This is a mandatory field.`)
-        return false;
-    }else if (!nameReg?.test(name)) {
-        toast.error(`Enter Your Full Name`);
+        toast.error(`Name is a mandatory field.`)
         return false;
     }
+    // else if (!nameReg?.test(name)) {
+    //     toast.error(`Enter Your Full Name`);
+    //     return false;
+    // }
     return true;
 }
 
 export const mobileNoValidation = (mobileNo) => {
     let mobileNoReg = /^[0-9]{10}$/  //validated name 
     if (mobileNo === '') {
-        toast.error(`This is a mandatory field.`)
+        toast.error(`Mobile no is a mandatory field.`)
         return false;
     }else if (!mobileNoReg?.test(mobileNo)) {
         toast.error(`Please enter a valid 10 digit mobile number`);
@@ -28,7 +30,7 @@ export const mobileNoValidation = (mobileNo) => {
 export const emailValidation = (email) => {
     let emailReg = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/  //validated name 
     if (email === '') {
-        toast.error(`This is a mandatory field.`)
+        toast.error(`Email is a mandatory field.`)
         return false;
     }else if (!emailReg?.test(email)) {
         toast.error(`Please enter a valid email id`);
@@ -40,7 +42,7 @@ export const emailValidation = (email) => {
 export const postalCodeValidation = (postalCode) => {
     let postalReg = /^[0-9]{6}$/  //validated name 
     if (postalCode === '') {
-        toast.error(`This is a mandatory field.`)
+        toast.error(`Pastal Code is a mandatory field.`)
         return false;
     }else if (!postalReg?.test(postalCode)) {
         toast.error(`Please enter a valid 6 digit Postal code.`);
@@ -52,7 +54,7 @@ export const postalCodeValidation = (postalCode) => {
 export const stateValidation = (state) => {
     let stateReg = /^[A-Za-z\s]+$/  //validated name 
     if (state === '') {
-        toast.error(`This is a mandatory field.`)
+        toast.error(`State is a mandatory field.`)
         return false;
     }else if (!stateReg?.test(state)) {
         toast.error(`Only alphabets and. are allowed`);
@@ -64,7 +66,7 @@ export const stateValidation = (state) => {
 export const AadhaarNoValidation = (aadhaarNo) => {
     let aadhaarReg = /^[0-9]{12}$/  //validated name 
     if (aadhaarNo === '') {
-        toast.error(`This is a mandatory field.`)
+        toast.error(`Aadhaar no is a mandatory field.`)
         return false;
     }else if (!aadhaarReg?.test(aadhaarNo)) {
         toast.error(`Please enter a valid 12 digit Aadhaar number.`);
@@ -76,7 +78,7 @@ export const AadhaarNoValidation = (aadhaarNo) => {
 export const PanNoValidation = (panNo) => {
     let panNoReg = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/  //validated name 
     if (panNo === '') {
-        toast.error(`This is a mandatory field.`)
+        toast.error(`Pan no is a mandatory field.`)
         return false;
     }else if (!panNoReg?.test(panNo)) {
         toast.error(`Please enter a valid 10 digit pan card number.`);
@@ -89,7 +91,7 @@ export const PanNoValidation = (panNo) => {
 export const passwordValidation = (password) => {
     let passwordReg = /^.{8}$/  //validated name 
     if (password === '') {
-        toast.error(`This is a mandatory field.`)
+        toast.error(`Password is a mandatory field.`)
         return false;
     }else if (!passwordReg?.test(password)) {
         toast.error(`Password is not valid. It should be 8 characters long.`);

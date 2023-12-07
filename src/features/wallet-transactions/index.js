@@ -236,8 +236,8 @@ function WalletTransactions() {
                                     <th>Status</th>
                                     <th>Amount</th>
                                     <th className="text-right">Date and time</th>
-                                    <th>Sender Id</th>
                                     <th>Sender No</th>
+                                    <th>Sender Id</th>
                                 </tr>
                             </thead>
                             <tbody>
