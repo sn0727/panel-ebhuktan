@@ -53,6 +53,7 @@ const OperatorElectricity = lazy(() => import('../pages/protected/operator/Elect
 const MobileRechargeOperators = lazy(()=> import('../pages/protected/operator/MobileRechargeOperator'))
 const SubAdmin = lazy(()=> import('../pages/protected/SubAdmin'))
 const ReseRequest = lazy(()=> import('../pages/protected/RiseRequest'))
+const QuickDhanTransaction = lazy(()=> import('../pages/protected/QuickDhan'))
 
 
 
@@ -104,6 +105,10 @@ const routes = [
   {
     path: "/wallet",
     component: Wallet
+  },
+  {
+    path: "/quick-dhan-transaction",
+    component: QuickDhanTransaction
   },
   {
     path: "/riseRequest",

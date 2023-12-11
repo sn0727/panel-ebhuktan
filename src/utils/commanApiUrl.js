@@ -32,12 +32,12 @@ export const ApiUrl = {
   contactVerification: `${APIUser}contactVerification`,
   aadhaarWithOTP: `${APIUser}verification/aadhaarWithOTP`,
   verifyAadhaarOTP: `${APIUser}verification/verifyAadhaarOTP`,
-  
+
   // Money Request api route end point
   riseRequestGetAll: `${APIUser}payment/request/getAll`,
   riseRequestDelete: `${APIUser}payment/request/delete`,
   riseRequestUpdateStatus: `${APIUser}payment/request/updateStatus`,
-  
+
 
 
   forgotPassword: `${APISuperadmin}forgotPassword`,
@@ -57,21 +57,21 @@ export const ApiUrl = {
   editProfile: `${APIUser}updateProfile`,
   editProfileRes: `${APIUser}userCreate`,
 
-    // checking email api
-    checkEmail: `${APIUser}checkEmail`,
+  // checking email api
+  checkEmail: `${APIUser}checkEmail`,
 
   // filter api data url
   getFilterTransaction: `${apiBaseUrl}transaction/getTransaction`,
   getFilterCommissionTranc: `${apiBaseUrl}transaction/getCommissionTransaction`,
   getPageLimit: `${apiBaseUrl}transaction/getPageLimit`,
-  
+
   // role table filter api
   getFilterCluster: `${APISuperadmin}getFilterCluster`,
   getFilterDistributor: `${APISuperadmin}getFilterDistributor`,
   getFilterRetailer: `${APISuperadmin}getFilterRetailer`,
   getFilterFranchise: `${APISuperadmin}getFilterFranchise`,
   getFilterUsers: `${APISuperadmin}getFilterUsers`,
-  
+
   // operator filter api
   electricitybillPaymentSearchOp: `${apiBaseUrl}electricity/bill-payment`,
   broadbandbillPaymentSearchOp: `${apiBaseUrl}broadband/bill-payment`,
@@ -133,9 +133,11 @@ export const ApiUrl = {
   transaction_getCardPayment: `${apiBaseUrl}transaction/getCardPayment`,
   transaction_getWallet: `${apiBaseUrl}transaction/wallet/get/transaction`,
   getWalletTransaction: `${apiBaseUrl}transaction/getWalletTransaction`,
+  getQuickDhan: `${apiBaseUrl}transaction/getQuickDhan`,
 
   // user forder api 
   user_getById: `${APIUser}getById`,
+  getCertificate: `${APIUser}getCertificate`,
 
   // this is cluster api
   getClusterAll: `${APISuperadmin}getCluster`,

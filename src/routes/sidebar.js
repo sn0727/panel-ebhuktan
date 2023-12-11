@@ -21,7 +21,7 @@ import { MdPayment } from 'react-icons/md';
 import { AiOutlineMobile } from 'react-icons/ai';
 import { AiOutlineContacts } from 'react-icons/ai';
 import { LiaGasPumpSolid } from 'react-icons/lia';
-import { GiElectric } from 'react-icons/gi';
+import { GiElectric, GiTakeMyMoney } from 'react-icons/gi';
 import { AiOutlineWallet } from 'react-icons/ai';
 import { BsWater } from 'react-icons/bs';
 import { TbRecharging } from 'react-icons/tb';
@@ -301,6 +301,11 @@ routes = [
     name: 'Wallet',
   },
   {
+    path: '/app/quick-dhan-transaction',
+    icon: <GiTakeMyMoney className={submenuIconClasses} />,
+    name: 'Quick Dhan Transaction',
+  },
+  {
     path: '/app/riseRequest',
     icon: <GiMoneyStack className={submenuIconClasses} />,
     name: 'Money Request',
@@ -334,7 +339,7 @@ routes = [
     path: '/app/wallet',
     icon: <GiMoneyStack className={submenuIconClasses} />,
     name: 'Wallet',
-  },
+  }
 ]
 
 role==='subAdmin' && (

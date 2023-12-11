@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { AiOutlineSearch, AiTwotoneDelete } from "react-icons/ai"
-import { FaArrowCircleRight } from "react-icons/fa";
+import { FaArrowCircleRight, FaDownload } from "react-icons/fa";
 import { toast } from "react-toastify"
 import { Link, useNavigate } from "react-router-dom"
 import EditAdminIdModal from "../../components/Model/EditAdminIdModal"
@@ -112,6 +112,7 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [roleStatus, setRoleStatus] = React.useState('All');
     const [searchOperatorName, setSearchOperatorName] = useState('');
+    const [downloadPdfFile, setDownloadFile] = useState('');
 
     // live search filter
     const filteredItems = clusterData.filter((user) =>
@@ -326,6 +327,28 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
         setCheck(false)
     }
 
+    // dwonload pdf file funcation
+    const downloadFile = (partnerId) => {
+        setisLoading(true)
+        let config = {
+            url: `${ApiUrl?.getCertificate}/${partnerId}`,
+            method: 'get'
+        }
+        APIRequest(
+            config,
+            res => {
+                window.open(res?.data, '_blank');
+                setisLoading(false)
+            },
+            err => {
+                if (err?.error) {
+                    toast.success(err?.message)
+                }
+                setisLoading(false)
+            }
+        )
+    }
+
     useEffect(() => {
         getPageLimitFun()
         filterTransaction()
@@ -401,11 +424,11 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                     <th>Address</th>
                                     <td>Aadhaar No</td>
                                     <td>Pan No</td>
-                                    
+
                                     {/* if role is cluster, retailer, franchise, subAdmin be will show status field else hide */}
                                     {role === "cluster" || role === "distributor" || role === "retailer" || role === "franchise" || role === "subAdmin" ? <td className="text-center">Status</td> : null}
                                     {role === "superAdmin" && <td className="text-center">Status</td>}
-                                    
+
                                     {/* if roleStatus is All, approved be will show amount field else hide */}
                                     {
                                         roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">Amount</td> : null
@@ -434,6 +457,9 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                     {/* {
                                         roleStatus === "All" || roleStatus === "approved" ? <td className="text-center">View Details</td> : null
                                     } */}
+                                    {
+                                        (role === "superAdmin") ? (roleStatus === "All" || roleStatus === "approved") ? <td className="text-center">Download</td> : null : null
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
@@ -462,12 +488,11 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                 <td className="text-left">{l.email}</td>
                                                 <td className="text-left">{l.contact}</td>
                                                 <td className="text-left">
-                                                    <div>
-                                                        <address>{l.address}, {l.district}, {l.state}, <br></br> {l.postalCode} </address>
-                                                    </div>
+                                                    {/* <address>{`${l.address} ${l.district} ${<br></br>} ${l.state} ${l.postalCode}`} </address> */}
+                                                    <address style={{maxWidth: '250px', overflowX: 'auto'}}>{`${l.address} ${l.district}`} <br /> {`${l.state} ${l.postalCode}`} </address>
                                                 </td>
                                                 <td className="text-left">{l.aadharNo}</td>
-                                                <td className="text-left">{l.panNo ? l.panNo : 'not available' }</td>
+                                                <td className="text-left">{l.panNo ? l.panNo : 'not available'}</td>
 
                                                 {/* if role is cluster, retailer, franchise, subAdmin be will show status field else hide */}
                                                 {role === "cluster" || role === "distributor" || role === "retailer" || role === "franchise" || role === "subAdmin" ? <td className="text-center"><div className="badge badge-primary">{l?.status}</div></td> : null}
@@ -551,6 +576,14 @@ function UserRoleTable({ getFilterCluster, pagetableName, getPageLimit, superadm
                                                         </td>
                                                         : null
                                                 } */}
+                                                {role === "superAdmin" ? roleStatus === "All" && l?.status === 'pending' || roleStatus === "All" && l?.status === 'rejected' ? <td className="text-center">&#10067;</td> : null : null}
+                                                {
+                                                    (role === "superAdmin") ?
+                                                        (roleStatus === "All" && l?.status === 'approved') || (roleStatus === "approved" && l?.status === "approved") ?
+                                                            (<td className="text-center">
+                                                                <FaDownload onClick={() => downloadFile(l?.partnerId)} style={{ margin: 'auto', cursor: 'pointer' }} />
+                                                            </td>) : null : null
+                                                }
 
                                             </tr>
                                         )
