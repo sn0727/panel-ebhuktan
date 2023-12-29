@@ -1,66 +1,31 @@
 /** Icons are imported separatly to reduce build time */
-import DocumentTextIcon from '@heroicons/react/24/outline/DocumentTextIcon'
 import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon'
-import TableCellsIcon from '@heroicons/react/24/outline/TableCellsIcon'
-import WalletIcon from '@heroicons/react/24/outline/WalletIcon'
-import CodeBracketSquareIcon from '@heroicons/react/24/outline/CodeBracketSquareIcon'
-import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon'
-import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon'
-import CalendarDaysIcon from '@heroicons/react/24/outline/CalendarDaysIcon'
-import ArrowRightOnRectangleIcon from '@heroicons/react/24/outline/ArrowRightOnRectangleIcon'
-import UserIcon from '@heroicons/react/24/outline/UserIcon'
-import Cog6ToothIcon from '@heroicons/react/24/outline/Cog6ToothIcon'
-import BoltIcon from '@heroicons/react/24/outline/BoltIcon'
-import ChartBarIcon from '@heroicons/react/24/outline/ChartBarIcon'
-import CurrencyDollarIcon from '@heroicons/react/24/outline/CurrencyDollarIcon'
-import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
-import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
-import KeyIcon from '@heroicons/react/24/outline/KeyIcon'
-import DocumentDuplicateIcon from '@heroicons/react/24/outline/DocumentDuplicateIcon';
-import { MdPayment } from 'react-icons/md';
-import { AiOutlineMobile } from 'react-icons/ai';
-import { AiOutlineContacts } from 'react-icons/ai';
-import { LiaGasPumpSolid } from 'react-icons/lia';
-import { GiElectric, GiTakeMyMoney } from 'react-icons/gi';
-import { AiOutlineWallet } from 'react-icons/ai';
-import { BsWater } from 'react-icons/bs';
-import { TbRecharging } from 'react-icons/tb';
-import { BsClipboardData } from 'react-icons/bs';
-import { RiCommunityLine } from 'react-icons/ri';
-import { AiFillCreditCard } from 'react-icons/ai';
-import { RiHealthBookLine } from 'react-icons/ri';
-import { SiFastapi } from 'react-icons/si';
-import { MdMiscellaneousServices } from 'react-icons/md';
-import { SiYourtraveldottv } from 'react-icons/si';
-import { BiUserCircle } from 'react-icons/bi';
+import { GiTakeMyMoney } from 'react-icons/gi';
 import { BiUserCheck } from 'react-icons/bi';
-import { BiUserPin } from 'react-icons/bi';
-import { BiUserPlus } from 'react-icons/bi';
 import { BiUserVoice } from 'react-icons/bi';
-import { FaMobileAlt } from "react-icons/fa";
 import { AiFillBank } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi";
 import { LiaUserAstronautSolid } from "react-icons/lia";
 import { BiSolidWallet } from "react-icons/bi";
 import { GiMoneyStack } from "react-icons/gi";
-
-// import { Jwt } from 'jsonwebtoken'
+import { GrMoney } from "react-icons/gr";
+import { MdPivotTableChart } from "react-icons/md";
 import jwtDecode from 'jwt-decode';
 
 var token = sessionStorage.getItem("token")
 const decodedToken = jwtDecode(token);
 const { role } = decodedToken.user
 
-// alert(role)
-
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
 
-let userSubMenu = [];
-let userSubMenu1 = [];
+let userRoleMenu = [];
+let operatorMenu = [];
+let FinancialServicesMenu = [];
+
 if (role === "cluster") {
-  userSubMenu.push(
+  userRoleMenu.push(
     {
       path: '/app/distributor',
       icon: <BiUserCheck className={submenuIconClasses} />,
@@ -84,7 +49,7 @@ if (role === "cluster") {
 
   );
 } else if (role === "distributor") {
-  userSubMenu.push(
+  userRoleMenu.push(
     {
       path: '/app/retailer',
       icon: <BiUserCheck className={submenuIconClasses} />,
@@ -103,23 +68,107 @@ if (role === "cluster") {
 
   );
 } else if (role === "franchise") {
-  userSubMenu.push(
+  userRoleMenu.push(
     {
       path: '/app/client-user',
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'User',
     },
+  );
+  FinancialServicesMenu.push(
+    {
+      path: '/app/FinanceServices/company-formation',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Company Formation',
+    },
+    {
+      path: '/app/FinanceServices/gst',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'GST',
+    },
+    {
+      path: '/app/FinanceServices/pan-card',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Pan Card',
+    },
+    {
+      path: '/app/FinanceServices/itr',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'ITR',
+    },
+    {
+      path: '/app/FinanceServices/design-development',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Design & Development',
+    },
+    {
+      path: '/app/FinanceServices/account-service',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Accounting Services',
+    },
+    {
+      path: '/app/FinanceServices/digital-marketing',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Digital Marketing',
+    },
+    {
+      path: '/app/FinanceServices/digital-signature',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Digital Signature',
+    }
   );
 } else if (role === "retailer") {
-  userSubMenu.push(
+  userRoleMenu.push(
     {
       path: '/app/client-user',
       icon: <BiUserVoice className={submenuIconClasses} />,
       name: 'User',
     },
   );
+  FinancialServicesMenu.push(
+    {
+      path: '/app/FinanceServices/company-formation',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Company Formation',
+    },
+    {
+      path: '/app/FinanceServices/gst',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'GST',
+    },
+    {
+      path: '/app/FinanceServices/pan-card',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Pan Card',
+    },
+    {
+      path: '/app/FinanceServices/itr',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'ITR',
+    },
+    {
+      path: '/app/FinanceServices/design-development',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Design & Development',
+    },
+    {
+      path: '/app/FinanceServices/account-service',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Accounting Services',
+    },
+    {
+      path: '/app/FinanceServices/digital-marketing',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Digital Marketing',
+    },
+    {
+      path: '/app/FinanceServices/digital-signature',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Digital Signature',
+    }
+  );
 } else if (role === "superAdmin") {
-  userSubMenu.push(
+  userRoleMenu.push(
     {
       path: '/app/subAdmin',
       icon: <BiUserCheck className={submenuIconClasses} />,
@@ -154,7 +203,7 @@ if (role === "cluster") {
     },
 
   );
-  userSubMenu1.push(
+  operatorMenu.push(
     {
       path: '/app/operator/mobile-recharge-operator',
       icon: <BiUserVoice className={submenuIconClasses} />,
@@ -228,8 +277,50 @@ if (role === "cluster") {
       name: 'Insurance EMI Operator',
     },
   );
-}else if (role === "subAdmin") {
-  userSubMenu.push(
+  FinancialServicesMenu.push(
+    {
+      path: '/app/FinanceServices/company-formation',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Company Formation',
+    },
+    {
+      path: '/app/FinanceServices/gst',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'GST',
+    },
+    {
+      path: '/app/FinanceServices/pan-card',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Pan Card',
+    },
+    {
+      path: '/app/FinanceServices/itr',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'ITR',
+    },
+    {
+      path: '/app/FinanceServices/design-development',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Design & Development',
+    },
+    {
+      path: '/app/FinanceServices/account-service',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Accounting Services',
+    },
+    {
+      path: '/app/FinanceServices/digital-marketing',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Digital Marketing',
+    },
+    {
+      path: '/app/FinanceServices/digital-signature',
+      icon: <MdPivotTableChart className={submenuIconClasses} />,
+      name: 'Digital Signature',
+    }
+  );
+} else if (role === "subAdmin") {
+  userRoleMenu.push(
     {
       path: '/app/cluster',
       icon: <BiUserCheck className={submenuIconClasses} />,
@@ -261,88 +352,129 @@ if (role === "cluster") {
 }
 
 let routes = []
-role==='superAdmin'?
-routes = [
-  {
-    path: '/app/dashboard',
-    icon: <Squares2X2Icon className={iconClasses} />,
-    name: 'Dashboard',
-  },
-  {
-    path: '/app/commission-transaction',
-    icon: <AiFillBank className={submenuIconClasses} />,
-    name: 'Commission Transaction',
-  },
-  {
-    path: '/app/customize-commission',
-    icon: <BiEdit className={submenuIconClasses} />,
-    name: 'Customize Commission',
-  },
-  {
-    path: '/app/transactions',
-    icon: <AiFillBank className={iconClasses} />,
-    name: 'All Transactions',
-  },
-  {
-    path: "",
-    icon: <HiUsers className={`${iconClasses} inline`} />,
-    name: "User Roles",
-    submenu: userSubMenu
-  },
-  {
-    path: "",
-    icon: <LiaUserAstronautSolid className={`${iconClasses} inline`} />,
-    name: "Operator",
-    submenu: userSubMenu1
-  },
-  {
-    path: '/app/wallet',
-    icon: <BiSolidWallet className={submenuIconClasses} />,
-    name: 'Wallet',
-  },
-  {
-    path: '/app/quick-dhan-transaction',
-    icon: <GiTakeMyMoney className={submenuIconClasses} />,
-    name: 'Quick Dhan Transaction',
-  },
-  {
-    path: '/app/riseRequest',
-    icon: <GiMoneyStack className={submenuIconClasses} />,
-    name: 'Money Request',
-  },
-]
-:
-routes = [
-  {
-    path: '/app/dashboard',
-    icon: <Squares2X2Icon className={iconClasses} />,
-    name: 'Dashboard',
-  },
-  {
-    path: '/app/commission-transaction',
-    icon: <AiFillBank className={submenuIconClasses} />,
-    name: 'Commission Transaction',
-  },
-  {
-    path: '/app/transactions',
-    icon: <AiFillBank className={iconClasses} />,
-    name: 'All Transactions',
-  },
-  {
-    path: "",
-    icon: <HiUsers className={`${iconClasses} inline`} />,
-    name: "UserRoll",
-    submenu: userSubMenu
-  },
- 
-  {
-    path: '/app/wallet',
-    icon: <GiMoneyStack className={submenuIconClasses} />,
-    name: 'Wallet',
-  }
-]
+role === 'superAdmin' ?
+  routes = [
+    {
+      path: '/app/dashboard',
+      icon: <Squares2X2Icon className={iconClasses} />,
+      name: 'Dashboard',
+    },
+    {
+      path: '/app/commission-transaction',
+      icon: <AiFillBank className={submenuIconClasses} />,
+      name: 'Commission Transaction',
+    },
+    {
+      path: '/app/customize-commission',
+      icon: <BiEdit className={submenuIconClasses} />,
+      name: 'Customize Commission',
+    },
+    {
+      path: '/app/transactions',
+      icon: <AiFillBank className={iconClasses} />,
+      name: 'All Transactions',
+    },
+    {
+      path: "",
+      icon: <HiUsers className={`${iconClasses} inline`} />,
+      name: "User Roles",
+      submenu: userRoleMenu
+    },
+    {
+      path: "",
+      icon: <LiaUserAstronautSolid className={`${iconClasses} inline`} />,
+      name: "Operator",
+      submenu: operatorMenu
+    },
+    {
+      path: "",
+      icon: <GrMoney className={`${iconClasses} inline`} />,
+      name: "Financial Services",
+      submenu: FinancialServicesMenu
+    },
+    {
+      path: '/app/wallet',
+      icon: <BiSolidWallet className={submenuIconClasses} />,
+      name: 'Wallet',
+    },
+    {
+      path: '/app/quick-dhan-transaction',
+      icon: <GiTakeMyMoney className={submenuIconClasses} />,
+      name: 'Quick Dhan Transaction',
+    },
+    {
+      path: '/app/riseRequest',
+      icon: <GiMoneyStack className={submenuIconClasses} />,
+      name: 'Money Request',
+    },
+  ]
+  :
+  routes = [
+    {
+      path: '/app/dashboard',
+      icon: <Squares2X2Icon className={iconClasses} />,
+      name: 'Dashboard',
+    },
+    {
+      path: '/app/commission-transaction',
+      icon: <AiFillBank className={submenuIconClasses} />,
+      name: 'Commission Transaction',
+    },
+    {
+      path: '/app/transactions',
+      icon: <AiFillBank className={iconClasses} />,
+      name: 'All Transactions',
+    },
+    {
+      path: "",
+      icon: <HiUsers className={`${iconClasses} inline`} />,
+      name: "UserRoll",
+      submenu: userRoleMenu
+    },
+    {
+      path: '/app/wallet',
+      icon: <GiMoneyStack className={submenuIconClasses} />,
+      name: 'Wallet',
+    }
+  ]
 
-role==='subAdmin' && (
+role === 'franchise' || role === 'retailer' && (
+    routes = [
+      {
+        path: '/app/dashboard',
+        icon: <Squares2X2Icon className={iconClasses} />,
+        name: 'Dashboard',
+      },
+      {
+        path: '/app/commission-transaction',
+        icon: <AiFillBank className={submenuIconClasses} />,
+        name: 'Commission Transaction',
+      },
+      {
+        path: '/app/transactions',
+        icon: <AiFillBank className={iconClasses} />,
+        name: 'All Transactions',
+      },
+      {
+        path: "",
+        icon: <HiUsers className={`${iconClasses} inline`} />,
+        name: "UserRoll",
+        submenu: userRoleMenu
+      },
+      {
+        path: "",
+        icon: <GrMoney className={`${iconClasses} inline`} />,
+        name: "Financial Services",
+        submenu: FinancialServicesMenu
+      },
+      {
+        path: '/app/wallet',
+        icon: <GiMoneyStack className={submenuIconClasses} />,
+        name: 'Wallet',
+      }
+    ]
+)
+role === 'subAdmin' && (
   routes = [
     {
       path: '/app/dashboard',
@@ -358,9 +490,9 @@ role==='subAdmin' && (
       path: "",
       icon: <HiUsers className={`${iconClasses} inline`} />,
       name: "UserRoll",
-      submenu: userSubMenu
+      submenu: userRoleMenu
     }
-    
+
   ]
 )
 

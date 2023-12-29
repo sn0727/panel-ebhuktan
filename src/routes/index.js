@@ -1,21 +1,29 @@
 // All components mapping with path for internal routes
 
 import { lazy } from 'react'
-import FastTagOperator from '../pages/protected/operator/FastTagOperator'
-import GasOperator from '../pages/protected/operator/GasOperator'
-import LPGGasOperator from '../pages/protected/operator/LPGGasOperator'
-import Commission from '../pages/protected/Commission'
-import MunicipalityOperator from '../pages/protected/operator/MunicipalityOperator'
-import DTHRechargeOperator from '../pages/protected/operator/DTHRechargeOperator'
-import BroadbandBillPaymentOperator from '../pages/protected/operator/BroadbandBillPaymentOperator'
-import WaterBillPaymentOperator from '../pages/protected/operator/WaterBillPaymentOperator'
-import CustomizeCommission from '../pages/protected/CustomizeCommission'
-import PostpaidMobileRechargeOperator from '../pages/protected/operator/PostpaidMobileRechargeOperator'
-import LandlineBillPaymentOperator from '../pages/protected/operator/LandlineBillPaymentOperator'
-import CableRechargeOperator from '../pages/protected/operator/CableRechargeOperator'
-import LoanEmiRechargeOperator from '../pages/protected/operator/LoanEmiRechargeOperator'
-import InsuranceEmiRechargeOperator from '../pages/protected/operator/InsuranceEmiRechargeOperator'
 import { ChangePassword } from '../pages/protected/ChangePassword'
+import DigitalMarketing from '../pages/protected/FinanceServices/DigitalMarketing';
+import DigitalSignature from '../pages/protected/FinanceServices/DigitalSignature';
+const FastTagOperator = lazy(() => import('../pages/protected/operator/FastTagOperator'));
+const GasOperator = lazy(() => import('../pages/protected/operator/GasOperator'));
+const LPGGasOperator = lazy(() => import('../pages/protected/operator/LPGGasOperator'));
+const Commission = lazy(() => import('../pages/protected/Commission'));
+const MunicipalityOperator = lazy(() => import('../pages/protected/operator/MunicipalityOperator'));
+const DTHRechargeOperator = lazy(() => import('../pages/protected/operator/DTHRechargeOperator'));
+const BroadbandBillPaymentOperator = lazy(() => import('../pages/protected/operator/BroadbandBillPaymentOperator'));
+const WaterBillPaymentOperator = lazy(() => import('../pages/protected/operator/WaterBillPaymentOperator'));
+const CustomizeCommission = lazy(() => import('../pages/protected/CustomizeCommission'));
+const PostpaidMobileRechargeOperator = lazy(() => import('../pages/protected/operator/PostpaidMobileRechargeOperator'));
+const LandlineBillPaymentOperator = lazy(() => import('../pages/protected/operator/LandlineBillPaymentOperator'));
+const CableRechargeOperator = lazy(() => import('../pages/protected/operator/CableRechargeOperator'));
+const LoanEmiRechargeOperator = lazy(() => import('../pages/protected/operator/LoanEmiRechargeOperator'));
+const InsuranceEmiRechargeOperator = lazy(() => import('../pages/protected/operator/InsuranceEmiRechargeOperator'));
+const CompanyFormation = lazy(() => import('../pages/protected/FinanceServices/CompanyFormation'));
+const Gst = lazy(() => import('../pages/protected/FinanceServices/Gst'));
+const PanCard = lazy(() => import('../pages/protected/FinanceServices/PanCard'));
+const Itr = lazy(() => import('../pages/protected/FinanceServices/Itr'));
+const DesignDevelopment = lazy(() => import('../pages/protected/FinanceServices/DesignDevelopment'))
+const AccountService = lazy(() => import('../pages/protected/FinanceServices/AccountService'))
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
 const Page404 = lazy(() => import('../pages/protected/404'))
@@ -50,10 +58,10 @@ const Retailer = lazy(() => import('../pages/protected/Retailer'))
 const Franchise = lazy(() => import('../pages/protected/Franchise'))
 const ClientUser = lazy(() => import('../pages/protected/ClientUser'))
 const OperatorElectricity = lazy(() => import('../pages/protected/operator/Electricity'))
-const MobileRechargeOperators = lazy(()=> import('../pages/protected/operator/MobileRechargeOperator'))
-const SubAdmin = lazy(()=> import('../pages/protected/SubAdmin'))
-const ReseRequest = lazy(()=> import('../pages/protected/RiseRequest'))
-const QuickDhanTransaction = lazy(()=> import('../pages/protected/QuickDhan'))
+const MobileRechargeOperators = lazy(() => import('../pages/protected/operator/MobileRechargeOperator'))
+const SubAdmin = lazy(() => import('../pages/protected/SubAdmin'))
+const ReseRequest = lazy(() => import('../pages/protected/RiseRequest'))
+const QuickDhanTransaction = lazy(() => import('../pages/protected/QuickDhan'))
 
 
 
@@ -210,8 +218,41 @@ const routes = [
   },
 
 
+  // Finance Services route
+  {
+    path: "/FinanceServices/company-formation",
+    component: CompanyFormation
+  },
+  {
+    path: "/FinanceServices/gst",
+    component: Gst
+  },
+  {
+    path: "/FinanceServices/pan-card",
+    component: PanCard
+  },
+  {
+    path: "/FinanceServices/itr",
+    component: Itr
+  },
+  {
+    path: "/FinanceServices/design-development",
+    component: DesignDevelopment
+  },
+  {
+    path: "/FinanceServices/account-service",
+    component: AccountService
+  },
+  {
+    path: "/FinanceServices/digital-marketing",
+    component: DigitalMarketing
+  },
+  {
+    path: "/FinanceServices/digital-signature",
+    component: DigitalSignature
+  },
 
-  
+
   {
     path: '/welcome', // the url
     component: Welcome, // view rendered

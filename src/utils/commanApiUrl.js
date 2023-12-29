@@ -4,7 +4,8 @@
 
 import axios from "axios";
 
-export const BASEURL = 'https://api.ebhuktan.com';
+// export const BASEURL = 'https://api.ebhuktan.com';
+export const BASEURL = 'https://dev.ebhuktan.com';
 const apiBaseUrl = `${BASEURL}/api/`;
 export const SaveBillOption = ['Home', 'Mom', 'Office', 'Other']
 
@@ -208,6 +209,15 @@ export const ApiUrl = {
   InsuranceGetOperatorList: `${apiBaseUrl}insurance/EMI/payment/getOperatorList`,
   InsuranceUpdateCommission: `${apiBaseUrl}insurance/EMI/payment/updateCommission`,
   InsuranceAddIcon: `${apiBaseUrl}insurance/EMI/payment/addIcon`,
+  
+  // Financial Services api route end point
+  companyDataGet: `${apiBaseUrl}form/company/formation/data/get`,
+  companyDataGST: `${apiBaseUrl}form/gst/data/get`,
+  dataGetITR: `${apiBaseUrl}form/ITR/formation/data/get`,
+  dataGetWebsiteQuery: `${apiBaseUrl}form/website/query/data/get`,
+  dataGetAccountingService: `${apiBaseUrl}form/accounting/services/data/get`,
+  dataGetDigitalMarketing: `${apiBaseUrl}form/digital/marketing/data/get`,
+  dataGetDigitalSignature: `${apiBaseUrl}form/digital/signature/data/get`,
 
 };
 
