@@ -4,8 +4,9 @@ import { useDispatch } from "react-redux"
 import TitleCard from "../../components/Cards/TitleCard"
 import { openModal } from "../../features/common/modalSlice"
 import { MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
-import { APIRequest } from "../../utils/commanApiUrl"
+import { APIRequest, ApiUrl } from "../../utils/commanApiUrl"
 import jwtDecode from 'jwt-decode';
+import ChangeStatusFinnanceServicesTable from "../../components/Model/ChangeStatusFinnanceServicesTable"
 // select box code 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -77,6 +78,24 @@ function FinanceServicesTable({
     var token = sessionStorage.getItem("token")
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user
+
+    // filter api router 
+    let statusApiRoutes;
+    if (requestPageName === "CompanyFormation") {
+        statusApiRoutes = ApiUrl?.formationStatusUpdate
+    } else if (requestPageName === "GST") {
+        statusApiRoutes = ApiUrl?.GSTStatusUpdate
+    } else if (requestPageName === "ITR") {
+        statusApiRoutes = ApiUrl?.ITRStatusUpdate
+    } else if (requestPageName === "DesignDevelopment") {
+        statusApiRoutes = ApiUrl?.websiteStatusUpdate
+    } else if (requestPageName === "AccountingServices") {
+        statusApiRoutes = ApiUrl?.accountingStatusUpdate
+    } else if (requestPageName === "DigitalMarketing") {
+        statusApiRoutes = ApiUrl?.marketingStatusUpdate
+    } else if (requestPageName === "DigitalSignature") {
+        statusApiRoutes = ApiUrl?.digitalSignatureStatusUpdate
+    }
 
     // live search filter
     const filteredItems = clusterData?.filter((user) =>
@@ -210,7 +229,6 @@ function FinanceServicesTable({
         filterTransaction();
     }, [selectionRange, page, rowsPerPage, roleStatus])
 
-
     return (
         <>
 
@@ -234,7 +252,7 @@ function FinanceServicesTable({
                             <AiOutlineSearch className="search-icon" />
                         </div>
                     </div>
-                    {/* <Box sx={{ minWidth: 120 }}>
+                    <Box sx={{ minWidth: 120 }}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">Status</InputLabel>
                             <Select
@@ -246,11 +264,11 @@ function FinanceServicesTable({
                                 onChange={handleChange}
                             >
                                 <MenuItem value={"All"} >All</MenuItem>
-                                <MenuItem value={"approved"} >Aproved</MenuItem>
+                                <MenuItem value={"approved"} >Approved</MenuItem>
                                 <MenuItem value={"pending"} >Pending</MenuItem>
                             </Select>
                         </FormControl>
-                    </Box> */}
+                    </Box>
                     <DateByFilter selectionRange={selectionRange} setSelectionRange={setSelectionRange} setCheck={setCheck} />
                     <Button onClick={clearFun} style={{ backgroundColor: '#2c427d', color: '#fff' }}>Clear</Button>
                 </TopSideButtons>
@@ -280,6 +298,12 @@ function FinanceServicesTable({
                                                 <th>Email Id</th>
                                                 <th>Contact No.</th>
                                                 <td className="text-left">Date | Time</td>
+                                                <td className="text-left">Status</td>
+                                                {
+                                                    (roleStatus === "pending") ? null : (
+                                                        <td className="text-left">Remark</td>
+                                                    )
+                                                }
                                             </>
                                         )
                                     }
@@ -365,7 +389,7 @@ function FinanceServicesTable({
                                                         requestPageName === 'ITR' ||
                                                         requestPageName === 'DesignDevelopment' ||
                                                         requestPageName === 'AccountingServices' ||
-                                                        requestPageName === 'DigitalMarketing' || 
+                                                        requestPageName === 'DigitalMarketing' ||
                                                         requestPageName === 'DigitalSignature'
                                                     ) && (
                                                         <>
@@ -390,6 +414,29 @@ function FinanceServicesTable({
                                                             <td className="text-left">{l.Email}</td>
                                                             <td className="text-left">{l.Contact}</td>
                                                             <td className="text-left">{moment(l.CreatedAt).format('dd/mm/yyyy, HH:MM:SS, A') ? moment(l.CreatedAt).format('DD/MMM/yyyy, HH:MM A') : 'not available'}</td>
+                                                            {role === "superAdmin" && <td className="text-center">
+                                                                <div className="badge badge-primary">
+                                                                    {
+                                                                        roleStatus === "All" || roleStatus === "approved" ? l?.Status : null
+                                                                    }
+                                                                    {
+                                                                        roleStatus === "pending" &&
+                                                                        <ChangeStatusFinnanceServicesTable
+                                                                            id={l.id} adminId={l?.adminId}
+                                                                            status={l?.Status}
+                                                                            filterTransaction={filterTransaction}
+                                                                            changeStatusApi={statusApiRoutes}
+                                                                        />
+                                                                    }
+                                                                </div>
+                                                            </td>}
+                                                            {
+                                                                (roleStatus === "pending") ? null : (
+                                                                    <td className="text-left">{l?.Remark}</td>
+                                                                )
+                                                            }
+
+
                                                             {/* comman td */}
                                                         </>
                                                     )

@@ -218,7 +218,25 @@ export const ApiUrl = {
   dataGetAccountingService: `${apiBaseUrl}form/accounting/services/data/get`,
   dataGetDigitalMarketing: `${apiBaseUrl}form/digital/marketing/data/get`,
   dataGetDigitalSignature: `${apiBaseUrl}form/digital/signature/data/get`,
+  
+  // financial Services check status change api route.
+  formationStatusUpdate: `${apiBaseUrl}form/company/formation/status/update`,
+  GSTStatusUpdate: `${apiBaseUrl}form/gst/status/update`,
+  ITRStatusUpdate: `${apiBaseUrl}form/ITR/formation/status/update`,
+  websiteStatusUpdate: `${apiBaseUrl}form/website/query/status/update`,
+  accountingStatusUpdate: `${apiBaseUrl}form/accounting/services/status/update`,
+  marketingStatusUpdate: `${apiBaseUrl}form/digital/marketing/status/update`,
+  digitalSignatureStatusUpdate: `${apiBaseUrl}form/digital/signature/status/update`,
+  
+  // Loan services change status api route
+  loanChangeStatus: `${apiBaseUrl}personal/loan/form/status/update`,
 
+  // Loan services api route
+  personalLoan: `${apiBaseUrl}personal/loan/form/personal/data/get`,
+  businessLoan: `${apiBaseUrl}personal/loan/form/business/data/get`,
+  housingLoan: `${apiBaseUrl}personal/loan/form/housing/data/get`,
+  propertyLoan: `${apiBaseUrl}personal/loan/form/property/data/get`,
+  MSMELoan: `${apiBaseUrl}personal/loan/form/MSME/data/get`,
 };
 
 

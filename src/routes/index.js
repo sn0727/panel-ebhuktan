@@ -4,6 +4,13 @@ import { lazy } from 'react'
 import { ChangePassword } from '../pages/protected/ChangePassword'
 import DigitalMarketing from '../pages/protected/FinanceServices/DigitalMarketing';
 import DigitalSignature from '../pages/protected/FinanceServices/DigitalSignature';
+
+import BusinessLoan from '../pages/protected/LoanSearvices/BusinessLoan';
+import HousingLoan from '../pages/protected/LoanSearvices/HousingLoan';
+import LoanAgainstProperty from '../pages/protected/LoanSearvices/LoanAgainstProperty';
+import MSMELoan from '../pages/protected/LoanSearvices/MSMELoan';
+import PersonalLoan from '../pages/protected/LoanSearvices/PersonalLoan';
+
 const FastTagOperator = lazy(() => import('../pages/protected/operator/FastTagOperator'));
 const GasOperator = lazy(() => import('../pages/protected/operator/GasOperator'));
 const LPGGasOperator = lazy(() => import('../pages/protected/operator/LPGGasOperator'));
@@ -252,6 +259,27 @@ const routes = [
     component: DigitalSignature
   },
 
+  // Loan services path route
+  {
+    path: "/LoanSearvices/business-loan",
+    component: BusinessLoan
+  },
+  {
+    path: "/LoanSearvices/housing-loan",
+    component: HousingLoan
+  },
+  {
+    path: "/LoanSearvices/loan-against-property",
+    component: LoanAgainstProperty
+  },
+  {
+    path: "/LoanSearvices/msme-loan",
+    component: MSMELoan
+  },
+  {
+    path: "/LoanSearvices/personal-loan",
+    component: PersonalLoan
+  },
 
   {
     path: '/welcome', // the url

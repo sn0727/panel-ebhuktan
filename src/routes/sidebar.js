@@ -11,6 +11,7 @@ import { BiSolidWallet } from "react-icons/bi";
 import { GiMoneyStack } from "react-icons/gi";
 import { GrMoney } from "react-icons/gr";
 import { MdPivotTableChart } from "react-icons/md";
+import { IoBusiness } from "react-icons/io5";
 import jwtDecode from 'jwt-decode';
 
 var token = sessionStorage.getItem("token")
@@ -23,6 +24,7 @@ const submenuIconClasses = `h-5 w-5`
 let userRoleMenu = [];
 let operatorMenu = [];
 let FinancialServicesMenu = [];
+let LoanServicesMenu = [];
 
 if (role === "cluster") {
   userRoleMenu.push(
@@ -319,6 +321,33 @@ if (role === "cluster") {
       name: 'Digital Signature',
     }
   );
+  LoanServicesMenu.push(
+    {
+      path: '/app/LoanSearvices/business-loan',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'Business Loan',
+    },
+    {
+      path: '/app/LoanSearvices/housing-loan',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'Housing Loan',
+    },
+    {
+      path: '/app/LoanSearvices/personal-loan',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'Personal Loan',
+    },
+    {
+      path: '/app/LoanSearvices/loan-against-property',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'Loan Against Property',
+    },
+    {
+      path: '/app/LoanSearvices/msme-loan',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'MSME Loan',
+    }
+  );
 } else if (role === "subAdmin") {
   userRoleMenu.push(
     {
@@ -385,6 +414,12 @@ role === 'superAdmin' ?
       icon: <LiaUserAstronautSolid className={`${iconClasses} inline`} />,
       name: "Operator",
       submenu: operatorMenu
+    },
+    {
+      path: "",
+      icon: <IoBusiness className={`${iconClasses} inline`} />,
+      name: "Loan Services",
+      submenu: LoanServicesMenu
     },
     {
       path: "",
