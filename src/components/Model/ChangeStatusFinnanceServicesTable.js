@@ -37,6 +37,8 @@ export default function ChangeStatusFinnanceServicesTable({ id = null, status, f
         remark: '',
     })
 
+    console.log(changeStatusApi, 'changeStatusApi')
+
     const handleChange = (event) => {
         setChangeStatus(event.target.value);
     };

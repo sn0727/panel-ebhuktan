@@ -237,6 +237,22 @@ export const ApiUrl = {
   housingLoan: `${apiBaseUrl}personal/loan/form/housing/data/get`,
   propertyLoan: `${apiBaseUrl}personal/loan/form/property/data/get`,
   MSMELoan: `${apiBaseUrl}personal/loan/form/MSME/data/get`,
+  
+  // Insurance Service api route
+  groupInsurance: `${apiBaseUrl}insurance/form/get/data/group`,
+  travelInsurance: `${apiBaseUrl}insurance/form/get/data/travel`,
+  lifeInsurance: `${apiBaseUrl}insurance/form/get/data/life`,
+  vehicleInsurance: `${apiBaseUrl}insurance/form/get/data/vehicle`,
+  healthInsurance: `${apiBaseUrl}insurance/form/get/data/health`,
+
+  // Loan services change status api route
+  groupInsuranceChangeStatus: `${apiBaseUrl}insurance/form/update/status/group`,
+  lifeInsuranceChangeStatus: `${apiBaseUrl}insurance/form/submit/life`,
+  healthInsuranceChangeStatus: `${apiBaseUrl}insurance/form/update/status/health`,
+  travelInsuranceChangeStatus: `${apiBaseUrl}insurance/form/update/status/travel`,
+  vehicleInsuranceChangeStatus: `${apiBaseUrl}insurance/form/update/status/vehicle`,
+
+
 };
 
 

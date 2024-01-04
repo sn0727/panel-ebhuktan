@@ -40,7 +40,7 @@ const TopSideButtons = ({ children, createRoleName }) => {
         <>
             <div className="select-with-ps">
                 {
-                    role === "superAdmin" && (
+                    (role === "superAdmin" || role === "franchise" || role === "retailer") && (
                         <>
                             {children}
                             {/* <div className="inline-block float-right">

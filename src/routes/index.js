@@ -2,14 +2,22 @@
 
 import { lazy } from 'react'
 import { ChangePassword } from '../pages/protected/ChangePassword'
-import DigitalMarketing from '../pages/protected/FinanceServices/DigitalMarketing';
-import DigitalSignature from '../pages/protected/FinanceServices/DigitalSignature';
+import VehicleInsurance from '../pages/protected/InsuranceService/VehicleInsurance';
 
-import BusinessLoan from '../pages/protected/LoanSearvices/BusinessLoan';
-import HousingLoan from '../pages/protected/LoanSearvices/HousingLoan';
-import LoanAgainstProperty from '../pages/protected/LoanSearvices/LoanAgainstProperty';
-import MSMELoan from '../pages/protected/LoanSearvices/MSMELoan';
-import PersonalLoan from '../pages/protected/LoanSearvices/PersonalLoan';
+const HealthInsurance = lazy(() => import('../pages/protected/InsuranceService/HealthInsurance'));
+const TravelInsurance = lazy(() => import('../pages/protected/InsuranceService/TravelInsurance'));
+const GroupInsurance = lazy(() => import('../pages/protected/InsuranceService/GroupInsurance'));
+const LifeInsurance = lazy(() => import('../pages/protected/InsuranceService/LifeInsurance'));
+
+const DigitalMarketing = lazy(() => import('../pages/protected/FinanceServices/DigitalMarketing'));
+const DigitalSignature = lazy(() => import('../pages/protected/FinanceServices/DigitalSignature'));
+
+const BusinessLoan = lazy(() => import('../pages/protected/LoanSearvices/BusinessLoan'));
+const HousingLoan = lazy(() => import('../pages/protected/LoanSearvices/HousingLoan'));
+const LoanAgainstProperty = lazy(() => import('../pages/protected/LoanSearvices/LoanAgainstProperty'));
+const MSMELoan = lazy(() => import('../pages/protected/LoanSearvices/MSMELoan'));
+const PersonalLoan = lazy(() => import('../pages/protected/LoanSearvices/PersonalLoan'));
+
 
 const FastTagOperator = lazy(() => import('../pages/protected/operator/FastTagOperator'));
 const GasOperator = lazy(() => import('../pages/protected/operator/GasOperator'));
@@ -257,6 +265,28 @@ const routes = [
   {
     path: "/FinanceServices/digital-signature",
     component: DigitalSignature
+  },
+
+  // Insurance Service components
+  {
+    path: "/InsuranceSearvices/health-insurance",
+    component: HealthInsurance
+  },
+  {
+    path: "/InsuranceSearvices/travel-insurance",
+    component: TravelInsurance
+  },
+  {
+    path: "/InsuranceSearvices/group-insurance",
+    component: GroupInsurance
+  },
+  {
+    path: "/InsuranceSearvices/life-insurance",
+    component: LifeInsurance
+  },
+  {
+    path: "/InsuranceSearvices/vehicle-insurance",
+    component: VehicleInsurance
   },
 
   // Loan services path route

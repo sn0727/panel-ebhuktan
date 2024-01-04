@@ -27,6 +27,8 @@ const TopSideButtons = ({ children, createRoleName }) => {
     const decodedToken = jwtDecode(token);
     const { role } = decodedToken.user;
 
+    // console.log('v', v)
+
     // select box funtion
     const openAddNewLeadModal = () => {
         dispatch(openModal({
@@ -40,7 +42,7 @@ const TopSideButtons = ({ children, createRoleName }) => {
         <>
             <div className="select-with-ps">
                 {
-                    role === "superAdmin" && (
+                    (role === "superAdmin" || role === "franchise" || role === "retailer") && (
                         <>
                             {children}
                             {/* <div className="inline-block float-right">

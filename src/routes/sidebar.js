@@ -12,11 +12,13 @@ import { GiMoneyStack } from "react-icons/gi";
 import { GrMoney } from "react-icons/gr";
 import { MdPivotTableChart } from "react-icons/md";
 import { IoBusiness } from "react-icons/io5";
+import { SiMoneygram } from "react-icons/si";
 import jwtDecode from 'jwt-decode';
 
 var token = sessionStorage.getItem("token")
 const decodedToken = jwtDecode(token);
-const { role } = decodedToken.user
+const { role } = decodedToken.user;
+console.log('role', role)
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
@@ -25,6 +27,7 @@ let userRoleMenu = [];
 let operatorMenu = [];
 let FinancialServicesMenu = [];
 let LoanServicesMenu = [];
+let InsuranceServicesMenu = [];
 
 if (role === "cluster") {
   userRoleMenu.push(
@@ -69,7 +72,7 @@ if (role === "cluster") {
     },
 
   );
-} else if (role === "franchise") {
+} else if (role === "retailer" || role === "franchise") {
   userRoleMenu.push(
     {
       path: '/app/client-user',
@@ -119,54 +122,58 @@ if (role === "cluster") {
       name: 'Digital Signature',
     }
   );
-} else if (role === "retailer") {
-  userRoleMenu.push(
+  LoanServicesMenu.push(
     {
-      path: '/app/client-user',
-      icon: <BiUserVoice className={submenuIconClasses} />,
-      name: 'User',
+      path: '/app/LoanSearvices/business-loan',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'Business Loan',
     },
+    {
+      path: '/app/LoanSearvices/housing-loan',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'Housing Loan',
+    },
+    {
+      path: '/app/LoanSearvices/personal-loan',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'Personal Loan',
+    },
+    {
+      path: '/app/LoanSearvices/loan-against-property',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'Loan Against Property',
+    },
+    {
+      path: '/app/LoanSearvices/msme-loan',
+      icon: <IoBusiness className={submenuIconClasses} />,
+      name: 'MSME Loan',
+    }
   );
-  FinancialServicesMenu.push(
+  InsuranceServicesMenu.push(
     {
-      path: '/app/FinanceServices/company-formation',
-      icon: <MdPivotTableChart className={submenuIconClasses} />,
-      name: 'Company Formation',
+      path: '/app/InsuranceSearvices/health-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Health Insurance',
     },
     {
-      path: '/app/FinanceServices/gst',
-      icon: <MdPivotTableChart className={submenuIconClasses} />,
-      name: 'GST',
+      path: '/app/InsuranceSearvices/travel-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Travel Insurance',
     },
     {
-      path: '/app/FinanceServices/pan-card',
-      icon: <MdPivotTableChart className={submenuIconClasses} />,
-      name: 'Pan Card',
+      path: '/app/InsuranceSearvices/group-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Group Insurance',
     },
     {
-      path: '/app/FinanceServices/itr',
-      icon: <MdPivotTableChart className={submenuIconClasses} />,
-      name: 'ITR',
+      path: '/app/InsuranceSearvices/life-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Life Insurance',
     },
     {
-      path: '/app/FinanceServices/design-development',
-      icon: <MdPivotTableChart className={submenuIconClasses} />,
-      name: 'Design & Development',
-    },
-    {
-      path: '/app/FinanceServices/account-service',
-      icon: <MdPivotTableChart className={submenuIconClasses} />,
-      name: 'Accounting Services',
-    },
-    {
-      path: '/app/FinanceServices/digital-marketing',
-      icon: <MdPivotTableChart className={submenuIconClasses} />,
-      name: 'Digital Marketing',
-    },
-    {
-      path: '/app/FinanceServices/digital-signature',
-      icon: <MdPivotTableChart className={submenuIconClasses} />,
-      name: 'Digital Signature',
+      path: '/app/InsuranceSearvices/vehicle-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Vehicle Insurance',
     }
   );
 } else if (role === "superAdmin") {
@@ -348,6 +355,33 @@ if (role === "cluster") {
       name: 'MSME Loan',
     }
   );
+  InsuranceServicesMenu.push(
+    {
+      path: '/app/InsuranceSearvices/health-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Health Insurance',
+    },
+    {
+      path: '/app/InsuranceSearvices/travel-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Travel Insurance',
+    },
+    {
+      path: '/app/InsuranceSearvices/group-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Group Insurance',
+    },
+    {
+      path: '/app/InsuranceSearvices/life-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Life Insurance',
+    },
+    {
+      path: '/app/InsuranceSearvices/vehicle-insurance',
+      icon: <SiMoneygram className={submenuIconClasses} />,
+      name: 'Vehicle Insurance',
+    }
+  );
 } else if (role === "subAdmin") {
   userRoleMenu.push(
     {
@@ -428,6 +462,12 @@ role === 'superAdmin' ?
       submenu: FinancialServicesMenu
     },
     {
+      path: "",
+      icon: <SiMoneygram className={`${iconClasses} inline`} />,
+      name: "Insurance Services",
+      submenu: InsuranceServicesMenu
+    },
+    {
       path: '/app/wallet',
       icon: <BiSolidWallet className={submenuIconClasses} />,
       name: 'Wallet',
@@ -473,42 +513,55 @@ role === 'superAdmin' ?
     }
   ]
 
-role === 'franchise' || role === 'retailer' && (
-    routes = [
-      {
-        path: '/app/dashboard',
-        icon: <Squares2X2Icon className={iconClasses} />,
-        name: 'Dashboard',
-      },
-      {
-        path: '/app/commission-transaction',
-        icon: <AiFillBank className={submenuIconClasses} />,
-        name: 'Commission Transaction',
-      },
-      {
-        path: '/app/transactions',
-        icon: <AiFillBank className={iconClasses} />,
-        name: 'All Transactions',
-      },
-      {
-        path: "",
-        icon: <HiUsers className={`${iconClasses} inline`} />,
-        name: "UserRoll",
-        submenu: userRoleMenu
-      },
-      {
-        path: "",
-        icon: <GrMoney className={`${iconClasses} inline`} />,
-        name: "Financial Services",
-        submenu: FinancialServicesMenu
-      },
-      {
-        path: '/app/wallet',
-        icon: <GiMoneyStack className={submenuIconClasses} />,
-        name: 'Wallet',
-      }
-    ]
-)
+if (role === 'franchise' || role === 'retailer') {
+  routes = [
+    {
+      path: '/app/dashboard',
+      icon: <Squares2X2Icon className={iconClasses} />,
+      name: 'Dashboard',
+    },
+    {
+      path: '/app/commission-transaction',
+      icon: <AiFillBank className={submenuIconClasses} />,
+      name: 'Commission Transaction',
+    },
+    {
+      path: '/app/transactions',
+      icon: <AiFillBank className={iconClasses} />,
+      name: 'All Transactions',
+    },
+    {
+      path: "",
+      icon: <HiUsers className={`${iconClasses} inline`} />,
+      name: "UserRoll",
+      submenu: userRoleMenu
+    },
+    {
+      path: "",
+      icon: <IoBusiness className={`${iconClasses} inline`} />,
+      name: "Loan Services",
+      submenu: LoanServicesMenu
+    },
+    {
+      path: "",
+      icon: <GrMoney className={`${iconClasses} inline`} />,
+      name: "Financial Services",
+      submenu: FinancialServicesMenu
+    },
+    {
+      path: "",
+      icon: <SiMoneygram className={`${iconClasses} inline`} />,
+      name: "Insurance Services",
+      submenu: InsuranceServicesMenu
+    },
+    {
+      path: '/app/wallet',
+      icon: <GiMoneyStack className={submenuIconClasses} />,
+      name: 'Wallet',
+    }
+  ]
+}
+
 role === 'subAdmin' && (
   routes = [
     {
