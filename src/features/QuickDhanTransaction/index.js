@@ -214,7 +214,7 @@ function QuickDhanTransaction() {
                                                 <td className="text-right">&#8377; {item.amount}</td>
                                                 <td className="text-right">{item?.customer_virtual_address}</td>
                                                 <td className="text-center">{item?.customer_mobile_number}</td>
-                                                <td className="text-right">{moment(item?.createdAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
+                                                <td className="text-right">{moment(item?.modifiedCreatedAt).utc().format("MM/DD/YYYY, hh:mm A")}</td>
                                             </tr>
                                         )
                                     })

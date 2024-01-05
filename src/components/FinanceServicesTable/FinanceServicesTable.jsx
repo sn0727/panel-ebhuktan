@@ -413,7 +413,7 @@ function FinanceServicesTable({
                                                             <td className="text-left">{getHighlightedText(l?.PartnerId, searchOperatorName)}</td>
                                                             <td className="text-left">{l.Email}</td>
                                                             <td className="text-left">{l.Contact}</td>
-                                                            <td className="text-left">{moment(l.CreatedAt).format('dd/mm/yyyy, HH:MM:SS, A') ? moment(l.CreatedAt).format('DD/MMM/yyyy, HH:MM A') : 'not available'}</td>
+                                                            <td className="text-left">{moment(l.modifiedCreatedAt).format('DD/MMM/yyyy, hh:mm:ss, A') ? moment(l.modifiedCreatedAt).format('DD/MMM/yyyy, hh:mm:ss A') : 'not available'}</td>
                                                             {role === "superAdmin" && <td className="text-center">
                                                                 <div className="badge badge-primary">
                                                                     {

@@ -378,7 +378,7 @@ function InsuranceServicesTable({
                                                     <td>{l?.PanNo}</td>
                                                     <td>{l?.AadhaarNo}</td>
                                                     <td>{l?.Remark ? l?.Remark : 'no data'}</td>
-                                                    <td className="text-right">{moment(l.CreatedAt).format('dd/mm/yyyy, HH:MM:SS, A') ? moment(l.CreatedAt).format('DD/MMM/yyyy, HH:MM A') : 'not available'}</td>
+                                                    <td className="text-right">{moment(l.modifiedCreatedAt).format('dd/mm/yyyy, hh:mm:ss, A') ? moment(l.modifiedCreatedAt).format('DD/MMM/yyyy, hh:mm:ss A') : 'not available'}</td>
                                                     {
                                                         (requestPageName === "TravelInsurance" || requestPageName === "GroupInsurance") && (
                                                             <>
